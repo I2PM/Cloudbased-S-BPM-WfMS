@@ -17,15 +17,15 @@ import at.fhjoanneum.ippr.persistence.objects.engine.enums.ProcessInstanceState;
 public interface ProcessInstanceRepository
     extends PagingAndSortingRepository<ProcessInstanceImpl, Long> {
 
-  @Query(value = "SELECT * FROM PROCESS_INSTANCE p WHERE p.state = :state", nativeQuery = true)
+  @Query(value = "SELECT * FROM process_instance p WHERE p.state = :state", nativeQuery = true)
   List<ProcessInstanceImpl> getProcessesWithState(@Param("state") String state);
 
-  @Query(value = "SELECT COUNT(p.pi_id) FROM PROCESS_INSTANCE p WHERE p.state = :state",
+  @Query(value = "SELECT COUNT(p.pi_id) FROM process_instance p WHERE p.state = :state",
       nativeQuery = true)
   Long getAmountOfProcessesInState(@Param("state") String state);
 
   @Query(
-      value = "SELECT count(p.pi_id) FROM PROCESS_INSTANCE p JOIN PROCESS_SUBJECT_INSTANCE_MAP psm on psm.pi_id = p.pi_id "
+      value = "SELECT count(p.pi_id) FROM process_instance p JOIN PROCESS_SUBJECT_INSTANCE_MAP psm on psm.pi_id = p.pi_id "
           + "JOIN SUBJECT s on s.s_id = psm.s_id WHERE p.state = :state and s.user_id = :userId",
       nativeQuery = true)
   Long getAmountOfProcessesInStatePerUser(@Param("state") String state,
