@@ -91,12 +91,13 @@ public class RBACRepositoryImpl implements RBACRepository {
     return Lists.newArrayList(ruleRepository.findAll());
   }
 
+  @Repository
   interface UserRepository extends PagingAndSortingRepository<UserImpl, Long> {
 
-    @Query(value = "SELECT * FROM USER WHERE SYSTEM_ID = :systemId", nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE system_id = :systemId", nativeQuery = true)
     UserImpl findBySystemId(@Param("systemId") String systemId);
 
-    @Query(value = "SELECT * FROM USER WHERE USERNAME = :username", nativeQuery = true)
+    @Query(value = "SELECT * FROM user WHERE username = :username", nativeQuery = true)
     UserImpl findByUsername(@Param("username") String username);
 
     @Query(
@@ -113,18 +114,20 @@ public class RBACRepositoryImpl implements RBACRepository {
     List<UserImpl> findByRuleNames(@Param("ruleNames") List<String> ruleNames);
   }
 
+  @Repository
   interface RoleRepository extends PagingAndSortingRepository<RoleImpl, Long> {
 
-    @Query(value = "SELECT * FROM ROLE WHERE SYSTEM_ID = :systemId", nativeQuery = true)
+    @Query(value = "SELECT * FROM role WHERE system_id = :systemId", nativeQuery = true)
     RoleImpl findBySystemId(@Param("systemId") String systemId);
 
-    @Query(value = "SELECT * FROM ROLE WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
+    @Query(value = "SELECT * FROM role WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
     RoleImpl findByRoleName(@Param("roleName") String roleName);
   }
 
+  @Repository
   interface RuleRepository extends CrudRepository<RuleImpl, Long> {
 
-    @Query(value = "SELECT * FROM RULE WHERE SYSTEM_ID = :systemId", nativeQuery = true)
+    @Query(value = "SELECT * FROM rule WHERE system_id = :systemId", nativeQuery = true)
     RuleImpl findBySystemId(@Param("systemId") String systemId);
   }
 }
