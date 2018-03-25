@@ -3,6 +3,7 @@
 /build/
 /.metadata/
 /RemoteSystemsTempFiles/.project
+/out/
 
 metadata
 bin/

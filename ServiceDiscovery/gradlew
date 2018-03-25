@@ -9,7 +9,6 @@
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
-echo PRG "$PRG"
 # Need this for relative symlinks.
 while [ -h "$PRG" ] ; do
     ls=`ls -ld "$PRG"`
@@ -21,11 +20,9 @@ while [ -h "$PRG" ] ; do
     fi
 done
 SAVED="`pwd`"
-echo saved "$SAVED"
 cd "`dirname \"$PRG\"`/" >/dev/null
 APP_HOME="`pwd -P`"
-echo APP_HOME "$APP_HOME"
-cd "$APP_HOME" >/dev/null
+cd "$SAVED" >/dev/null
 
 APP_NAME="Gradle"
 APP_BASE_NAME=`basename "$0"`
@@ -158,7 +155,7 @@ if $cygwin ; then
 fi
 
 # Split up the JVM_OPTS And GRADLE_OPTS values into an array, following the shell quoting and substitution rules
-function splitJvmOpts {
+function splitJvmOpts() {
     JVM_OPTS=("$@")
 }
 eval splitJvmOpts $DEFAULT_JVM_OPTS $JAVA_OPTS $GRADLE_OPTS
