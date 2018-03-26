@@ -1,9 +1,9 @@
-/.gradle/
+**/.gradle/
 /bin/
-/build/
+**/build/
 /.metadata/
 /RemoteSystemsTempFiles/.project
-/out/
+**/out/
 
 metadata
 bin/
@@ -19,6 +19,7 @@ local.properties
 
 # IntelliJ
 .idea/
+*.iml
 
 # Eclipse Core
 .project
