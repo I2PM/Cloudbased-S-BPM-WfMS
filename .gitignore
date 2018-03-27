@@ -1,8 +1,12 @@
-/.gradle/
+**/.gradle/
 /bin/
-/build/
+**/build/
 /.metadata/
 /RemoteSystemsTempFiles/.project
+**/out/
+
+# DS_Store
+.DS_Store
 
 metadata
 bin/
@@ -15,6 +19,10 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+
+# IntelliJ
+.idea/
+*.iml
 
 # Eclipse Core
 .project
