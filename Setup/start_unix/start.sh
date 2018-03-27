@@ -39,7 +39,7 @@ if [[ "$OS" == 'linux' ]]; then
     echo - GUI
     x-terminal-emulator -e bash start_gui.sh
     echo - ModellingPlatform
-    x-terminal-emulator -e bash start_modelling_platform.sh
+    x-terminal-emulator -e bash start_mpf.sh
     echo ======================================
     echo booting services done.
 
@@ -86,7 +86,7 @@ elif [[ "$OS" == 'macOS' ]]; then
         -e "tell application \"Terminal\" to do script \"./start_gui.sh\" in selected tab of the front window" \
         -e "tell application \"System Events\" to keystroke \"t\" using {command down}" \
         -e "delay 0.05" \
-        -e "tell application \"Terminal\" to do script \"./start_modelling_platform.sh\" in selected tab of the front window"
+        -e "tell application \"Terminal\" to do script \"./start_mpf.sh\" in selected tab of the front window"
     echo All services have been executed!
     echo Check Terminal window and tabs for different services.
 else
