@@ -1,0 +1,9 @@
+version: '3'
+services:
+  mysql:
+    container_name: ebusa-mysql
+    build: .
+    ports:
+     - "3306:3306"
+    restart: always
+
