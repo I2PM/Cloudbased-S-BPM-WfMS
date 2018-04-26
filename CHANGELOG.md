@@ -4,6 +4,14 @@ This file ONLY contains changes made by the AIM17 dev-team. This means, that thi
 of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## 2018-04-26 ([#74](https://github.com/amarbajric/EBUSA-AIM17/pull/74))
+## Added
+- complete GUI replacement: new GUI based on ngx-admin
+  - located in the GUI-dev folder
+  - uses the starter-kit (clean implementation)
+## Changed
+- GUI-dev archived as GUI-dev-old
+
 ## 2018-04-24 ([#68](https://github.com/amarbajric/EBUSA-AIM17/pull/68))
 ## Added
 - Classes for adopted data model (persistence Objects, ObjectsImpl, ObjectBuilders)
