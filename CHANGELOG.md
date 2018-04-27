@@ -5,7 +5,7 @@ of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 
-## 2018-04-27
+## 2018-04-27 ([#77](https://github.com/amarbajric/EBUSA-AIM17/pull/77))
 ## Added
 - new AuthenticationService in the Gateway parent service
   - named `AuthenticationServiceDatabaseImpl`
