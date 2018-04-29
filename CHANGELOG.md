@@ -5,7 +5,7 @@ of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 
-## 2018-04-29 ([]())
+## 2018-04-29 ([#79](https://github.com/amarbajric/EBUSA-AIM17/pull/79))
 ## Added
 - register implemented
 - register needs adaptations in terms of default role (tbd in corporation with Stefan L.)
