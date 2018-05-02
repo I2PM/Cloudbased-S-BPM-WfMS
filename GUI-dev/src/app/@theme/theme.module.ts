@@ -38,6 +38,13 @@ import {
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 
+import { RouterModule } from '@angular/router';
+import {
+  EbAuthBlockComponent, EbAuthComponent, EbLoginComponent, EbRegisterComponent, EbLogoutComponent,
+} from './components/auth';
+import { EbEmailPassAuthProvider } from './providers/auth/email-pass-auth.provider';
+import { EbTacComponent } from './components/tac/tac.component';
+
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 const NB_MODULES = [
@@ -55,6 +62,7 @@ const NB_MODULES = [
   NbContextMenuModule,
   NgbModule,
   NbSecurityModule, // *nbIsGranted directive
+  RouterModule,
 ];
 
 const COMPONENTS = [
@@ -67,6 +75,13 @@ const COMPONENTS = [
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  EbAuthComponent,
+  EbAuthBlockComponent,
+  EbLoginComponent,
+  EbRegisterComponent,
+  EbLogoutComponent,
+  EbTacComponent,
+
 ];
 
 const PIPES = [
@@ -77,6 +92,7 @@ const PIPES = [
 ];
 
 const NB_THEME_PROVIDERS = [
+  EbEmailPassAuthProvider,
   ...NbThemeModule.forRoot(
     {
       name: 'default',

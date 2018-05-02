@@ -1,32 +1,55 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { NbMenuService, NbSidebarService } from '@nebular/theme';
-import { UserService } from '../../../@core/data/users.service';
 import { AnalyticsService } from '../../../@core/utils/analytics.service';
+
+import { NbAuthJWTToken, NbAuthService } from '@nebular/auth';
+import { NbAccessChecker } from '@nebular/security';
 
 @Component({
   selector: 'ngx-header',
   styleUrls: ['./header.component.scss'],
   templateUrl: './header.component.html',
+
+
 })
 export class HeaderComponent implements OnInit {
 
 
   @Input() position = 'normal';
 
-  user: any;
+  user = {};
 
-  userMenu = [{ title: 'Profile' }, { title: 'Log out' }];
+  userMenu = [
+    { title: 'Profile', data: 'profile' },
+    { title: 'Log out', data: 'logout', link: '/auth/logout' },
+    ];
+
+  authenticated = false;
 
   constructor(private sidebarService: NbSidebarService,
               private menuService: NbMenuService,
-              private userService: UserService,
-              private analyticsService: AnalyticsService) {
+              private analyticsService: AnalyticsService,
+              private authService: NbAuthService,
+              public accessChecker: NbAccessChecker,
+              ) {
+
+    this.authService.onTokenChange()
+      .subscribe((token: NbAuthJWTToken) => {
+       if (token.isValid()) {
+         this.user = token.getPayload();
+         this.authenticated = true;
+       } else {
+         this.authenticated = false;
+       }
+      })
+
   }
 
   ngOnInit() {
-    this.userService.getUsers()
-      .subscribe((users: any) => this.user = users.nick);
+    this.menuService.onItemClick().subscribe(( event ) => {
+      this.onItemSelection(event.item.data);
+    })
   }
 
   toggleSidebar(): boolean {
@@ -46,4 +69,14 @@ export class HeaderComponent implements OnInit {
   startSearch() {
     this.analyticsService.trackEvent('startSearch');
   }
+
+  onItemSelection(item) {
+    switch (item) {
+      case 'logout': { this.authService.logout('email'); break }
+      case 'profile': { break }
+      default: break
+    }
+  }
+
+
 }
