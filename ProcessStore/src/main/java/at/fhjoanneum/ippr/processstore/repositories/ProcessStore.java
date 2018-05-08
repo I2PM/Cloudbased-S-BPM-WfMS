@@ -13,4 +13,7 @@ public interface ProcessStore extends CrudRepository<ProcessStoreObjectImpl, Lon
     @Query(value = "SELECT * FROM processstore", nativeQuery = true)
     public List<ProcessStoreObjectImpl> findAllProcesses();
 
+    @Query(value="SELECT * FROM processstore", nativeQuery = true)
+    public ProcessStoreObjectImpl findProcessWithId(Long processId);
+
 }

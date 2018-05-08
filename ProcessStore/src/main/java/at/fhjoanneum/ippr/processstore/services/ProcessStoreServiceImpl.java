@@ -30,9 +30,18 @@ public class ProcessStoreServiceImpl implements ProcessStoreService {
     public Future<List<ProcessStoreDTO>> findAllProcesses() {
         final List<ProcessStoreObjectImpl> results = processStore.findAllProcesses();
 
-        final List<ProcessStoreDTO> processes = createProcessStoreDTO(results);
+        final List<ProcessStoreDTO> processes = createProcessStoreDTOList(results);
 
         return new AsyncResult<List<ProcessStoreDTO>>(processes);
+    }
+
+    @Async
+    public Future<ProcessStoreDTO> findProcessById(Long processId) {
+        final ProcessStoreObjectImpl result = processStore.findProcessWithId(processId);
+
+        final ProcessStoreDTO process = createProcessStoreDTO(result);
+
+        return new AsyncResult<ProcessStoreDTO>(process);
     }
 
     @Override
@@ -40,11 +49,18 @@ public class ProcessStoreServiceImpl implements ProcessStoreService {
         return Optional.empty();
     }
 
-    private static List<ProcessStoreDTO> createProcessStoreDTO(final List<ProcessStoreObjectImpl> results) {
+    private static ProcessStoreDTO createProcessStoreDTO(final ProcessStoreObjectImpl processStoreObject) {
+        return new ProcessStoreDTO(processStoreObject.getStoreId(), processStoreObject.getProcessName(),
+                processStoreObject.getProcessDescription(), processStoreObject.getProcessCreator(),
+                processStoreObject.getProcessCreatedAt(), processStoreObject.getProcessVersion(),
+                processStoreObject.getProcessPrice());
+    }
+
+    private static List<ProcessStoreDTO> createProcessStoreDTOList(final List<ProcessStoreObjectImpl> results) {
         final List<ProcessStoreDTO> processes = Lists.newArrayList();
 
         for(ProcessStoreObjectImpl processStoreObject : results) {
-            final ProcessStoreDTO dto = new ProcessStoreDTO(processStoreObject.getStoreId(), processStoreObject.getProcessName());
+            final ProcessStoreDTO dto = createProcessStoreDTO(processStoreObject);
             processes.add(dto);
         }
         return processes;
