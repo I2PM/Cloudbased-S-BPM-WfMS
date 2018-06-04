@@ -4,6 +4,13 @@ This file ONLY contains changes made by the AIM17 dev-team. This means, that thi
 of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## 2018-06-04 ([#94](https://github.com/amarbajric/EBUSA-AIM17/pull/94))
+## Added
+- added new Service ProcessStore `at.fhjoanneum.ippr.processstore` running on port 12000
+  - ProcessStore is registered at Eureka/DiscoveryClient
+  - available gateway endpoint atm `localhost:10000/api/store/processes`
+## Changed
+- added scripts for ProcessStore startup to /Setup/...
 
 ## 2018-04-29 ([#79](https://github.com/amarbajric/EBUSA-AIM17/pull/79))
 ## Added
