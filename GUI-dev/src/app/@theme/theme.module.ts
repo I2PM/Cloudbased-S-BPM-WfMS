@@ -38,6 +38,17 @@ import {
 import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 
+import { RouterModule } from '@angular/router';
+import {
+  EbAuthBlockComponent, EbAuthComponent, EbLoginComponent, EbRegisterComponent, EbLogoutComponent,
+} from './components/auth';
+import { EbEmailPassAuthProvider } from './providers/auth/email-pass-auth.provider';
+import { EbTacComponent } from './components/tac/tac.component';
+import {GatewayProvider} from './providers/backend-server/gateway';
+import {ServerConfigProvider} from './providers/backend-server/serverconfig';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {TokenInterceptor} from './components/auth/token.interceptor';
+
 const BASE_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 const NB_MODULES = [
@@ -55,6 +66,7 @@ const NB_MODULES = [
   NbContextMenuModule,
   NgbModule,
   NbSecurityModule, // *nbIsGranted directive
+  RouterModule,
 ];
 
 const COMPONENTS = [
@@ -67,6 +79,13 @@ const COMPONENTS = [
   SampleLayoutComponent,
   ThreeColumnsLayoutComponent,
   TwoColumnsLayoutComponent,
+  EbAuthComponent,
+  EbAuthBlockComponent,
+  EbLoginComponent,
+  EbRegisterComponent,
+  EbLogoutComponent,
+  EbTacComponent,
+
 ];
 
 const PIPES = [
@@ -77,6 +96,16 @@ const PIPES = [
 ];
 
 const NB_THEME_PROVIDERS = [
+  EbEmailPassAuthProvider,
+  GatewayProvider,
+  ServerConfigProvider,
+  [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   ...NbThemeModule.forRoot(
     {
       name: 'default',

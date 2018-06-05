@@ -12,6 +12,34 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
 ## Changed
 - added scripts for ProcessStore startup to /Setup/...
 
+## 2018-06-02 ([#93](https://github.com/amarbajric/EBUSA-AIM17/pull/93))
+## Added
+- User-Details
+    - Components are in ../pages/user-details
+    - Displays User information
+    - Contains test data
+- Interceptor
+    - Components are in ../@theme/components/auth/
+        - token.interceptor.ts
+        - jwt.interceptor.ts
+    - Adds the current user token to every http request
+
+## 2018-05-02 ([#89](https://github.com/amarbajric/EBUSA-AIM17/pull/89))
+## Added
+- Authentication
+  - Components are in `@theme/auth`
+  - Validation takes configuration from `app.module.ts` => `NbAuthModule/providers/forms/validation`
+- Registration
+  - Currently takes \[firstname, lastname, username, email, password\] to the backend endpoint /register
+  - `NbAuthModule/providers/email/config` in `app.module.ts` is used to configure those endpoints
+  - access via `/auth/registration`
+- Roles
+  - Utilizes special roles and rights management
+  - Roles are currently assigned via the `role.provider.ts` which takes the first role from the token (issue)
+  - `NbSecurityModule` in `app.module.ts` is used to configure rights
+    - `view`, `create`, `remove` on role-level or `parent` to inherit rights
+    - `*nbIsGranted="['view', 'user']"` is a condition the hides the element unless the user has the right `view` on `user`
+
 ## 2018-04-29 ([#79](https://github.com/amarbajric/EBUSA-AIM17/pull/79))
 ## Added
 - register implemented

@@ -1,45 +1,42 @@
 import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+// import { AuthGuard } from './auth-guard.service';
+
 import {
-  NbAuthComponent,
-  NbLoginComponent,
-  NbLogoutComponent,
-  NbRegisterComponent,
-  NbRequestPasswordComponent,
-  NbResetPasswordComponent,
-} from '@nebular/auth';
+  EbAuthComponent, EbLoginComponent, EbRegisterComponent, EbLogoutComponent,
+} from './@theme/components/auth';
+import { EbTacComponent } from './@theme/components/tac/tac.component';
 
 const routes: Routes = [
-  { path: 'pages', loadChildren: 'app/pages/pages.module#PagesModule' },
+  { path: '',
+    loadChildren: 'app/pages/pages.module#PagesModule',
+    // canActivate: [AuthGuard],
+  },
   {
     path: 'auth',
-    component: NbAuthComponent,
+    component: EbAuthComponent,
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        component: EbLoginComponent,
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: EbLoginComponent,
       },
       {
         path: 'register',
-        component: NbRegisterComponent,
+        component: EbRegisterComponent,
       },
       {
         path: 'logout',
-        component: NbLogoutComponent,
-      },
-      {
-        path: 'request-password',
-        component: NbRequestPasswordComponent,
-      },
-      {
-        path: 'reset-password',
-        component: NbResetPasswordComponent,
+        component: EbLogoutComponent,
       },
     ],
+  },
+  {
+    path: 'tac',
+    component: EbTacComponent,
   },
   { path: '', redirectTo: 'pages', pathMatch: 'full' },
   { path: '**', redirectTo: 'pages' },
