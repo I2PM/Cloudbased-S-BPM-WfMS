@@ -4,7 +4,15 @@ This file ONLY contains changes made by the AIM17 dev-team. This means, that thi
 of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## 2018-05-02 ([#51](https://github.com/amarbajric/EBUSA-AIM17/pull/93))
+## 2018-06-04 ([#94](https://github.com/amarbajric/EBUSA-AIM17/pull/94))
+## Added
+- added new Service ProcessStore `at.fhjoanneum.ippr.processstore` running on port 12000
+  - ProcessStore is registered at Eureka/DiscoveryClient
+  - available gateway endpoint atm `localhost:10000/api/store/processes`
+## Changed
+- added scripts for ProcessStore startup to /Setup/...
+
+## 2018-06-02 ([#93](https://github.com/amarbajric/EBUSA-AIM17/pull/93))
 ## Added
 - User-Details
     - Components are in ../pages/user-details
@@ -15,7 +23,6 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
         - token.interceptor.ts
         - jwt.interceptor.ts
     - Adds the current user token to every http request
-
 
 ## 2018-05-02 ([#89](https://github.com/amarbajric/EBUSA-AIM17/pull/89))
 ## Added
@@ -32,7 +39,6 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
   - `NbSecurityModule` in `app.module.ts` is used to configure rights
     - `view`, `create`, `remove` on role-level or `parent` to inherit rights
     - `*nbIsGranted="['view', 'user']"` is a condition the hides the element unless the user has the right `view` on `user`
-
 
 ## 2018-04-29 ([#79](https://github.com/amarbajric/EBUSA-AIM17/pull/79))
 ## Added
