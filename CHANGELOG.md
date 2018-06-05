@@ -25,6 +25,43 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
 ## Changed
 - added scripts for ProcessStore startup to /Setup/...
 
+## 2018-06-04 ([#92](https://github.com/amarbajric/EBUSA-AIM17/pull/92))
+## Added
+- annotations for createdAt to include in json and annot. to exclude irrelevant properties like password and systemid
+- OrganizationController
+- OrganizationService and Impl
+- OrganizationRepository and Impl
+- endpoints for organization (getbyid, getall, save, update)
+- enpoints for user (update)
+## Changed
+- mistake in OrganizationBuilder
+- RBACRepository where the organization related things have been removed
+- mappings and annotations in the UserImpl and OrganizationImpl entity classes
+- some property namings which caused false naming convention in json
+- organization in UserImpl to be ignored in json as it is causing an StackOverFlowError because it is runs into an 
+endless recursion when showing employees of org. (when querying org.) and also showing employees when querying one user
+and displaying organization property.
+  - when querying a user, the `organization` property does not hold a property `employees` because of the mentioned error
+  - when querying an organization, there is a property `employees` which holds all employees of the organization
+
+## 2018-06-02 ([#92](https://github.com/amarbajric/EBUSA-AIM17/pull/92))
+## Added
+- Timestamp to the `createdAt` property of the `UserImpl` entity to have automatic timestamp creation
+- new csv's in the folder `database_init` which are used when the property `rbac.system.service.authentication` is set
+to `database`.
+  - The csv's are inserting initial roles, rules and one admin user into the database
+## Changed
+- Changed database table names (annotations) of all entities from uppercase to lowercase
+- UserImpl changed, where email is now unique
+- RegistrationServiceDatabaseImpl changed where email is set as the systemId and special symbols are replaced with an underline
+- RegistrationServiceDatabaseImpl changed where the default role of a newly registered user is set to 'USER'
+- RBACConfig is now ALWAYS running the RBACRetrievalService
+(as both database and memory strategy are performing an initial db insertion from csvs)
+- RBACMappingService is now checking the property in the `applications.properties` file and depending on provided value, 
+it gives the right path to the csv's (memoryusers or database_init folder)
+- RBACRetrievalService is now getting the csvPath from the mappingService and is loading all rules,roles and users
+- RBACRetrievalServiceMemoryImpl renamed to RBACRetrievalImpl as it is used for both strategies now
+
 ## 2018-06-02 ([#93](https://github.com/amarbajric/EBUSA-AIM17/pull/93))
 ## Added
 - User-Details
