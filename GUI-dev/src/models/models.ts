@@ -12,9 +12,15 @@ export class User {
   username: string;
   email: string;
   password: string;
+  uid: number;
   createdAt: Date;
   organization?: Organization;
   roles: [Role];
+
+  public getUid() {
+    return this.uid;
+  }
+
 }
 
 export class Organization {
@@ -34,6 +40,7 @@ export class Rule {
   ruleId: number;
   name: string;
   systemId: string;
+
 }
 
 
@@ -41,3 +48,4 @@ export class Rule {
 export interface MailAsyncValidationRes {
   isTaken: boolean
 }
+
