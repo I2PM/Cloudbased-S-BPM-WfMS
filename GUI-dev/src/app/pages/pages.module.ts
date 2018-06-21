@@ -4,6 +4,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import {HomeModule} from './home/home.module';
+import { ProcessStoreSearchModule } from './processstore-search/processstore-search.module';
 import {ApprovalModule} from './approval/approval.module';
 import {ApprovalDetailsModule} from './approval-details/approval-details.module';
 
@@ -27,6 +28,7 @@ const PAGES_COMPONENTS = [
     UserDetailsModule,
 
 
+    ProcessStoreSearchModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,

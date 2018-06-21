@@ -14,6 +14,18 @@ export class Process {
   creator?: string;
 }
 
+export class StoreProcess {
+  processId: number;
+  processName: string;
+  processDescription: string;
+  processCreator: string;
+  processCreatedAt: Date;
+  processVersion: number;
+  processPrice: number;
+  // missing in current ProcessStoreDTO in backend:
+  processAverageRating: number;
+}
+
 
 
 export class Review {

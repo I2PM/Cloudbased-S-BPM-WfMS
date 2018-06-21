@@ -4,6 +4,27 @@ This file ONLY contains changes made by the AIM17 dev-team. This means, that thi
 of the forked repository.
 The format is partially based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## 2018-06-11 ([#91](https://github.com/amarbajric/EBUSA-AIM17/pull/91))
+## Added
+- Menu
+  - Entry "Process Store"
+- Components/Modules
+  - ProcessStoreSearchComponent (search via frontend, filtering (price, rating createdBy) via backend)
+  - ProcessStoreSearchModule
+- Gateway (Angular)
+  - getStoreProcesses (with filtering)
+- Routings
+  - "processstore-search" -> "ProcessStoreSearchComponent"
+- Models (Angular)
+  - StoreProcess (based on ProcessStoreDTO)
+- Pipes
+  - SimpleSearchPipe
+- NPM Dependencies
+  - angular-star-rating
+    - css-star-rating
+- Static Assets
+  - "star-rating.icons.svg"
+
 ## 2018-06-04 ([#95](https://github.com/amarbajric/EBUSA-AIM17/pull/95))
 ## Added
 - Admin Page
@@ -81,7 +102,6 @@ it gives the right path to the csv's (memoryusers or database_init folder)
         - token.interceptor.ts
         - jwt.interceptor.ts
     - Adds the current user token to every http request
-
 
 ## 2018-05-02 ([#89](https://github.com/amarbajric/EBUSA-AIM17/pull/89))
 ## Added

@@ -8,6 +8,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
 
   {
+    title: 'Process Store',
+    icon: 'ion-cash',
+    link: '/processstore-search',
+  },
+  {
     title: 'Approval Page',
     icon: 'nb-checkmark',
     link: '/approval',

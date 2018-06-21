@@ -8,6 +8,7 @@ import {AuthGuard} from '../auth-guard.service';
 import {ApprovalComponent} from './approval/approval.component';
 import {ActiveProcessesComponent} from './dashboard/components/activeProcesses/activeProcesses.component';
 // import {EventLoggerComponent} from './admin/components/eventLogger/eventLogger.component';
+import { ProcessStoreSearchComponent } from './processstore-search/processstore-search.component';
 
 import {UserDetailsComponent} from './user-details/user-details.component';
 
@@ -28,6 +29,11 @@ const routes: Routes = [{
 
     },
 
+    {
+      path: 'processstore-search',
+      component: ProcessStoreSearchComponent,
+      canActivate: [AuthGuard],
+    },
     {
       path: 'home',
       component: HomeComponent,
