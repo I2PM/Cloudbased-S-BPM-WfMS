@@ -52,11 +52,9 @@ export class User {
   createdAt: Date;
   organization?: Organization;
   roles: [Role];
-
   public getUid() {
     return this.uid;
-  }
-
+  };
 }
 
 export class Organization {
@@ -76,7 +74,6 @@ export class Rule {
   ruleId: number;
   name: string;
   systemId: string;
-
 }
 
 
