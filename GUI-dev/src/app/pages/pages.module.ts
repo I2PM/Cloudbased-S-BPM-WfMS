@@ -4,6 +4,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ThemeModule } from '../@theme/theme.module';
 import {HomeModule} from './home/home.module';
+import {ApprovalModule} from './approval/approval.module';
+import {ApprovalDetailsModule} from './approval-details/approval-details.module';
 
 import AdminModule from './admin/admin.module';
 
@@ -19,6 +21,8 @@ const PAGES_COMPONENTS = [
     ThemeModule,
     DashboardModule,
     HomeModule,
+    ApprovalModule,
+    ApprovalDetailsModule,
     AdminModule,
     UserDetailsModule,
 
