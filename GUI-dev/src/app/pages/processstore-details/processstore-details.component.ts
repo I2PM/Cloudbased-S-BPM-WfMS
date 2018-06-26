@@ -50,7 +50,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
             this.processesOfOrg = processes;
           })
           .then(() => {
-            if (this.processesOfOrg.filter((process) => process.processId == this.processId).length === 1) {
+            if (this.processesOfOrg.filter((process) => process.processId === this.processId).length === 1) {
               this.hasProcess = true;
               this.isConfigured = true;
             }

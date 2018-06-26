@@ -39,6 +39,21 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
 ##2018-06-25 ([#110](https://github.com/amarbajric/EBUSA-AIM17/pull/110))
 - Added logo and favicon to the platform
 
+## 2018-06-25 ([#100](https://github.com/amarbajric/EBUSA-AIM17/pull/99))
+## Added
+- Approval Page Guard
+  - Only users with SYS_APPROVER role can access approval page
+  - other users are redirected to home when they try to access it
+- Gateway Methods
+  - getStoreProcessById
+  - postStoreProcessComment
+## Changed
+- Approval Details Page
+  - changed review comments
+  - two way binding for review comment
+  - redirection after approving/disapproving to approval page
+  - endpoint calls for processes, approve/unapprove, postComment
+
 ## 2018-06-23 ([#86](https://github.com/amarbajric/EBUSA-AIM17/pull/98))
 ## Added
 - Process Rating Component and Module
