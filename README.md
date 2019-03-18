@@ -1,4 +1,5 @@
-
+# Previous Projects
+This project is based on [IPPR2016 by stefanstaniAIM](https://github.com/stefanstaniAIM/IPPR2016) and the further implementation by [AIM17](https://github.com/amarbajric/EBUSA-AIM17). Due to technical limitations, the project of AIM17 could not be forked to I2PM. 
 # S-BPM (Modelling), Execution and Store Platform
   
 This is a (modelling), execution and store platform for S-BPM processes, based on microservices powered by Spring Boot. The modelling platform is based on Angular 1, the frontend for the execution and store platform, however, is based on Angular 2+.  
