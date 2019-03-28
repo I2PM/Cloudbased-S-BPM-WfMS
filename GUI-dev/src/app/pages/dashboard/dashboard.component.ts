@@ -68,9 +68,10 @@ export class DashboardComponent {
         this.user = user;
         if (user.organization !== null) {
               this.gateway.getProcessesByOrgId('' + user.organization.oid)
+              // TODO: favouriteProcess automatisch 0 und bestRated 1?? dafuq
                 .then((processes) => {
                   this.favoriteProcess = processes[0];
-                  this.bestRatedProcess = processes[1];
+                  processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
                 })
         }
       })
