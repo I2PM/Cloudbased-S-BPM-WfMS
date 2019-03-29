@@ -46,7 +46,7 @@ public class RBACServiceImpl implements RBACService {
       final List<RoleDTO> roles = user.getRoles().stream()
           .map(role -> new RoleDTO(role.getRoleId(), role.getName())).collect(Collectors.toList());
       final List<RuleDTO> rules = user.getRules().stream()
-          .map(rule -> new RuleDTO(rule.getRuleId(), rule.getName())).collect(Collectors.toList());
+          .map(rule -> new RuleDTO(rule.getRuleId(), rule.getType())).collect(Collectors.toList()); // TODO: Convert RuleDTO
       return new UserDTO(user.getUId(), user.getFirstname(), user.getLastname(), roles, rules);
     }).collect(Collectors.toList()));
   }

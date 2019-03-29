@@ -1,5 +1,22 @@
 package at.fhjoanneum.ippr.gateway.security.controller;
 
+import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
+import at.fhjoanneum.ippr.gateway.security.authentication.AuthenticationService;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
+import at.fhjoanneum.ippr.gateway.security.registration.RegistrationService;
+import at.fhjoanneum.ippr.gateway.security.services.RBACService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -9,31 +26,6 @@ import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Path;
-
-import at.fhjoanneum.ippr.gateway.security.registration.RegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
-import at.fhjoanneum.ippr.gateway.security.authentication.AuthenticationService;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
-import at.fhjoanneum.ippr.gateway.security.services.RBACService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 @RestController
 @RequestMapping(produces = "application/json; charset=UTF-8")
@@ -63,8 +55,8 @@ public class UserController {
     final List<String> roles =
         user.getRoles().stream().map(Role::getName).collect(Collectors.toList());
 
-    final List<String> rules = user.getRoles().stream().map(Role::getRules).flatMap(List::stream)
-        .map(Rule::getName).collect(Collectors.toList());
+    final List<Rule> rules = user.getRoles().stream().map(Role::getRules).flatMap(List::stream)
+        .collect(Collectors.toList());
 
     final LoginResponse loginResponse = new LoginResponse(
         Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getUId())

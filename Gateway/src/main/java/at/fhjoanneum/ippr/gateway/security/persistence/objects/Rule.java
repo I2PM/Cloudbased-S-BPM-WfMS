@@ -2,12 +2,17 @@ package at.fhjoanneum.ippr.gateway.security.persistence.objects;
 
 public interface Rule {
 
-  Long getRuleId();
+    Long getRuleId();
 
-  String getSystemId();
+    String getSystemId();
 
-  String getName();
+    void setSystemId(String systemId);
 
-  void setName(String name);
+    String getType();
 
+    void setType(String type);
+
+    String getScope();
+
+    void setScope(String scope);
 }
