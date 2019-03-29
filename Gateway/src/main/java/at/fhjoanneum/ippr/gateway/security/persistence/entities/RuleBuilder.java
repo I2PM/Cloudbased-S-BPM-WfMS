@@ -9,25 +9,33 @@ import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 
 public class RuleBuilder implements Builder<Rule> {
 
-  private String systemId;
-  private String name;
+    private String systemId;
+    private String scope;
+    private String type;
 
-  public RuleBuilder systemId(final String systemId) {
-    checkArgument(StringUtils.isNotBlank(systemId));
-    this.systemId = systemId;
-    return this;
-  }
+    public RuleBuilder scope(final String scope) {
+        checkArgument(StringUtils.isNotBlank(scope));
+        this.scope = scope;
+        return this;
+    }
 
-  public RuleBuilder name(final String name) {
-    checkArgument(StringUtils.isNotBlank(name));
-    this.name = name;
-    return this;
-  }
+    public RuleBuilder type(final String type) {
+        checkArgument(StringUtils.isNotBlank(type));
+        this.type = type;
+        return this;
+    }
 
-  @Override
-  public Rule build() {
-    checkArgument(StringUtils.isNotBlank(systemId));
-    checkArgument(StringUtils.isNotBlank(name));
-    return new RuleImpl(name, systemId);
-  }
+    public RuleBuilder systemId(final String systemId) {
+        checkArgument(StringUtils.isNotBlank(systemId));
+        this.systemId = systemId;
+        return this;
+    }
+
+    @Override
+    public Rule build() {
+        checkArgument(StringUtils.isNotBlank(scope));
+        checkArgument(StringUtils.isNotBlank(type));
+        checkArgument(StringUtils.isNotBlank(systemId));
+        return new RuleImpl(systemId, type, scope);
+    }
 }

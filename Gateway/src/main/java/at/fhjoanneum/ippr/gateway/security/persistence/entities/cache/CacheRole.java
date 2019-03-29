@@ -15,7 +15,7 @@ public class CacheRole {
   public CacheRole(final String systemId, final String name, final List<CacheRule> rules) {
     checkArgument(StringUtils.isNotBlank(systemId));
     checkArgument(StringUtils.isNotBlank(name));
-    checkArgument(rules != null && !rules.isEmpty());
+    checkArgument(rules != null);
     this.systemId = systemId;
     this.name = name;
     this.rules = rules;
