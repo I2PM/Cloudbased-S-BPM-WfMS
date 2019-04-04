@@ -22,6 +22,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-paper-plane',
     link: '/createProcess',
   },
+  {
+    title: 'User management',
+    icon: 'ion-settings',
+    link: '/user-management',
+  },
   /*{
     title: 'FEATURES',
     group: true,

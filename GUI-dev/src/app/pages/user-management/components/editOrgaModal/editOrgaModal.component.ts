@@ -1,17 +1,17 @@
 import {Component, EventEmitter} from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import {Organization} from '../../../../../models/models';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {Organization, User} from '../../../../../models/models';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
-import {ToasterService} from 'angular2-toaster';
+import {ToasterConfig, ToasterService} from 'angular2-toaster';
 
 @Component({
-  selector: 'ngx-create-orga-modal',
+  selector: 'ngx-edit-orga-modal',
   providers: [ToasterService],
-  styleUrls: ['createOrgaModal.component.scss'],
+  styleUrls: ['editOrgaModal.component.scss'],
   template: `
     <div class="modal-header">
       <!-- <toaster-container></toaster-container> -->
-      <span>Create new organization</span>
+      <span>Edit organization</span>
       <button class="close" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -20,17 +20,15 @@ import {ToasterService} from 'angular2-toaster';
       <div class="form-group">
         <br>
         <h6>organization name</h6>
-        <input name="organizationName" [(ngModel)]="organization.organizationName" id="input-organizationName"
-               #organizationName="ngModel"
-               class="form-control" placeholder="organization name"
+        <input name="organizationName" id="input-organizationName"
+               class="form-control" value="{{organizationName}}"
                >
       </div>
       <div class="form-group">
         <br>
         <h6>organization description</h6>
-        <input name="organizationDescription" [(ngModel)]="organization.description" id="input-organizationDescription"
-               #organizationDescription="ngModel"
-               class="form-control" placeholder="description of the organization"
+        <input name="organizationDescription" id="input-organizationDescription"
+               class="form-control" value="{{organizationDescription}}"
         >
       </div>
     </div>
@@ -40,22 +38,39 @@ import {ToasterService} from 'angular2-toaster';
     </div>
   `,
 })
-export class CreateOrgaModalComponent {
+export class EditOrgaModalComponent {
 
   organization: Organization = new Organization;
   saved: EventEmitter<any> = new EventEmitter();
+  user: User;
+  inOrganization: boolean = false;
+  config: ToasterConfig;
+  orgaId: number;
+  organizationName;
+  organizationDescription;
 
 
   constructor(private activeModal: NgbActiveModal, private gateway: GatewayProvider) {
-
-
+    this.gateway.getUser()
+      .then((user) => {
+        this.user = user;
+        if (user.organization !== null) {
+          this.inOrganization = true;
+          if (this.inOrganization === true) {
+            this.organization = user.organization;
+            this.orgaId = user.organization.oid;
+            this.organizationName = user.organization.organizationName;
+            this.organizationDescription = user.organization.description;
+          }
+        }
+      })
   }
 
   closeModal() {
     this.activeModal.close();
   }
 
-  saveModal = () => this.gateway.createNewOrganisation(this.organization)
+  saveModal = () => this.gateway.editOrganisation(this.organization)
     .then(() => {
       this.saved.emit('openPopup');
       this.activeModal.close();
@@ -63,4 +78,6 @@ export class CreateOrgaModalComponent {
     .catch(
       // console.log("sth. went wrong" + err.message)
     );
+
+
 }

@@ -49,7 +49,13 @@ export class GatewayProvider {
   }
 
   createNewOrganisation(organization: Organization): Promise<Organization>  {
-    return this.http.post<Organization>(this.serverConfig.createOrganizaion,
+    return this.http.post<Organization>(this.serverConfig.createOrganization,
+      {'organizationName': organization.organizationName, 'organizationDescription': organization.description})
+      .toPromise();
+  }
+
+  editOrganisation(organization: Organization): Promise<Organization> {
+    return this.http.put<Organization>(this.serverConfig.editOrganization + '/' + organization.oid,
       {'organizationName': organization.organizationName, 'organizationDescription': organization.description})
       .toPromise();
   }

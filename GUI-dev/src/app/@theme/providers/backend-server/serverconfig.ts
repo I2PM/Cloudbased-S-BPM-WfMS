@@ -19,6 +19,7 @@ export class ServerConfigProvider {
   private _getNotApprovedProcessesByUser = `${this._host}api/store/processes/notApproved`;
   private _getApprovedProcesses = `${this._host}api/store/processes/approved`;
   private _createOrganization = `${this._host}api/organization`;
+  private _editOrganization = `${this._host}api/organization`;
   private _getOrgaProcesses = `${this._host}api/store/processes/byOrga`;
 
 
@@ -45,7 +46,14 @@ export class ServerConfigProvider {
   public get getApprovedProcessesByUser(): string {return this._getApprovedProcessesByUser};
   public get getApprovedProcesses(): string {return this._getApprovedProcesses};
   public get getNotApprovedProcessesByUser(): string {return this._getNotApprovedProcessesByUser};
-  public get createOrganizaion(): string {return this._createOrganization};
+
+  public get createOrganization(): string {
+    return this._createOrganization
+  };
+
+  public get editOrganization(): string {
+    return this._editOrganization
+  };
   public get getOrgaProcesses(): string {return this._getOrgaProcesses};
 
   public get getUnapprovedStoreProcesses(): string {return this._getUnapprovedStoreProcesses};
