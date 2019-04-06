@@ -25,9 +25,10 @@ export class StartableProcessesComponent implements OnInit {
     this.service.getProcessModels()
       .subscribe(
          data => {
-            that.processModels = JSON.parse(data['_body']);
+           console.log(data);
+            data['_body'] !== undefined ? that.processModels = JSON.parse(data['_body']) : that.processModels = [];
          },
-         err => that.msg = {text: err, type: 'error'},
+         err => {console.log(err); that.msg = {text: err, type: 'error'}; },
          () => {}, // console.log('Request Complete')
        );
   }

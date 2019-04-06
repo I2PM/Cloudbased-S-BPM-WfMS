@@ -26,6 +26,10 @@ export class DashboardComponent {
       route: '/dashboard/myProcesses',
     },
     {
+      title: 'Startable Processes',
+      route: '/dashboard/startableProcesses',
+    },
+    {
       title: 'Processes in Approval',
       route: '/dashboard/validation',
     },
@@ -40,6 +44,10 @@ export class DashboardComponent {
       title: 'My Processes',
       route: '/dashboard/myProcesses',
     },
+    {
+      title: 'Startable Processes',
+      route: '/dashboard/startableProcesses',
+    }
   ];
 
   constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker,
@@ -70,7 +78,7 @@ export class DashboardComponent {
               this.gateway.getProcessesByOrgId('' + user.organization.oid)
                 .then((processes) => {
                   this.favoriteProcess = processes[0];
-                  this.bestRatedProcess = processes[1];
+                  processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
                 })
         }
       })

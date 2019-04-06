@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {StoreProcess} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ProcessesService} from '../../allProcesses.service'
 import {ProcessstoreDetailsModalComponent} from './modal/processstore-details.modal';
 
 @Component({
@@ -22,7 +23,8 @@ export class ProcessStoreDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private gateway: GatewayProvider,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private processesService: ProcessesService) {
   }
 
   ngOnInit() {
@@ -85,12 +87,17 @@ export class ProcessStoreDetailsComponent implements OnInit {
   // configuring the process
   // TODO: implement configure process
   configureProcess() {
-    // console.log("configure process");
+    this.isConfigured = true;
   }
 
   // starting the process
   // TODO: implement start process
   startProcess() {
-    // console.log("process started");
+    this.processesService.startProcess(this.process.processId).subscribe(data => {
+      console.log(data);
+    },
+      err => {
+        console.log(err);
+      })
   }
 }

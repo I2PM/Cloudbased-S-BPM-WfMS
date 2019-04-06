@@ -22,7 +22,7 @@ import {ValidatedProcessesComponent} from './dashboard/components/validatedProce
 import {CreateOrgaModalComponent} from './dashboard/components/createOrgaModal/createOrgaModal.component';
 
 import {ApprovalAuthGuard} from '../approval-auth-guard.service';
-
+import {StartableProcessesComponent} from './dashboard/components/startableProcesses/startableProcesses.component';
 
 
 const routes: Routes = [{
@@ -41,6 +41,9 @@ const routes: Routes = [{
           path: 'myProcesses',
           component: MyProcessesComponent,
         }, {
+        path: 'startableProcesses',
+        component: StartableProcessesComponent
+      },{
           path: 'validation',
           component: ReviewProcessesComponent,
 
