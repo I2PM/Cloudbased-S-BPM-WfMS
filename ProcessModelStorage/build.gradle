@@ -75,3 +75,14 @@ test {
             'spring.profiles.active': 'test'
     ]
 }
+
+task copyJarToBin {
+	String relativeProjectPath = project.projectDir.path.replace(project.name, "")
+	String dest = relativeProjectPath+"/builds"
+	
+    copy {
+        from 'build/libs'
+        into dest
+		exclude '*.original'
+    }
+}
