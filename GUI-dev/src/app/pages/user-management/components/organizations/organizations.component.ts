@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ProcessesService} from '../../../../allProcesses.service';
-import {Router, ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
 import {User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 import {CreateOrgaModalComponent} from '../../../dashboard/components/createOrgaModal/createOrgaModal.component';
 import {EditOrgaModalComponent} from '../editOrgaModal/editOrgaModal.component';
+import {RuleProvider, RuleScope, RuleType} from '../../../../rule.provider';
 
 
 @Component({
@@ -26,10 +27,13 @@ export class OrganizationsComponent implements OnInit {
   navigationSubscription;
   organizationName;
   organizationDescription;
+  canEditOrg: boolean;
+  canCreateOrg: boolean;
 
   constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
               private gateway: GatewayProvider, private modalService: NgbModal,
-              private toasterService: ToasterService) {
+              private toasterService: ToasterService,
+              private ruleProvider: RuleProvider) {
 
     this.config = new ToasterConfig({
       positionClass: 'toast-top-right',
@@ -55,7 +59,11 @@ export class OrganizationsComponent implements OnInit {
             this.organizationDescription = user.organization.description;
           }
         }
-      })
+      });
+    this.ruleProvider.hasRuleWithMinScope(RuleType.EDIT_ORG, RuleScope.MY_ORG)
+      .subscribe(userCanEditOrg => this.canEditOrg = userCanEditOrg);
+    this.ruleProvider.hasRuleWithMinScope(RuleType.CREATE_ORG, RuleScope.MINE)
+      .subscribe(userCanCreateOrg => this.canCreateOrg = userCanCreateOrg);
   }
 
   openCreateOrganization() {

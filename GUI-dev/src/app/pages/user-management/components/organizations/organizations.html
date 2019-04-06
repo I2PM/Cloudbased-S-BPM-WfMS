@@ -1,21 +1,18 @@
 <div class='row'>
   <toaster-container [toasterconfig]='config'></toaster-container>
 </div>
-<div>
-  <toaster-container [toasterconfig]='config'></toaster-container>
-  <h5 *ngIf='this.inOrganization === false'>You are currently not a member of an organization.</h5>
-  <button *ngIf='this.inOrganization === false' class='btn btn-primary btn-sm' (click)='openCreateOrganization()'>create
-    new organization
+<div *ngIf='this.inOrganization === false'>
+  <h5>You are currently not a member of an organization.</h5>
+  <button *ngIf='this.canCreateOrg' class='btn btn-primary btn-sm' (click)='openCreateOrganization()'>Create
+    new Organization
   </button>
-  <button *ngIf='this.inOrganization === true' class='btn btn-primary btn-sm' (click)='changeOrganization()'>Change
+</div>
+
+<div *ngIf='this.inOrganization'>
+  <button *ngIf='this.canEditOrg' class='btn btn-primary btn-sm' (click)='changeOrganization()'>Change
     Organization
   </button>
   <br/><br>
-</div>
-
-<!-- Danach wieder einblenden -->
-<!-- <div *ngIf='this.inOrganization === true'> -->
-<div>
   <h1>Your Organization: {{organizationName}}</h1>
   <h4>Description: </h4>
   <p>{{organizationDescription}}</p>

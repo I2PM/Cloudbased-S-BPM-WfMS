@@ -3,8 +3,6 @@ import {StoreProcess, User} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NbAccessChecker} from '@nebular/security';
 import {RoleProvider} from '../../role.provider';
-import {RuleInfo, RuleProvider, RuleScope} from '../../rule.provider';
-
 
 @Component({
   selector: 'ngx-user-management',
@@ -19,9 +17,6 @@ export class UserManagementComponent implements OnInit {
   tabName: any[];
   user: User;
   isUser: boolean;
-
-  ruleInfo: RuleInfo;
-
 
   inOrganization: boolean;
 
