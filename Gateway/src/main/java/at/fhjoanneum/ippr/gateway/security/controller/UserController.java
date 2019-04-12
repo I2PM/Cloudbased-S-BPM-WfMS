@@ -2,6 +2,8 @@ package at.fhjoanneum.ippr.gateway.security.controller;
 
 import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
 import at.fhjoanneum.ippr.gateway.security.authentication.AuthenticationService;
+import at.fhjoanneum.ippr.gateway.security.persistence.DTOFactory;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
@@ -19,10 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -60,7 +59,7 @@ public class UserController {
 
     final LoginResponse loginResponse = new LoginResponse(
         Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getUId())
-            .claim("email", user.getEmail()).claim("roles", roles)
+            .claim("email", user.getEmail())
             .claim("rules", rules).setIssuedAt(new Date())
             .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(1)))
             .signWith(SignatureAlgorithm.HS256, "secretkey").compact());
@@ -123,8 +122,22 @@ public class UserController {
 
   }
 
+  @RequestMapping(value = "api/user/myOrg", method = RequestMethod.GET)
+  public @ResponseBody Callable<List<UserDTO>> getUsersFromOrg(final HttpServletRequest request){
+    return () -> {
+      Organization orgMine = getLoggedInUser(request).getOrganization();
+      if (orgMine == null){
+        return new ArrayList<>();
+      }
+      return orgMine.getEmployees().stream().map(user -> DTOFactory.createUserDTO(user)).collect(Collectors.toList());
+    };
+  }
+
+
+
+
   @RequestMapping(value = "api/processes/users/rule/{rules}", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<UserDTO>> getPossibleUsers(
+  public @ResponseBody Callable<List<UserDTO>> getUsersWithRule(
       @PathVariable("rules") final String[] rules) {
 
     return () -> {

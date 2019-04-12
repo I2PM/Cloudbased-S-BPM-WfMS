@@ -10,20 +10,26 @@ public class RuleDTO implements Serializable {
   private static final long serialVersionUID = 1L;
 
   private Long ruleId;
-  private String ruleName;
+  private String type;
+  private String scope;
 
   public RuleDTO() {}
 
-  public RuleDTO(final Long ruleId, final String ruleName) {
+  public RuleDTO(Long ruleId, String type, String scope) {
     this.ruleId = ruleId;
-    this.ruleName = ruleName;
+    this.type = type;
+    this.scope = scope;
   }
 
   public Long getRuleId() {
     return ruleId;
   }
 
-  public String getRuleName() {
-    return ruleName;
+  public String getType() {
+    return type;
+  }
+
+  public String getScope() {
+    return scope;
   }
 }

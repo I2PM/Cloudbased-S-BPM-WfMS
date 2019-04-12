@@ -22,7 +22,11 @@ import {ValidatedProcessesComponent} from './dashboard/components/validatedProce
 import {CreateOrgaModalComponent} from './dashboard/components/createOrgaModal/createOrgaModal.component';
 
 import {ApprovalAuthGuard} from '../approval-auth-guard.service';
-
+import {UserManagementComponent} from './user-management/user-management.component';
+import {OrganizationsComponent} from './user-management/components/organizations';
+import {AllUsersComponent} from './user-management/components/allUsers';
+import {AllRolesComponent} from './user-management/components/allRoles';
+import {EditOrgaModalComponent} from './user-management/components/editOrgaModal/editOrgaModal.component';
 
 
 const routes: Routes = [{
@@ -59,6 +63,31 @@ const routes: Routes = [{
 
         },
 
+      ],
+    },
+    {
+      path: 'user-management',
+      component: UserManagementComponent,
+      canActivate: [AuthGuard],
+      children: [{
+        path: '',
+        redirectTo: 'organizations',
+        pathMatch: 'full',
+      }, {
+        path: 'organizations',
+        component: OrganizationsComponent,
+      }, {
+        path: 'allUsers',
+        component: AllUsersComponent,
+      }, {
+        path: 'allRoles',
+        component: AllRolesComponent,
+      },
+        {
+          path: 'editOrgaModalView',
+          component: EditOrgaModalComponent,
+
+        },
       ],
     },
     {

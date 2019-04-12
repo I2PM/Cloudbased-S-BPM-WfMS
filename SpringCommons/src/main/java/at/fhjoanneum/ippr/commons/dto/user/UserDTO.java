@@ -8,42 +8,48 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class UserDTO implements Serializable {
 
-  private static final long serialVersionUID = 7692113492836757571L;
+    private static final long serialVersionUID = 7692113492836757571L;
 
-  private Long uId;
-  private String firstname;
-  private String lastname;
-  private List<RoleDTO> roles;
-  private List<RuleDTO> rules;
+    private Long uId;
+    private String firstname;
+    private String lastname;
+    private List<RoleDTO> roles;
+    private String email;
+    private String organization;
 
-  public UserDTO() {}
+    public UserDTO() {
+    }
 
-  public UserDTO(final Long uId, final String firstname, final String lastname,
-      final List<RoleDTO> roles, final List<RuleDTO> rules) {
-    this.uId = uId;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.roles = roles;
-    this.rules = rules;
-  }
+    public UserDTO(Long uId, String firstname, String lastname, List<RoleDTO> roles, String email, String organization) {
+        this.uId = uId;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.roles = roles;
+        this.email = email;
+        this.organization = organization;
+    }
 
-  public Long getUId() {
-    return uId;
-  }
+    public Long getUId() {
+        return uId;
+    }
 
-  public String getFirstname() {
-    return firstname;
-  }
+    public String getFirstname() {
+        return firstname;
+    }
 
-  public String getLastname() {
-    return lastname;
-  }
+    public String getLastname() {
+        return lastname;
+    }
 
-  public List<RoleDTO> getRoles() {
-    return roles;
-  }
+    public List<RoleDTO> getRoles() {
+        return roles;
+    }
 
-  public List<RuleDTO> getRules() {
-    return rules;
-  }
+    public String getEmail() {
+        return email;
+    }
+
+    public String getOrganization() {
+        return organization;
+    }
 }
