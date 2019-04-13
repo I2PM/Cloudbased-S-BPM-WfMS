@@ -15,6 +15,13 @@
       "es2017",
       "dom"
     ],
+    "types": [
+      "hammerjs",
+      "node",
+      "source-map",
+      "uglify-js",
+      "webpack"
+    ],
     "plugins": [
       { "name": "tslint-language-service"}
     ]
