@@ -190,8 +190,7 @@ public class UserImpl implements User, Serializable {
 
   @Override
   public Set<Rule> getRules() {
-    return ImmutableSet.copyOf(roles.stream().map(Role::getRules).flatMap(List::stream)
-        .map(rule -> rule).collect(Collectors.toSet()));
+    return ImmutableSet.copyOf(roles.stream().map(Role::getRules).flatMap(List::stream).collect(Collectors.toSet()));
   }
 
   @Override

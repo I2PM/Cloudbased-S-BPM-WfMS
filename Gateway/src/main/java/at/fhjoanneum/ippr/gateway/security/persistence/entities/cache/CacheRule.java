@@ -1,36 +1,32 @@
 package at.fhjoanneum.ippr.gateway.security.persistence.entities.cache;
 
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+
 public class CacheRule {
 
-  private final String systemId;
-  private final String name;
+    private final String scope;
+    private final String type;
+    private final String systemId;
 
-  public CacheRule(final String systemId, final String name) {
-    this.systemId = systemId;
-    this.name = name;
-  }
-
-  public String getSystemId() {
-    return systemId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == null) {
-      return false;
+    public CacheRule(final String systemId, final String type, final String scope) {
+        this.type = type;
+        this.scope = scope;
+        this.systemId = systemId;
     }
-    if (!CacheRule.class.isAssignableFrom(obj.getClass())) {
-      return false;
+
+    public String getScope() {
+        return scope;
     }
-    final CacheRule other = (CacheRule) obj;
-    if ((this.systemId == null) ? (other.getSystemId() != null)
-        : !this.systemId.equals(other.getSystemId())) {
-      return false;
+
+    public String getType() {
+        return type;
     }
-    return true;
-  }
+
+    public String getSystemId() {
+        return systemId;
+    }
+
+    public boolean equalsRule(Rule rule) {
+        return rule.getType().equals(type) && rule.getScope().equals(scope);
+    }
 }

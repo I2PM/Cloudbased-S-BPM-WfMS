@@ -51,7 +51,7 @@ dependencies {
 	compile 'org.apache.jena:apache-jena-libs:3.1.1'
 
 	// database
-	runtime 'mysql:mysql-connector-java'
+	runtime 'mysql:mysql-connector-java:5.1.46'
 	testRuntime 'com.h2database:h2'
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test')
@@ -74,15 +74,4 @@ test {
     systemProperties = [
             'spring.profiles.active': 'test'
     ]
-}
-
-task copyJarToBin {
-	String relativeProjectPath = project.projectDir.path.replace(project.name, "")
-	String dest = relativeProjectPath+"/builds"
-	
-    copy {
-        from 'build/libs'
-        into dest
-		exclude '*.original'
-    }
 }

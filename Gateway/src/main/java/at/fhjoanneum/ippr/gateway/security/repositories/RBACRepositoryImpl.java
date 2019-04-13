@@ -19,8 +19,6 @@ import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 
-import static org.bouncycastle.asn1.x509.X509ObjectIdentifiers.organization;
-
 @Repository
 public class RBACRepositoryImpl implements RBACRepository {
 
