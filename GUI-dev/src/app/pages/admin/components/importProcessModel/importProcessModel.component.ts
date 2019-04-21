@@ -3,6 +3,7 @@ import { OnInit } from '@angular/core';
 import { ProcessesService } from '../../../../allProcesses.service';
 import * as $ from 'jquery';
 import './importModelFormBuilder.loader.ts';
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 
 
 @Component({
@@ -24,10 +25,12 @@ export class ImportProcessModel implements OnInit {
   owlFile;
   version = 5;
 
-  constructor(protected service: ProcessesService) {
+  constructor(protected service: ProcessesService, private gateway: GatewayProvider) {
   }
 
   ngOnInit(): void {
+    this.processModel = this.service.getCurrentProcessModel();
+    console.log(this.processModel);
   }
 
   onFileChange(event) {
@@ -49,7 +52,8 @@ export class ImportProcessModel implements OnInit {
         that.service.uploadOWLModel(body)
           .subscribe(
             data => {
-              that.processModel = JSON.parse(data['_body']);
+              console.log(data);
+              that.processModel = data;
               that.processModel.boms.forEach(businessObject => {
                 that.buildedBusinessObjects[businessObject.id] = {};
               });

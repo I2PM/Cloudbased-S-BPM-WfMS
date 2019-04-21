@@ -4,6 +4,9 @@ import {StoreProcess} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProcessstoreDetailsModalComponent} from './modal/processstore-details.modal';
+import {ImportProcessModel} from "../admin/components/importProcessModel";
+import {ProcessesService} from "../../allProcesses.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-processstore-details',
@@ -22,7 +25,9 @@ export class ProcessStoreDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private gateway: GatewayProvider,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private processService: ProcessesService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -36,6 +41,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
       .then((process) => {
         this.process = process;
       });
+    this
 
     // the the oid of the current user
     this.gateway.getUser()
@@ -85,7 +91,12 @@ export class ProcessStoreDetailsComponent implements OnInit {
   // configuring the process
   // TODO: implement configure process
   configureProcess() {
-    // console.log("configure process");
+    // TODO Call ImportProcessModel with bought process
+    console.log('configure process');
+    this.processService.setCurrentProcessModel(this.process);
+    this.router.navigateByUrl('/admin/import').then((msg) => {
+      console.log(msg);
+    }).catch((err) => console.log(err));
   }
 
   // starting the process

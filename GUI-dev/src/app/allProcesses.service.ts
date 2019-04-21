@@ -7,6 +7,16 @@ export class ProcessesService {
 
   restApi = window.location.protocol + '//' + window.location.hostname + ':10000/api';
 
+  currentProcessModel;
+
+  getCurrentProcessModel(): any {
+    return this.currentProcessModel;
+  }
+
+  setCurrentProcessModel(processModel: any) {
+    this.currentProcessModel = processModel;
+  }
+
   constructor(private _authHttp: HttpClient, private _user: User) {
 
   }

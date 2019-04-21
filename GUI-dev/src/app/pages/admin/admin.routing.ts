@@ -27,4 +27,4 @@ const routes: Routes = [
   },
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const adminrouting = RouterModule.forChild(routes);

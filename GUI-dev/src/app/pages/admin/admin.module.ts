@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { AdminComponent } from './admin.component';
-import { routing } from './admin.routing';
+import { adminrouting } from './admin.routing';
 
 import { ActiveProcessesComponent } from './components/activeProcesses/activeProcesses.component';
 import { TerminatedProcessesComponent } from './components/terminatedProcesses/terminatedProcesses.component';
@@ -21,7 +21,7 @@ import {ImportProcessModel} from './components/importProcessModel/importProcessM
   imports: [
     CommonModule,
     FormsModule,
-    routing,
+    adminrouting,
     ThemeModule,
   ],
   declarations: [
