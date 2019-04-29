@@ -34,10 +34,11 @@ export class CreateProcessComponent implements OnInit {
   }
 
 
-  createProcess(form): void {
+  createProcess(): void {
     this.process.processCreator = this.creator;
     this.gateway.createProcess(this.process)
       .then(data => {this.gateway.uploadOWLModel(data.processId, this.owlFile); })
-      .then(data => {this.router.navigateByUrl('/dashboard')});
+      .then(() => {this.router.navigateByUrl('/dashboard')});
+
   }
 }
