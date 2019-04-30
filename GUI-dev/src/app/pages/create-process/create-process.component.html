@@ -4,34 +4,43 @@
     <nb-card>
       <nb-card-header>Create a new process</nb-card-header>
     <nb-card-body>
+     <h2>Process details</h2>
       <form (ngSubmit)="createProcess()" #form="ngForm" >
       <div class="form-group">
         <label for="input-processname" class="sr-only">Process name</label>
         <input name="processname" [(ngModel)]="process.processName" id="input-processname" #processname="ngModel"
-               class="form-control" placeholder="Process name"
+               class="form-control inputfields" placeholder="Process name"
                autofocus
                [required]="true">
       </div>
       <div class="form-group">
         <label for="input-processdecription" class="sr-only">Process description</label>
         <input name="processdescription" [(ngModel)]="process.processDescription" id="input-processdecription" #processdescription="ngModel"
-               class="form-control" placeholder="Process description"
+               class="form-control inputfields" placeholder="Process description"
                autofocus
                [required]="true">
       </div>
       <div class="form-group">
         <label for="input-processprice" class="sr-only">Process price</label>
         <input name="processprice" [(ngModel)]="process.processPrice" id="input-processprice" #processprice="ngModel"
-               class="form-control" placeholder="Process price" ng-pattern="integerval" type="number"
+               class="form-control inputfields" placeholder="Process price" ng-pattern="integerval" type="number"
                autofocus
                [required]="true">
       </div>
         <form #owlModelForm="ngForm" enctype="multipart/form-data">
           <label class="control-label">OWL-File: </label>
-            <input type="file" name="fileUpload" id="fileUpload" class="form-control" accept=".owl," (change)="onFileChange($event)">
+            <input type="file" name="fileUpload" id="fileUpload" class="form-control inputfields" accept=".owl," (change)="onFileChange($event)">
           <br>
         </form>
 
+        <h2>Process Approver</h2>
+        <div class="form-group">
+          <label for="input-processApprover" class="sr-only">Process price</label>
+          <input name="processprice" [(ngModel)]="process.processApprover" id="input-processApprover"
+                 class="form-control inputfields" placeholder="Approver" type="Name"
+                 autofocus
+                 [required]="true">
+        </div>
       <button [disabled]="(!owlFile || !form.valid)" class="btn btn-block btn-hero-success" ng-click="createProcess()">
         Create new process
       </button>

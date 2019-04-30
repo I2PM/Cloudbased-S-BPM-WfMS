@@ -22,7 +22,7 @@
 <div class="row" *nbIsGranted="['view', 'home']">
   <div class="col-6">
     <div>
-      <img src="../../../../assets/easybizlogo.png" width="100%" height="100%" style="margin-top:10%">
+      <img src="../../../../assets/easybizlogo.png" width="50%" style="margin-top:10%">
     </div>
     <!--    <nb-card>
           <nb-card-header>most popular processes</nb-card-header>
@@ -33,7 +33,7 @@
   </div>
   <div class="col-6">
     <nb-card>
-      <nb-card-header>latest processes</nb-card-header>
+      <nb-card-header>My latest processes</nb-card-header>
       <nb-card-body>
         <button *ngFor="let process of processesByDate" class="btn btn-outline-primary btn-block" type="button" (click)="showDetails(process.processId)">{{process.processName}}</button>
       </nb-card-body>
