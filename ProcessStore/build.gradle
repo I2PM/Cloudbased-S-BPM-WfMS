@@ -46,7 +46,7 @@ dependencies {
 	compile('org.hibernate:hibernate-core:5.2.4.Final')
 	compile('org.apache.jena:apache-jena-libs:3.1.1')
 
-	runtime('mysql:mysql-connector-java')
+	runtime('mysql:mysql-connector-java:5.1.46')
 	testRuntime('com.h2database:h2')
 
 

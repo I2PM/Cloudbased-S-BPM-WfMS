@@ -1,36 +1,31 @@
 package at.fhjoanneum.ippr.gateway.security.persistence.entities.cache;
 
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+
 public class CacheRule {
+    private final String systemId;
+    private final CacheResource resource;
+    private final CacheCrudType crudType;
 
-  private final String systemId;
-  private final String name;
-
-  public CacheRule(final String systemId, final String name) {
-    this.systemId = systemId;
-    this.name = name;
-  }
-
-  public String getSystemId() {
-    return systemId;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (obj == null) {
-      return false;
+    public CacheRule(String systemId, CacheResource resource, CacheCrudType crudType) {
+        this.systemId = systemId;
+        this.resource = resource;
+        this.crudType = crudType;
     }
-    if (!CacheRule.class.isAssignableFrom(obj.getClass())) {
-      return false;
+
+    public String getSystemId() {
+        return systemId;
     }
-    final CacheRule other = (CacheRule) obj;
-    if ((this.systemId == null) ? (other.getSystemId() != null)
-        : !this.systemId.equals(other.getSystemId())) {
-      return false;
+
+    public CacheResource getResource() {
+        return resource;
     }
-    return true;
-  }
+
+    public CacheCrudType getCrudType() {
+        return crudType;
+    }
+
+    public static CacheRule fromRule(Rule r) {
+        return new CacheRule(r.getSystemId(), CacheResource.fromResource(r.getResource()), CacheCrudType.fromCrudType(r.getCrudType()));
+    }
 }

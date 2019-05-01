@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 
 @Entity(name = "user")
@@ -190,8 +189,7 @@ public class UserImpl implements User, Serializable {
 
   @Override
   public Set<Rule> getRules() {
-    return ImmutableSet.copyOf(roles.stream().map(Role::getRules).flatMap(List::stream)
-        .map(rule -> rule).collect(Collectors.toSet()));
+    return ImmutableSet.copyOf(roles.stream().map(Role::getRules).flatMap(List::stream).collect(Collectors.toSet()));
   }
 
   @Override

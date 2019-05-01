@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {StoreProcess, User} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NbAccessChecker} from '@nebular/security';
 import {RoleProvider} from '../../role.provider';
+import {RuleProvider, RuleScope, RuleType} from '../../rule.provider';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class DashboardComponent {
   bestRatedProcess: StoreProcess = new StoreProcess();
   tabName: any[];
   user: User;
-  isUser: boolean;
+  canApprove: boolean;
   inOrganization: boolean;
 
   tabsApprover: any[] = [
@@ -43,7 +44,7 @@ export class DashboardComponent {
   ];
 
   constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker,
-              private roleProvider: RoleProvider) {
+              private ruleProvider: RuleProvider) {
 
     this.getFavoriteProcesses();
 
@@ -53,7 +54,8 @@ export class DashboardComponent {
     this.gateway.getUser()
       .then((user) => {
         this.user = user;
-         this.roleProvider.getRole().subscribe(role => this.isUser = role === 'USER' )
+        this.ruleProvider.hasRuleWithMinScope(RuleType.APPROVE_PROCESS, RuleScope.MY_ORG)
+          .subscribe(canApprove => this.canApprove = canApprove);
       })
 
   }
