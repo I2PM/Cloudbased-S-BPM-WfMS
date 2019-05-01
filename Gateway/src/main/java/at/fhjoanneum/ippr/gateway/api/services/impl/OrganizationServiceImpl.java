@@ -60,10 +60,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         Boolean isPartOfOrg = user.getRoles().stream().anyMatch(role -> role.getName().equals("ORG_CEO") || role.getName().equals("ORG_EMP"));
         Optional<Role> ceoRole = rbacService.getRoleByRoleName("ORG_CEO").get();
 
-        if (!isPartOfOrg && ceoRole.isPresent()) {
+        if (!isPartOfOrg) {
             List<Role> newUserRoles = Lists.newArrayList();
             newUserRoles.addAll(user.getRoles());
-            newUserRoles.add(ceoRole.get());
             user.setRoles(newUserRoles);
         } else {
             return Optional.empty();

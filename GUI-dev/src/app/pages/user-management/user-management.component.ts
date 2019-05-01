@@ -16,7 +16,6 @@ export class UserManagementComponent implements OnInit {
   bestRatedProcess: StoreProcess = new StoreProcess();
   tabName: any[];
   user: User;
-  isUser: boolean;
 
   inOrganization: boolean;
 
@@ -74,7 +73,6 @@ export class UserManagementComponent implements OnInit {
     this.gateway.getUser()
       .then((user) => {
         this.user = user;
-        this.roleProvider.getRole().subscribe(role => this.isUser = role === 'USER')
       })
 
   }

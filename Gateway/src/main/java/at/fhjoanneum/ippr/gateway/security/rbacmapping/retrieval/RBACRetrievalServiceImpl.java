@@ -1,9 +1,6 @@
 package at.fhjoanneum.ippr.gateway.security.rbacmapping.retrieval;
 
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheOrganization;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRole;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRule;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheUser;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.*;
 import au.com.bytecode.opencsv.CSVReader;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Maps;
@@ -12,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -48,48 +46,49 @@ public class RBACRetrievalServiceImpl implements RBACRetrievalService {
         return roles;
     }
 
+
     private Map<String, CacheRule> readRules(String csvPath) {
         final Map<String, CacheRule> rules = Maps.newHashMap();
+        List<List<String>> lines = this.readCsvLines(csvPath, "rules.csv");
 
-        try (final InputStream is = this.getClass().getResourceAsStream(csvPath + "rules.csv");
+        for (List<String> line : lines) {
+            final CacheResource resource = new CacheResource(line.get(RuleRow.RESOURCE.index));
+            final CacheCrudType crudType = new CacheCrudType(line.get(RuleRow.CRUD_TYPE.index));
+            final CacheRule rule =
+                    new CacheRule(line.get(RuleRow.SYSTEM_ID.index), resource, crudType);
+            rules.put(rule.getSystemId(), rule);
+        }
+        return rules;
+    }
+
+    private List<List<String>> readCsvLines(String csvPath, String csvFileName) {
+        List<List<String>> csvLines = new ArrayList<>();
+        try (final InputStream is = this.getClass().getResourceAsStream(csvPath + csvFileName);
              CSVReader reader = new CSVReader(new InputStreamReader(is), '\n', '\'', 1)) {
 
             String[] nextLine;
             while ((nextLine = reader.readNext()) != null) {
                 final List<String> values =
                         Splitter.on(';').omitEmptyStrings().trimResults().splitToList(nextLine[0]);
-
-                final CacheRule rule =
-                        new CacheRule(values.get(RuleRow.SYSTEM_ID.index), values.get(RuleRow.TYPE.index), values.get(RuleRow.SCOPE.index));
-                rules.put(rule.getSystemId(), rule);
+                csvLines.add(values);
             }
         } catch (final Exception e) {
             LOG.error(e.getMessage());
         }
-
-        return rules;
+        return csvLines;
     }
+
 
     private Map<String, CacheRole> readRoles(final Map<String, CacheRule> rules, String csvPath) {
         final Map<String, CacheRole> roles = Maps.newHashMap();
 
-        try (final InputStream is = this.getClass().getResourceAsStream(csvPath + "roles.csv");
-             CSVReader reader = new CSVReader(new InputStreamReader(is), '\n', '\'', 1)) {
-
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                final List<String> roleRow =
-                        Splitter.on(';').omitEmptyStrings().trimResults().splitToList(nextLine[0]);
-                final String roleRulesRaw = RoleRow.RULES.index < roleRow.size() ? roleRow.get(RoleRow.RULES.index) : "";
-                final List<CacheRule> roleRules =
-                        Splitter.on(',').omitEmptyStrings().trimResults().splitToList(roleRulesRaw).stream()
-                                .map(systemId -> rules.get(systemId)).collect(Collectors.toList());
-                final CacheRole role = new CacheRole(roleRow.get(RoleRow.SYSTEM_ID.index),
-                        roleRow.get(RoleRow.NAME.index), roleRules);
-                roles.put(role.getSystemId(), role);
-            }
-        } catch (final Exception e) {
-            LOG.error(e.getMessage());
+        for (List<String> line : readCsvLines(csvPath, "roles.csv")) {
+            final String roleRulesRaw = RoleRow.RULES.index < line.size() ? line.get(RoleRow.RULES.index) : "";
+            final List<CacheRule> roleRules = Splitter.on(',').omitEmptyStrings().trimResults().splitToList(roleRulesRaw).stream()
+                    .map(systemId -> rules.get(systemId)).collect(Collectors.toList());
+            final CacheRole role = new CacheRole(line.get(RoleRow.SYSTEM_ID.index),
+                    line.get(RoleRow.NAME.index), roleRules);
+            roles.put(role.getSystemId(), role);
         }
         return roles;
     }
@@ -97,31 +96,21 @@ public class RBACRetrievalServiceImpl implements RBACRetrievalService {
     private Map<String, CacheUser> readUsers(final Map<String, CacheRole> roles, String csvPath) {
         final Map<String, CacheUser> users = Maps.newHashMap();
 
-        try (final InputStream is = this.getClass().getResourceAsStream(csvPath + "users.csv");
-             CSVReader reader = new CSVReader(new InputStreamReader(is), '\n', '\'', 1)) {
+        for (List<String> line : readCsvLines(csvPath, "users.csv")) {
+            final String userRolesRaw = line.get(UserRow.ROLES.index);
+            final List<CacheRole> userRoles =
+                    Splitter.on(',').omitEmptyStrings().trimResults().splitToList(userRolesRaw).stream()
+                            .map(role -> roles.get(role)).collect(Collectors.toList());
 
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                final List<String> values =
-                        Splitter.on(';').omitEmptyStrings().trimResults().splitToList(nextLine[0]);
-
-                final String userRolesRaw = values.get(UserRow.ROLES.index);
-                final List<CacheRole> userRoles =
-                        Splitter.on(',').omitEmptyStrings().trimResults().splitToList(userRolesRaw).stream()
-                                .map(role -> roles.get(role)).collect(Collectors.toList());
-
-                final CacheUser cacheUser = new CacheUser(values.get(UserRow.SYSTEM_ID.index),
-                        values.get(UserRow.FIRST_NAME.index),
-                        values.get(UserRow.LAST_NAME.index),
-                        values.get(UserRow.USER_NAME.index),
-                        values.get(UserRow.EMAIL.index),
-                        //values.get(UserRow.ORGANISATION.index),
-                        userRoles,
-                        values.get(UserRow.PASSWORD.index));
-                users.put(cacheUser.getEmail(), cacheUser);
-            }
-        } catch (final Exception e) {
-            LOG.error(e.getMessage());
+            final CacheUser cacheUser = new CacheUser(line.get(UserRow.SYSTEM_ID.index),
+                    line.get(UserRow.FIRST_NAME.index),
+                    line.get(UserRow.LAST_NAME.index),
+                    line.get(UserRow.USER_NAME.index),
+                    line.get(UserRow.EMAIL.index),
+                    //values.get(UserRow.ORGANISATION.index),
+                    userRoles,
+                    line.get(UserRow.PASSWORD.index));
+            users.put(cacheUser.getEmail(), cacheUser);
         }
         return users;
     }
@@ -148,7 +137,7 @@ public class RBACRetrievalServiceImpl implements RBACRetrievalService {
     }
 
     private enum RuleRow {
-        SYSTEM_ID(0), TYPE(1), SCOPE(2);
+        SYSTEM_ID(0), RESOURCE(1), CRUD_TYPE(2);
 
         private final int index;
 

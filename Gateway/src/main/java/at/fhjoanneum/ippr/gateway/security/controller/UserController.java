@@ -1,11 +1,12 @@
 package at.fhjoanneum.ippr.gateway.security.controller;
 
+import at.fhjoanneum.ippr.commons.dto.user.RoleDTO;
 import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
+import at.fhjoanneum.ippr.gateway.api.services.OrganizationService;
 import at.fhjoanneum.ippr.gateway.security.authentication.AuthenticationService;
 import at.fhjoanneum.ippr.gateway.security.persistence.DTOFactory;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 import at.fhjoanneum.ippr.gateway.security.registration.RegistrationService;
 import at.fhjoanneum.ippr.gateway.security.services.RBACService;
@@ -31,6 +32,9 @@ import java.util.stream.Collectors;
 public class UserController {
 
   @Autowired
+  private OrganizationService organizationService;
+
+  @Autowired
   private AuthenticationService authenticationService;
 
   @Autowired
@@ -51,16 +55,12 @@ public class UserController {
 
     final User user = userOpt.get();
 
-    final List<String> roles =
-        user.getRoles().stream().map(Role::getName).collect(Collectors.toList());
-
-    final List<Rule> rules = user.getRoles().stream().map(Role::getRules).flatMap(List::stream)
-        .collect(Collectors.toList());
+    final List<RoleDTO> roles = DTOFactory.toDTO(user).getRoles();
 
     final LoginResponse loginResponse = new LoginResponse(
         Jwts.builder().setSubject(user.getUsername()).claim("userId", user.getUId())
             .claim("email", user.getEmail())
-            .claim("rules", rules).setIssuedAt(new Date())
+            .claim("roles", roles).setIssuedAt(new Date())
             .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusWeeks(1)))
             .signWith(SignatureAlgorithm.HS256, "secretkey").compact());
 
@@ -129,11 +129,12 @@ public class UserController {
       if (orgMine == null){
         return new ArrayList<>();
       }
-      return orgMine.getEmployees().stream().map(user -> DTOFactory.createUserDTO(user)).collect(Collectors.toList());
+      return orgMine.getEmployees().stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList());
     };
   }
 
-
+  //all Orgs
+  //List<Organization> allOrganizations = organizationService.getOrganizations().get();
 
 
   @RequestMapping(value = "api/processes/users/rule/{rules}", method = RequestMethod.GET)
@@ -146,7 +147,7 @@ public class UserController {
   }
 
   @RequestMapping(value = "api/rules", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<Rule>> getRules() {
+  public @ResponseBody Callable<List<Resource>> getRules() {
     return () -> {
       return rbacService.getRules().get();
     };

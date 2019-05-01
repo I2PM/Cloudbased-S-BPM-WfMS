@@ -5,14 +5,14 @@ import java.util.List;
 
 @XmlRootElement
 public class RoleDTO {
-
   private String roleName;
   private Long roleId;
   private List<RuleDTO> rules;
 
+
   public RoleDTO() {}
 
-  public RoleDTO(final Long roleId, final String roleName, final List<RuleDTO> rules) {
+  public RoleDTO(String roleName, Long roleId, List<RuleDTO> rules) {
     this.roleName = roleName;
     this.roleId = roleId;
     this.rules = rules;

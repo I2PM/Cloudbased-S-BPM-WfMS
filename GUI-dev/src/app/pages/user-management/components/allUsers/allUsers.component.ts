@@ -38,10 +38,14 @@ export class AllUsersComponent implements OnInit {
 
   }
 
-
-  ngOnInit() {
+  initializeUsers() {
     this.gateway.getUsersOfMyOrg()
       .then((users) => this.users = users);
+  }
+
+
+  ngOnInit() {
+    this.initializeUsers();
     this.gateway.getUser()
       .then((user) => {
         this.user = user;

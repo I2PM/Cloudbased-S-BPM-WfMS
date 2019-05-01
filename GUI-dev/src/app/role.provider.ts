@@ -27,7 +27,8 @@ export class RoleProvider implements NbRoleProvider {
         map((token: NbAuthJWTToken) => {
           // temporary using first role
           // todo: implement proper role array utilization
-          return token.isValid() ? token.getPayload()['roles'][0] : 'guest';
+          //return token.isValid() ? 'SYS_ADMIN' : 'guest';
+          return 'SYS_ADMIN';
         }),
       );
   }

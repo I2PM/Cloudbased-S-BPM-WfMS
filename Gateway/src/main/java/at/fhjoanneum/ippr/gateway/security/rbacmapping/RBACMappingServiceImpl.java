@@ -1,14 +1,8 @@
 package at.fhjoanneum.ippr.gateway.security.rbacmapping;
 
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.RoleBuilder;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.RuleBuilder;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.UserBuilder;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRole;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRule;
-import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheUser;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.*;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.*;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.*;
 import at.fhjoanneum.ippr.gateway.security.rbacmapping.retrieval.RBACRetrievalService;
 import at.fhjoanneum.ippr.gateway.security.repositories.RBACRepository;
 import com.google.common.collect.Maps;
@@ -45,7 +39,7 @@ public class RBACMappingServiceImpl implements RBACMappingService {
     private String rbacAuthStrategy;
 
 
-    private final Map<String, Rule> rulesCache = Maps.newHashMap();
+    private final Map<String, Rule> ruleCache = Maps.newHashMap();
     private final Map<String, Role> rolesCache = Maps.newHashMap();
 
     @Override
@@ -69,18 +63,23 @@ public class RBACMappingServiceImpl implements RBACMappingService {
         rules.forEach((key, rule) -> {
             final Optional<Rule> ruleOpt = rbacRepository.getRuleBySystemId(rule.getSystemId());
             if (!ruleOpt.isPresent()) {
+                final Resource dbResource = getOrCreateResource(rule.getResource());
+                final CrudType dbCrudType = getOrCreateCrudType(rule.getCrudType());
                 final Rule dbRule =
-                        new RuleBuilder().systemId(rule.getSystemId()).scope(rule.getScope()).type(rule.getType()).build();
-                rulesCache.put(rule.getSystemId(), rbacRepository.saveRule(dbRule));
-            } else {
-                if (!rule.equalsRule(ruleOpt.get())) {
-                    ruleOpt.get().setScope(rule.getScope());
-                    ruleOpt.get().setType(rule.getType());
-                    rbacRepository.saveRule(ruleOpt.get());
-                }
-                rulesCache.put(rule.getSystemId(), ruleOpt.get());
+                        new RuleBuilder().systemId(rule.getSystemId()).resource(dbResource).crudType(dbCrudType).build();
+                ruleCache.put(rule.getSystemId(), rbacRepository.saveRule(dbRule));
             }
         });
+    }
+
+    private CrudType getOrCreateCrudType(CacheCrudType cachedType) {
+        final Optional<CrudType> crudType = rbacRepository.getCrudTypeBySystemId(cachedType.getSystemId());
+        return crudType.orElseGet(() -> rbacRepository.saveCrudType(new CrudTypeImpl(cachedType.getSystemId())));
+    }
+
+    private Resource getOrCreateResource(CacheResource cachedResource) {
+        final Optional<Resource> resource = rbacRepository.getRescourceBySystemId(cachedResource.getSystemId());
+        return resource.orElseGet(() -> rbacRepository.saveResource(new ResourceImpl(cachedResource.getSystemId())));
     }
 
     private void storeRoles(final Map<String, CacheRole> roles) {
@@ -89,8 +88,7 @@ public class RBACMappingServiceImpl implements RBACMappingService {
             if (!roleOpt.isPresent()) {
                 final RoleBuilder roleBuilder =
                         new RoleBuilder().systemId(role.getSystemId()).name(role.getName());
-                role.getRules().stream().map(rule -> rulesCache.get(rule.getSystemId()))
-                        .forEach(roleBuilder::addRule);
+                role.getRules().stream().map(rule -> ruleCache.get(rule.getSystemId())).forEach(roleBuilder::addRule);
                 rolesCache.put(role.getSystemId(), rbacRepository.saveRole(roleBuilder.build()));
             } else {
                 updateRole(role, roleOpt);
@@ -106,21 +104,18 @@ public class RBACMappingServiceImpl implements RBACMappingService {
         }
 
         boolean toUpdate = false;
-        if (dbRole.getRules().size() != role.getRules().size()) {
+        if (dbRole.getRules().size() == role.getRules().size()) {
             toUpdate = true;
+
         }
         if (!toUpdate) {
-            final Map<String, Rule> dbRules =
-                    dbRole.getRules().stream().collect(Collectors.toMap(Rule::getSystemId, r -> r));
-            if (role.getRules().stream().filter(rule -> !dbRules.containsKey(rule.getSystemId()))
-                    .count() >= 1) {
-                toUpdate = true;
-            }
+            List<CacheRule> rulesInDb = dbRole.getRules().stream().map(rule -> CacheRule.fromRule(rule)).collect(Collectors.toList());
+            toUpdate = rulesInDb.containsAll(role.getRules());
         }
 
         if (toUpdate) {
             final List<Rule> newRules = role.getRules().stream()
-                    .map(rule -> rulesCache.get(rule.getSystemId())).collect(Collectors.toList());
+                    .map(rule -> ruleCache.get(rule.getSystemId())).collect(Collectors.toList());
             dbRole.setRules(newRules);
             rbacRepository.saveRole(dbRole);
         }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import { GatewayProvider } from '../../@theme/providers/backend-server/gateway';
+import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {AverageRating, StoreProcess} from '../../../models/models';
 import {Router} from '@angular/router';
 import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
@@ -31,9 +31,7 @@ export class HomeComponent implements OnInit {
         } else {
           this.authenticated = false;
         }
-      })
-
-
+      }, error => console.error(error.toString()));
   }
 
   ngOnInit() {
@@ -64,15 +62,15 @@ export class HomeComponent implements OnInit {
     const processes: StoreProcess[] = [];
     Promise.all(processArray.map(
       (process) => this.gateway.getAverageRating(process.processId).then(
-      (average) => {
-        this.ratings.push(average);
-        processes.push(process);
-      },
+        (average) => {
+          this.ratings.push(average);
+          processes.push(process);
+        },
       ))).then(
       () => {
-      const combination = this.ratings.map((rating, i) => {
-        return [rating.averageRating, processes[i]]
-      });
+        const combination = this.ratings.map((rating, i) => {
+          return [rating.averageRating, processes[i]]
+        });
         combination.sort((a, b) => {
           if (a[0] === b[0]) {
             return 0;

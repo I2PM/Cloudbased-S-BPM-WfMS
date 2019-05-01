@@ -10,18 +10,15 @@ import at.fhjoanneum.ippr.gateway.api.repositories.OrganizationRepository;
 import at.fhjoanneum.ippr.gateway.security.persistence.DTOFactory;
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.OrganizationImpl;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import com.google.common.collect.Lists;
-import com.netflix.discovery.converters.Auto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import at.fhjoanneum.ippr.commons.dto.user.RoleDTO;
-import at.fhjoanneum.ippr.commons.dto.user.RuleDTO;
 import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 import at.fhjoanneum.ippr.gateway.security.repositories.RBACRepository;
 
@@ -43,12 +40,12 @@ public class RBACServiceImpl implements RBACService {
     @Override
     public Future<List<UserDTO>> getUsersOfRule(final List<String> ruleNames) {
         final List<User> users = rbacRepository.getUsersByRuleNames(ruleNames);
-        return new AsyncResult<>(users.stream().map(user -> DTOFactory.createUserDTO(user)).collect(Collectors.toList()));
+        return new AsyncResult<>(users.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList()));
     }
 
     @Override
-    public Future<List<Rule>> getRules() {
-        return new AsyncResult<List<Rule>>(rbacRepository.getRules());
+    public Future<List<Resource>> getRules() {
+        return new AsyncResult<List<Resource>>(rbacRepository.getRules());
     }
 
     @Override

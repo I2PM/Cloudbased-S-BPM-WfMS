@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.gateway.security.rbacmapping.retrieval;
 import java.util.Map;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRole;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheResource;
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheRule;
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.cache.CacheUser;
 

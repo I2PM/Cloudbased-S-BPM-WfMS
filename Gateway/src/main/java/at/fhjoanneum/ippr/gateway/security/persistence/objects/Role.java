@@ -1,18 +1,20 @@
 package at.fhjoanneum.ippr.gateway.security.persistence.objects;
 
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.ResourceImpl;
+
 import java.util.List;
 
 public interface Role {
 
-  Long getRoleId();
+    Long getRoleId();
 
-  String getSystemId();
+    String getSystemId();
 
-  String getName();
+    String getName();
 
-  List<Rule> getRules();
+    void setName(String name);
 
-  void setRules(List<Rule> rules);
+    List<Rule> getRules();
 
-  void setName(String name);
+    void setRules (List<Rule> rules);
 }

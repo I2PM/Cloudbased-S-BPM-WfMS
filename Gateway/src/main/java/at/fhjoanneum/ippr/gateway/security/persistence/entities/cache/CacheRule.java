@@ -3,30 +3,29 @@ package at.fhjoanneum.ippr.gateway.security.persistence.entities.cache;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 
 public class CacheRule {
-
-    private final String scope;
-    private final String type;
     private final String systemId;
+    private final CacheResource resource;
+    private final CacheCrudType crudType;
 
-    public CacheRule(final String systemId, final String type, final String scope) {
-        this.type = type;
-        this.scope = scope;
+    public CacheRule(String systemId, CacheResource resource, CacheCrudType crudType) {
         this.systemId = systemId;
-    }
-
-    public String getScope() {
-        return scope;
-    }
-
-    public String getType() {
-        return type;
+        this.resource = resource;
+        this.crudType = crudType;
     }
 
     public String getSystemId() {
         return systemId;
     }
 
-    public boolean equalsRule(Rule rule) {
-        return rule.getType().equals(type) && rule.getScope().equals(scope);
+    public CacheResource getResource() {
+        return resource;
+    }
+
+    public CacheCrudType getCrudType() {
+        return crudType;
+    }
+
+    public static CacheRule fromRule(Rule r) {
+        return new CacheRule(r.getSystemId(), CacheResource.fromResource(r.getResource()), CacheCrudType.fromCrudType(r.getCrudType()));
     }
 }
