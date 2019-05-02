@@ -39,10 +39,7 @@ export class CreateProcessComponent implements OnInit {
 
   _getUsersFromOrganization() {
     this.gateway.getUsersOfMyOrg().then((users) => {
-      let i;
-      for (i = 0; i < users.length; i ++) {
-        this.usersFromOrganization[i].email = users[i].email;
-      }
+      this.usersFromOrganization = users;
     });
   }
 
