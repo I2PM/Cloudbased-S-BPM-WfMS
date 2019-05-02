@@ -28,7 +28,7 @@ public interface ProcessStoreService {
     Future<List<ProcessStoreDTO>> findAllProcessesByOrgaId(String orgaId);
 
 
-    Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription, String processCreator, Double processPrice);
+    Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription, String processCreator, Double processPrice, String processApprover);
 
 
     void saveProcessFile(byte[] processFile, Long processId);

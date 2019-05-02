@@ -121,7 +121,7 @@ public class ProcessStoreController {
     public @ResponseBody Callable<ProcessStoreDTO> saveProcess(@RequestHeader HttpHeaders headers, @RequestBody final ProcessStoreDTO process) {
 
         return() -> processStoreService.saveProcessStoreObject(process.getProcessName(),process.getProcessDescription(),
-                process.getProcessCreator(),process.getProcessPrice()).get();
+                process.getProcessCreator(),process.getProcessPrice(), process.getProcessApprover()).get();
 
     }
 
