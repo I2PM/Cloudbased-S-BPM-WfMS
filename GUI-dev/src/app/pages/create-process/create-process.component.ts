@@ -49,7 +49,6 @@ export class CreateProcessComponent implements OnInit {
 
   createProcess(): void {
     this.process.processCreator = this.creator;
-    this.process.processApprover = this.processApprover;
     this.gateway.createProcess(this.process)
       .then(data => {this.gateway.uploadOWLModel(data.processId, this.owlFile); })
       .then(() => {this.router.navigateByUrl('/dashboard')});
