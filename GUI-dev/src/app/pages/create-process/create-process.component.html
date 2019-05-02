@@ -35,8 +35,8 @@
 
         <h2>Process Approver</h2>
         <div class="form-group">
-          <select class="form-control inputfields" >
-            <option name="processApprover" required="true" id="input-processApprover" (click)="selectedApprover(user.uid)" *ngFor="let user of usersFromOrganization" [value]="user.uid">
+          <select class="form-control inputfields" (change)="selectedApprover($event.target.value)">
+            <option name="processApprover" required="true" id="input-processApprover" *ngFor="let user of usersFromOrganization" [value]="user.uid" >
               {{user.email}}
             </option>
           </select>

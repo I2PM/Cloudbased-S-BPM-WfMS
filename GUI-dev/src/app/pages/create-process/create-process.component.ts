@@ -37,6 +37,10 @@ export class CreateProcessComponent implements OnInit {
     }
   }
 
+  selectedApprover(uid) {
+    this.process.processApprover = uid;
+  }
+
   _getUsersFromOrganization() {
     this.gateway.getUsersOfMyOrg().then((users) => {
       this.usersFromOrganization = users;
