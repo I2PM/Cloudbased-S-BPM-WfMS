@@ -35,13 +35,18 @@
 
         <h2>Process Approver</h2>
         <div class="form-group">
-          <label for="input-processApprover" class="sr-only">Process price</label>
+          <select>
+            <option *ngFor="let user of usersFromOrganization" [value]="user.uid">
+              {{user.email}}
+            </option>
+          </select>
+
           <input name="processprice" [(ngModel)]="process.processApprover" id="input-processApprover"
                  class="form-control inputfields" placeholder="Approver" type="Name"
                  autofocus
                  [required]="true">
         </div>
-      <button [disabled]="(!owlFile || !form.valid)" class="btn btn-block btn-hero-success" ng-click="createProcess()">
+      <button [disabled]="(!owlFile || !form.valid)" class="btn btn-block btn-hero-success inputfields" ng-click="createProcess()">
         Create new process
       </button>
       </form>

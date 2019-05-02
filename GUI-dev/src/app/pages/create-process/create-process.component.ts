@@ -27,7 +27,6 @@ export class CreateProcessComponent implements OnInit {
     this._getUsersFromOrganization();
   }
 
-
   onFileChange(event) {
     // const that = this;
     this.owlFile = event.srcElement.files[0];
@@ -39,11 +38,13 @@ export class CreateProcessComponent implements OnInit {
   }
 
   _getUsersFromOrganization() {
-    this.gateway.getUsersFromOrganization(1).then((data) => {
-      this.usersFromOrganization = data;
+    this.gateway.getUsersOfMyOrg().then((users) => {
+      let i;
+      for (i = 0; i < users.length; i ++) {
+        this.usersFromOrganization[i].email = users[i].email;
+      }
     });
   }
-
 
   createProcess(): void {
     this.process.processCreator = this.creator;
