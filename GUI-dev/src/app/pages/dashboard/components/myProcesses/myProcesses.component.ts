@@ -51,29 +51,23 @@ export class MyProcessesComponent implements OnInit  {
             this.orgaId = user.organization.oid;
           }
         }
-      })
+      });
 
     this.getProcesses();
   }
 
 
   getProcesses() {
-    this.inOrganization = false;
     this.gateway.getUser()
       .then((user) => {
         this.user = user;
-        if (user.organization !== null) {
-          this.inOrganization = true;
           if (this.inOrganization === true) {
             this.orgaId = user.organization.oid;
-            if (this.inOrganization === true) {
-              this.gateway.getProcessesByOrgId('' + user.organization.oid)
+            this.gateway.getProcessesByOrgId('' + user.organization.oid)
                 .then((processes) => {
                   this.myProcesses = processes;
                 })
-            }
           }
-        }
       })
 
 
