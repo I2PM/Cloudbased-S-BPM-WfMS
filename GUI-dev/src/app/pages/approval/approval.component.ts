@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Process, StoreProcess} from '../../../models/models';
+import {Process, StoreProcess, User} from '../../../models/models';
 import {Review} from '../../../models/models';
 import { GatewayProvider } from '../../@theme/providers/backend-server/gateway';
 import {Router} from '@angular/router';
+
 
 
 @Component({
@@ -35,6 +36,9 @@ export class ApprovalComponent implements OnInit {
       processCreator: {
         title: 'Creator',
       },
+      processApprover: {
+        title: 'Process Approver',
+      },
       processApproved: {
         title: 'Is Approved',
       },
@@ -43,7 +47,7 @@ export class ApprovalComponent implements OnInit {
   };
 
   data: StoreProcess[] = [];
-
+  loggedInUser: User;
 
   constructor(private gateway: GatewayProvider, private router: Router) {
 
@@ -51,8 +55,9 @@ export class ApprovalComponent implements OnInit {
   // Only users with SYS_APPROVER role can access approval page
 
   ngOnInit() {
-    //this.getUnapprovedProcesses();
-    this.getAllProcesses();
+    // this.getUnapprovedProcesses();
+    this._getUser();
+    this._getAllProcesses();
   }
 
   getUnapprovedProcesses() {
@@ -63,11 +68,27 @@ export class ApprovalComponent implements OnInit {
         })
   }
 
-  getAllProcesses() {
+  _getUser() {
+    this.gateway.getUser()
+      .then((user) => {
+        this.loggedInUser = user;
+      })
+  }
+
+  _getAllProcesses() {
     this.gateway.getStoreProcesses().then((processes) => {
       this.processes = processes;
-      this.data = processes;
+      this._sortDataAfterApprover();
     })
+  }
+
+  _sortDataAfterApprover() {
+    const userUid = '' + this.loggedInUser.uid;
+    this.processes = this.processes.filter(function (approver) {
+      return approver.processApprover === userUid;
+    });
+    //TODO: show not number of approver - show name of approver
+    this.data = this.processes;
   }
 
   loadDetails(processId: number) {

@@ -60,9 +60,6 @@ export class DashboardComponent {
 
   }
 
-
-
-
   getFavoriteProcesses() {
     this.inOrganization = false;
     this.gateway.getUser()
