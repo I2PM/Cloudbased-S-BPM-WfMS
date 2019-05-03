@@ -1,32 +1,5 @@
 <div class="row show-grid">
-    <div class="col-md-2">
-        <nb-card>
-            <nb-card-body>
-                <div class="container-title">Apply Filter:</div>
-                <div class="row">
-                    <div [(ngModel)]="filterType" ngbRadioGroup class="btn-group-vertical btn-group-toggle btn-divided-group btn-outline-divided-group btn-group-full-width">
-                        <label ngbButtonLabel class="btn btn-secondary">
-                            <input ngbButton type="radio" value="priceBelowOrEquals"> Price Below
-                        </label>
-                        <label ngbButtonLabel class="btn btn-secondary">
-                            <input ngbButton type="radio" value="ratingAboveOrEquals"> Rating Above
-                        </label>
-                        <label ngbButtonLabel class="btn btn-secondary">
-                            <input ngbButton type="radio" value="createdBy"> Created By
-                        </label>
-                        <label ngbButtonLabel class="btn btn-secondary">
-                            <input ngbButton type="radio" value="none"> No Filter
-                        </label>
-                    </div>
-                    <div>
-                        <input [hidden]="filterType === 'none'"
-                               [type]="filterType === 'createdBy' ? 'text' : 'number'"
-                               [(ngModel)]="filterInput" class="form-control" placeholder="Filter Input">
-                    </div>
-                </div>
-            </nb-card-body>
-        </nb-card>
-        </div>
+  <h2 class="col-md-12">Process Store</h2>
         <div class="col-md-10">
             <div class="row">
                 <nb-card class="col-md-12">
@@ -37,7 +10,7 @@
                                     <span class="input-group-addon transparent">
                                         <i class="nb-search icon-vertical"></i>
                                     </span>
-                                    <input [(ngModel)]="processSearchString" id="processSearchString" class="form-control left-border-none" placeholder="Search for processes by Name or Description.."
+                                    <input [(ngModel)]="processSearchString" id="processSearchString" class="form-control left-border-none" placeholder="Search for processes by name or description.."
                                         type="text" name="processSearchString">
                                 </div>
                             </div>
@@ -64,8 +37,36 @@
                         </div>
                     </nb-card-body>
                 </nb-card>
-
-
             </div>
+
+
         </div>
+  <div class="col-md-2">
+    <nb-card>
+      <nb-card-body>
+        <div class="container-title">Filter:</div>
+        <div class="row">
+          <div [(ngModel)]="filterType" ngbRadioGroup class="btn-group-vertical btn-group-toggle btn-divided-group btn-outline-divided-group btn-group-full-width">
+            <label ngbButtonLabel class="btn btn-secondary">
+              <input ngbButton type="radio" value="priceBelowOrEquals"> Price Below
+            </label>
+            <label ngbButtonLabel class="btn btn-secondary">
+              <input ngbButton type="radio" value="ratingAboveOrEquals"> Rating Above
+            </label>
+            <label ngbButtonLabel class="btn btn-secondary">
+              <input ngbButton type="radio" value="createdBy"> Created By
+            </label>
+            <label ngbButtonLabel class="btn btn-secondary">
+              <input ngbButton type="radio" value="none"> No Filter
+            </label>
+          </div>
+          <div>
+            <input [hidden]="filterType === 'none'"
+                   [type]="filterType === 'createdBy' ? 'text' : 'number'"
+                   [(ngModel)]="filterInput" class="form-control" placeholder="Filter Input">
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
     </div>
