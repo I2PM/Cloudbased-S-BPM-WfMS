@@ -45,8 +45,7 @@ export class UserManagementComponent implements OnInit {
     },
   ];
 
-  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker,
-              private roleProvider: RoleProvider) {
+  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker) {
   }
 
   /*

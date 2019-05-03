@@ -87,7 +87,7 @@ export class ApprovalComponent implements OnInit {
     this.processes = this.processes.filter(function (approver) {
       return approver.processApprover === userUid;
     });
-    //TODO: show not number of approver - show name of approver
+    // TODO: show not number of approver - show name of approver
     this.data = this.processes;
   }
 
