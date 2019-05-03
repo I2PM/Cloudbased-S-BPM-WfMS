@@ -27,7 +27,6 @@ export class ProcessStoreDetailsComponent implements OnInit {
 
   ngOnInit() {
     this._init();
-    this._setProcessApprover();
   };
 
   _init() {
@@ -40,6 +39,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
     this.gateway.getProcessById(this.processId)
       .then((process) => {
         this.process = process;
+        this._setProcessApprover();
       });
 
     // the the oid of the current user
