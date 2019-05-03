@@ -48,35 +48,30 @@ export class ApprovalComponent implements OnInit {
   constructor(private gateway: GatewayProvider, private router: Router) {
 
   }
+  // Only users with SYS_APPROVER role can access approval page
 
   ngOnInit() {
-    this.getUnapprovedProcesses();
+    //this.getUnapprovedProcesses();
     this.getAllProcesses();
-    // this.getUnapprovedProcesses();
   }
 
   getUnapprovedProcesses() {
       this.gateway.getUnapprovedStoreProcesses()
         .then((processes) => {
-        // this.processes = processes;
-        // this.data = processes;
-        // console.log(this.data);
+        this.processes = processes;
+        this.data = processes;
         })
   }
 
   getAllProcesses() {
     this.gateway.getStoreProcesses().then((processes) => {
       this.processes = processes;
-      // console.log(processes);
       this.data = processes;
-      // console.log(this.data)
     })
   }
 
   loadDetails(processId: number) {
-
     this.router.navigate(['/approval-details/', processId])
-
   }
 
   onUserRowSelect(event): void {
