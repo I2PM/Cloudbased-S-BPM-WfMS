@@ -10,6 +10,7 @@ import {GatewayProvider} from "../../../../@theme/providers/backend-server/gatew
   selector: 'ngx-configure',
   styles: [require('./importProcessModel.scss')],
   template: require('./importProcessModel.html'),
+  templateUrl: 'importProcessModel.html',
 })
 export class ImportProcessModel implements OnInit {
   processModel;
@@ -77,7 +78,7 @@ export class ImportProcessModel implements OnInit {
       .subscribe(
         data => {
           console.log(data);
-          that.rules = JSON.parse(data['_body']);
+          that.rules = data; //JSON.parse(data['_body']);
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
         },
@@ -165,8 +166,10 @@ export class ImportProcessModel implements OnInit {
       dataType: 'json', // default: 'xml',
       disableFields: ['autocomplete', 'button', 'checkbox-group', 'file', 'header', 'hidden', 'paragraph', 'select', 'textarea'],
       showActionButtons: false,
+      controlPosition: 'left'
     };
-    this.formBuilder = (<any>jQuery('.formBuilder')).formBuilder(options).data('formBuilder');
+    this.formBuilder = (<any>jQuery('.formBuilder')).formBuilder(options); //.data('formBuilder');
+    // (<any>jQuery('.formBuilder')).formBuilder(options).data('formBuilder');
 
     /*//Timeout, otherwise the formData will still be the old value
     document.addEventListener('fieldAdded', function(e){

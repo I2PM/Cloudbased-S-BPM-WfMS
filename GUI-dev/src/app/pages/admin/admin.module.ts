@@ -39,4 +39,4 @@ import {ImportProcessModel} from './components/importProcessModel/importProcessM
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export default class AdminModule {}
+export class AdminModule {}
