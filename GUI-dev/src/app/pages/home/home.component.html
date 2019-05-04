@@ -33,7 +33,7 @@
   </div>
   <div class="col-6">
     <nb-card>
-      <nb-card-header>Latest processes from company</nb-card-header>
+      <nb-card-header>Latest processes</nb-card-header>
       <nb-card-body>
         <button *ngFor="let process of processesByDate" class="btn btn-outline-primary btn-block" type="button" (click)="showDetails(process.processId)">{{process.processName}}</button>
       </nb-card-body>
