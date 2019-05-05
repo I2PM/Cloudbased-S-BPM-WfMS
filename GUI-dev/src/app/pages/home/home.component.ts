@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
     actions: false,
   };
 
-  constructor(private gateway: GatewayProvider, private router: Router, private authService: NbAuthService, private app: AppComponent) {
+  constructor(private gateway: GatewayProvider, private router: Router, private authService: NbAuthService) {
 
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
