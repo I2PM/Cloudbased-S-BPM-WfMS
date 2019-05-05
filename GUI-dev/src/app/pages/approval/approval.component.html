@@ -1,17 +1,9 @@
 <div>
-  <h2>List of process models</h2>
   <nb-card>
-
-    <!--
-    <ul *ngFor="let process of processes" style="list-style:none; font-weight:bold">
-      <li>Process: <a href="javascript:;" (click)="loadDetails(process.processId)">{{process.processName}}</a></li>
-      <li><ul style="list-style:none"><li>{{process.processDescription}}</li>
-        <li>{{process.processCreator}}</li></ul></li>
-    </ul>
-    -->
-
-    <ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
-
+    <nb-card-header><h2>Approval Page</h2> </nb-card-header>
+    <nb-card-body>
+      <h3>List of process models</h3>
+      <ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
+    </nb-card-body>
   </nb-card>
-
 </div>
