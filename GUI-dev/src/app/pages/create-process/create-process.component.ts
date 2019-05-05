@@ -55,6 +55,9 @@ export class CreateProcessComponent implements OnInit {
 
   createProcess(): void {
     this.process.processCreator = this.creator;
+    if (!this.process.processApprover) {
+      this.process.processApprover = '' + 1;
+    }
     this.gateway.createProcess(this.process)
       .then(data => {
         this.gateway.addProcessToOrganization('' + data.processId, this.orgId, this.userId);
