@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Process, StoreProcess, User} from '../../../models/models';
-import {Review} from '../../../models/models';
+import {Process, Review, StoreProcess, User} from '../../../models/models';
 import { GatewayProvider } from '../../@theme/providers/backend-server/gateway';
 import {Router} from '@angular/router';
-
-
 
 @Component({
   selector: 'ngx-approval',
@@ -78,11 +75,11 @@ export class ApprovalComponent implements OnInit {
   _getAllProcesses() {
     this.gateway.getStoreProcesses().then((processes) => {
       this.processes = processes;
-      this._sortDataAfterApprover();
+      this._filterDataAfterApprover();
     })
   }
 
-  _sortDataAfterApprover() {
+  _filterDataAfterApprover() {
     const userUid = '' + this.loggedInUser.uid;
     this.processes = this.processes.filter(function (approver) {
       return approver.processApprover === userUid;
