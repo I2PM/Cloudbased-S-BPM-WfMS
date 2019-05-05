@@ -3,7 +3,6 @@ import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {AverageRating, StoreProcess} from '../../../models/models';
 import {Router} from '@angular/router';
 import {NbAuthJWTToken, NbAuthService} from '@nebular/auth';
-import {AppComponent} from '../../app.component';
 
 @Component({
   selector: 'ngx-home',
