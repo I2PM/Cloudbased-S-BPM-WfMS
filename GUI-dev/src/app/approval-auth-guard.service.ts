@@ -17,7 +17,8 @@ export class ApprovalAuthGuard implements CanActivate {
         tap(authenticated => {
 
           this.gateway.getUser().then((user) => {
-            if (user.roles.find(role => role.name === 'SYS_APPROVER') === undefined) {
+            // hier ändern, dass nach rule gefiltert wird
+            if (user.roles.find(role => role.name === 'USER') === undefined) {
               this.router.navigate(['home']);
             }
           });
