@@ -21,81 +21,83 @@ export class ApprovalComponent implements OnInit {
 
   settings = {
     columns: {
-      processId: {
-        title: 'ID',
-      },
-      processName: {
-        title: 'Process Name',
-      },
-      processDescription: {
-        title: 'Description',
-      },
-      processCreator: {
-        title: 'Creator',
-      },
-      processApprover: {
-        title: 'Process Approver',
-      },
-      processApproved: {
-        title: 'Is Approved',
-      },
-    },
-    actions: false,
-  };
+    /*
+     processId: {
+       title: 'ID',
+     },*/
+     processName: {
+       title: 'Process Name',
+     },
+     processDescription: {
+       title: 'Description',
+     },
+     processCreator: {
+       title: 'Creator',
+     },
+      /*
+     processApprover: {
+       title: 'Process Approver',
+     },*/
+     processApproved: {
+       title: 'Is Approved',
+     },
+},
+actions: false,
+};
 
-  data: StoreProcess[] = [];
-  loggedInUser: User;
+data: StoreProcess[] = [];
+loggedInUser: User;
 
-  constructor(private gateway: GatewayProvider, private router: Router) {
+constructor(private gateway: GatewayProvider, private router: Router) {
 
-  }
-  // Only users with SYS_APPROVER role can access approval page
+}
+// Only users with SYS_APPROVER role can access approval page
 
-  ngOnInit() {
-    // this.getUnapprovedProcesses();
-    this._getUser();
-    this._getAllProcesses();
-  }
+ngOnInit() {
+// this.getUnapprovedProcesses();
+this._getUser();
+this._getAllProcesses();
+}
 
-  getUnapprovedProcesses() {
-      this.gateway.getUnapprovedStoreProcesses()
-        .then((processes) => {
-        this.processes = processes;
-        this.data = processes;
-        })
-  }
+getUnapprovedProcesses() {
+ this.gateway.getUnapprovedStoreProcesses()
+   .then((processes) => {
+   this.processes = processes;
+   this.data = processes;
+   })
+}
 
-  _getUser() {
-    this.gateway.getUser()
-      .then((user) => {
-        this.loggedInUser = user;
-      })
-  }
+_getUser() {
+this.gateway.getUser()
+ .then((user) => {
+   this.loggedInUser = user;
+ })
+}
 
-  _getAllProcesses() {
-    this.gateway.getStoreProcesses().then((processes) => {
-      this.processes = processes;
-      this._filterDataAfterApprover();
-    })
-  }
+_getAllProcesses() {
+this.gateway.getStoreProcesses().then((processes) => {
+ this.processes = processes;
+ this._filterDataAfterApprover();
+})
+}
 
-  _filterDataAfterApprover() {
-    const userUid = '' + this.loggedInUser.uid;
-    this.processes = this.processes.filter(function (approver) {
-      return approver.processApprover === userUid;
-    });
-    // TODO: show not number of approver - show name of approver
-    this.data = this.processes;
-  }
+_filterDataAfterApprover() {
+const userUid = '' + this.loggedInUser.uid;
+this.processes = this.processes.filter(function (approver) {
+ return approver.processApprover === userUid;
+});
+// TODO: show not number of approver - show name of approver
+this.data = this.processes;
+}
 
-  loadDetails(processId: number) {
-    this.router.navigate(['/approval-details/', processId])
-  }
+loadDetails(processId: number) {
+this.router.navigate(['/approval-details/', processId])
+}
 
-  onUserRowSelect(event): void {
-    // console.log(event.data.processId);
-    this.loadDetails(event.data.processId);
-    // this.loadDetails(processId);
-  }
+onUserRowSelect(event): void {
+// console.log(event.data.processId);
+this.loadDetails(event.data.processId);
+// this.loadDetails(processId);
+}
 
 }

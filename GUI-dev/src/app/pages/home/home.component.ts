@@ -31,9 +31,10 @@ export class HomeComponent implements OnInit {
       processDescription: {
         title: 'Description',
       },
+      /*
       processCreator: {
         title: 'Creator',
-      },
+      },*/
       processApprover: {
         title: 'Process Approver',
       },
