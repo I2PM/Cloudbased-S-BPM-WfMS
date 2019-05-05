@@ -13,6 +13,8 @@ export class CreateProcessComponent implements OnInit {
 
   process: StoreProcess = new StoreProcess();
   creator: string;
+  userId: string;
+  orgId: string;
   owlFile: File;
   file: File;
   processApprover: string;
@@ -23,7 +25,11 @@ export class CreateProcessComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.gateway.getUser().then(user => this.creator = user.username);
+    this.gateway.getUser().then((user) => {
+      this.creator = user.username;
+      this.userId = '' + user.uid;
+      this.orgId = '' + user.organization.oid;
+      });
     this._getUsersFromOrganization();
   }
 
@@ -50,8 +56,13 @@ export class CreateProcessComponent implements OnInit {
   createProcess(): void {
     this.process.processCreator = this.creator;
     this.gateway.createProcess(this.process)
-      .then(data => {this.gateway.uploadOWLModel(data.processId, this.owlFile); })
-      .then(() => {this.router.navigateByUrl('/dashboard')});
-
+      .then(data => {
+        this.gateway.addProcessToOrganization('' + data.processId, this.orgId, this.userId);
+        this.gateway.uploadOWLModel(data.processId, this.owlFile); })
+      .then(() => {
+        // _addProcessToOrganisation();
+        this.router.navigateByUrl('/dashboard')})
+      .catch(err => console.warn(err))
+    ;
   }
 }
