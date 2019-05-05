@@ -1,6 +1,13 @@
 <div>
   <nb-card>
-    <nb-card-header><h2>Approval Page</h2> </nb-card-header>
+    <nb-card-header>
+      <div>
+        <h2>Approval Page</h2>
+      </div>
+      <div class="text-right">
+        <button class="btn btn-info" routerLink="/home">Show my processes</button>
+      </div>
+    </nb-card-header>
     <nb-card-body>
       <h3>List of process models</h3>
       <ng2-smart-table [settings]="settings" [source]="data" (userRowSelect)="onUserRowSelect($event)"></ng2-smart-table>
