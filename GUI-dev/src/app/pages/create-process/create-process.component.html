@@ -2,9 +2,9 @@
   <div class="col-md-12">
 
     <nb-card>
-      <nb-card-header>Create a new process</nb-card-header>
+      <nb-card-header><h2>Create a new process</h2></nb-card-header>
     <nb-card-body>
-     <h2>Process details</h2>
+     <h3>Process details</h3>
       <form (ngSubmit)="createProcess()" #form="ngForm" >
       <div class="form-group">
         <label for="input-processname" class="sr-only">Process name</label>
@@ -33,7 +33,7 @@
           <br>
         </form>
 
-        <h2>Process Approver</h2>
+        <h3>Process Approver</h3>
         <div class="form-group">
           <select class="form-control inputfields" (change)="selectedApprover($event.target.value)">
             <option name="processApprover" required="true" id="input-processApprover" *ngFor="let user of usersFromOrganization" [value]="user.uid" >
