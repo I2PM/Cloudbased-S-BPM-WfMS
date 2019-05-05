@@ -21,6 +21,32 @@ export class HomeComponent implements OnInit {
   authenticated = false;
   limit = 5;
 
+  data: StoreProcess[] = [];
+
+  settings = {
+    columns: {
+      processName: {
+        title: 'Process Name',
+      },
+      processDescription: {
+        title: 'Description',
+      },
+      processCreator: {
+        title: 'Creator',
+      },
+      processApprover: {
+        title: 'Process Approver',
+      },
+      processApproverComment: {
+        title: 'Comment',
+      },
+      processApproved: {
+        title: 'Is Approved',
+      },
+    },
+    actions: false,
+  };
+
   constructor(private gateway: GatewayProvider, private router: Router, private authService: NbAuthService, private app: AppComponent) {
 
     this.authService.onTokenChange()
@@ -35,14 +61,21 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    this.app.setTitle('Welcome');
     this.getProcesses()
       .then((processArray) => {
         this.processes = processArray;
-        this.sortProcessesByDate(processArray);
-        this.sortProcessesByRating(processArray);
+        this._filterDataAfterCreator();
+        // this.sortProcessesByDate(processArray);
+        // this.sortProcessesByRating(processArray);
       })
+  }
+
+  _filterDataAfterCreator() {
+    const userMailAdress = '' + this.user.sub;
+    this.processes = this.processes.filter(function (process) {
+      return process.processCreator === userMailAdress;
+    });
+    this.data = this.processes;
   }
 
   getProcesses(): Promise<Array<StoreProcess>> {
@@ -52,7 +85,15 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  sortProcessesByDate(processArray) {
+  onUserRowSelect(event): void {
+    this._showDetails(event.data.processId);
+  }
+
+  _showDetails(processId) {
+    this.router.navigate(['/processstore-details/', processId]);
+  }
+
+  /* sortProcessesByDate(processArray) {
     this.processesByDate = processArray.sort((a, b) => {
       return b.processApprovedDate - a.processApprovedDate;
     }).slice(0, this.limit);
@@ -86,10 +127,5 @@ export class HomeComponent implements OnInit {
         this.processesByRating = this.processesByRating.slice(0, this.limit);
         this.ratings.sort((a, b) => a.averageRating - b.averageRating)
       })
-  }
-
-  showDetails(processId) {
-    this.router.navigate(['/processstore-details/', processId]);
-  }
-
+  } */
 }
