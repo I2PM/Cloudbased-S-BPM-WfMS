@@ -99,7 +99,7 @@ export class ImportProcessModel implements OnInit {
     this.service.importProcessModel(processModelResult)
       .subscribe(
         data => {
-          if (JSON.parse(data['_body']) === true) {
+          if (data === true) {
             that.processModel = undefined;
             that.rules = undefined;
             that.error = undefined;
