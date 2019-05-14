@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   public processesByDate: StoreProcess[] = [];
   public processesByRating = [];
   public ratings: AverageRating[] = [];
+  public class;
 
   user = {};
   authenticated = false;
@@ -48,6 +49,7 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(private gateway: GatewayProvider, private router: Router, private authService: NbAuthService) {
+    this.class = HomeComponent;
 
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
@@ -71,7 +73,7 @@ export class HomeComponent implements OnInit {
   }
 
   _filterDataAfterCreator() {
-    const userMailAdress = '' + this.user.sub;
+    const userMailAdress = '' + this.class.user.sub;
     this.processes = this.processes.filter(function (process) {
       return process.processCreator === userMailAdress;
     });
