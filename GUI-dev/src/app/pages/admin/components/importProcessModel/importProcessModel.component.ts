@@ -25,6 +25,7 @@ export class ImportProcessModel implements OnInit {
   success;
   owlFile;
   version = 5;
+  processfile;
 
   constructor(protected service: ProcessesService, private gateway: GatewayProvider) {
   }
@@ -32,6 +33,7 @@ export class ImportProcessModel implements OnInit {
   ngOnInit(): void {
     this.processModel = this.service.getCurrentProcessModel();
     console.log(this.processModel);
+    this._getProcessFile();
   }
 
   onFileChange(event) {
@@ -42,6 +44,16 @@ export class ImportProcessModel implements OnInit {
       this.owlFile = undefined;
       event.target.value = '';
     }
+  }
+
+  _getProcessFile() {
+    this.gateway.getProcessFileById(this.processModel.id)
+      .then((processesfile) => {
+        this.processfile = processesfile;
+
+      }).catch( (error) =>{
+      console.log("Error" + JSON.stringify(error));
+    });
   }
 
   uploadOWLModel(form): void {

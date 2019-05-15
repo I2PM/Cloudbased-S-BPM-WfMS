@@ -34,19 +34,6 @@ export class ProcessStoreDetailsComponent implements OnInit {
     this._init();
   };
 
-  getProcessFile() {
-    this.gateway.getProcessFileById(this.processId).then(console.log("testlog"))
-      .then((processesfile) => {
-        console.log("sfioashfoiasjfoijasefiojeaofijao")
-        //console.log("serwas processfile ---"+processesfile);
-        //this.processfile = processesfile;
-      }).catch( (error) =>{
-        console.log("this is the errror" + JSON.stringify(error));
-    }
-
-    console.log('xxxxx' + this.processfile);
-  }
-
   _init() {
     // get the ID from the selected process
     this.route.params.subscribe(params => {
@@ -59,7 +46,6 @@ export class ProcessStoreDetailsComponent implements OnInit {
         this.process = process;
         this._setProcessApprover();
       });
-    this
 
     // the the oid of the current user
     this.gateway.getUser()
