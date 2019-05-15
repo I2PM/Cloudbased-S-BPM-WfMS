@@ -61,7 +61,7 @@
                <br />
                <label for="assignedRules">Rechte</label>
                <select multiple class="form-control" name="subjectModel-'{{processModel.subjectModels.indexOf(subjectModel)}}'-Rule" [(ngModel)]="subjectModel.assignedRules" required>
-                 <option *ngFor="let rule of rules" [ngValue]="rule.name">{{rule.name}}</option>
+                 <option *ngFor="let rule of rules" [ngValue]="rule.systemId">{{rule.systemId}}</option>
                </select>
              </div>
            </div>

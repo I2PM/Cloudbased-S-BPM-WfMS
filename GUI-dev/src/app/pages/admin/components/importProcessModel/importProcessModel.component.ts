@@ -47,21 +47,39 @@ export class ImportProcessModel implements OnInit {
   }
 
   _getProcessFile() {
-    this.gateway.getProcessFileById(this.processModel.id)
+    this.gateway.getProcessFileById(this.processModel.processId)
       .then((processesfile) => {
         this.processfile = processesfile;
+
+
+        var reader = new FileReader();
+        reader.readAsText(this.processfile);
+        var that = this;
+        reader.onloadend = function() {
+          var base64data = reader.result;
+          that.processfile = base64data.substr(base64data.indexOf(',')+1);
+          console.log(that.processfile);
+
+          that.uploadOWLModel();
+        }
+
+
+
+
+
+
 
       }).catch( (error) =>{
       console.log("Error" + JSON.stringify(error));
     });
   }
 
-  uploadOWLModel(form): void {
+  uploadOWLModel(): void {
     const that = this;
-    const reader = new FileReader();
-    if (this.owlFile) {
-      reader.onload = function (e) {
-        const body = {owlContent: reader.result, version: '0.7.' + that.version}
+    //const reader = new FileReader();
+    //if (this.owlFile) {
+      //reader.onload = function (e) {
+        const body = {owlContent: this.processfile, version: '0.7.2'}
         that.service.uploadOWLModel(body)
           .subscribe(
             data => {
@@ -79,9 +97,9 @@ export class ImportProcessModel implements OnInit {
             () => {
             },
           );
-      }
-      reader.readAsText(this.owlFile);
-    }
+      //}
+     // reader.readAsText(this.processfile);
+   // }
   }
 
   initRules(): void {

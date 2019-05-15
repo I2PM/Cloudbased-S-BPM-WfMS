@@ -95,6 +95,10 @@ export class ProcessesService {
      return this._authHttp.get(this.restApi + '/rules/');
    }
 
+  getRoles() {
+    return this._authHttp.get(this.restApi + '/roles/');
+  }
+
    getProcessesThatStartedHoursAgo(hoursBefore: number) {
      return this._authHttp.get(this.restApi + '/processes/count/started/' + hoursBefore);
    }
