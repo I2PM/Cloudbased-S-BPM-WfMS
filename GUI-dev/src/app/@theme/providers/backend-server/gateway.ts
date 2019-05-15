@@ -1,7 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
-import {User, StoreProcess, StoreProcessRating, Organization, AverageRating} from '../../../../models/models';
+import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, blobfile} from '../../../../models/models';
+import {toPromise} from "rxjs/operator/toPromise";
 
 @Injectable()
 export class GatewayProvider {
@@ -24,7 +25,6 @@ export class GatewayProvider {
     return this.http.get<User>(this.serverConfig.getUser)
       .toPromise()
   }
-
 
   createProcess(process: StoreProcess): Promise<StoreProcess> {
     return this.http.post<StoreProcess>(this.serverConfig.createProcess, process).toPromise()
@@ -117,6 +117,17 @@ export class GatewayProvider {
     return this.http.get<StoreProcess>(this.serverConfig.getProcess + processId)
       .toPromise()
   }
+
+  // gets the processfile by its processId
+  getProcessFileById (processId: string): Promise<blobfile>{
+    let promise = this.http.get<blobfile>(this.serverConfig.getProcessFile + processId + '/getProcessFile').toPromise();
+
+
+    return this.http.get<blobfile>(this.serverConfig.getProcessFile + processId + '/getProcessFile')
+      .toPromise()
+
+  }
+
 
   // adds a process to an organization
   addProcessToOrganization(processId: string, orgId: string, uid: string): Promise<StoreProcess> {

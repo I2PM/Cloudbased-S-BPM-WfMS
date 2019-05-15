@@ -22,6 +22,7 @@ export class ServerConfigProvider {
   private _editOrganization = `${this._host}api/organization`;
   private _getOrgaProcesses = `${this._host}api/store/processes/byOrga`;
   private _getUsersOfMyOrg = `${this._host}api/user/myOrg`;
+  private _getProcessFile = `${this._host}api/store/process/`;
 
 
   private _getUnapprovedStoreProcesses = `${this._host}api/store/processes/notApproved`;
@@ -51,6 +52,9 @@ export class ServerConfigProvider {
   public get createOrganization(): string {
     return this._createOrganization
   };
+
+  public get getProcessFile(): string {return this._getProcessFile};
+
 
   public get editOrganization(): string {
     return this._editOrganization

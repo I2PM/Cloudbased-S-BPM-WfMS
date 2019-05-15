@@ -56,7 +56,7 @@ export class CreateProcessComponent implements OnInit {
   createProcess(): void {
     this.process.processCreator = this.creator;
     if (!this.process.processApprover) {
-      this.process.processApprover = '' + 1;
+      this.process.processApprover = '' + 2;
     }
     this.gateway.createProcess(this.process)
       .then(data => {

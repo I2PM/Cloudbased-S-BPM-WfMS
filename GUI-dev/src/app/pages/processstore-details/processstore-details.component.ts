@@ -4,8 +4,7 @@ import {StoreProcess} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProcessstoreDetailsModalComponent} from './modal/processstore-details.modal';
-import {ImportProcessModel} from "../admin/components/importProcessModel";
-import {ProcessesService} from "../../allProcesses.service";
+import {ProcessesService} from '../../allProcesses.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,6 +21,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
   processesOfOrg: StoreProcess[];
   hasProcess = false;
   isConfigured = false;
+  processfile;
 
   constructor(private route: ActivatedRoute,
               private gateway: GatewayProvider,
@@ -33,6 +33,19 @@ export class ProcessStoreDetailsComponent implements OnInit {
   ngOnInit() {
     this._init();
   };
+
+  getProcessFile() {
+    this.gateway.getProcessFileById(this.processId).then(console.log("testlog"))
+      .then((processesfile) => {
+        console.log("sfioashfoiasjfoijasefiojeaofijao")
+        //console.log("serwas processfile ---"+processesfile);
+        //this.processfile = processesfile;
+      }).catch( (error) =>{
+        console.log("this is the errror" + JSON.stringify(error));
+    }
+
+    console.log('xxxxx' + this.processfile);
+  }
 
   _init() {
     // get the ID from the selected process
