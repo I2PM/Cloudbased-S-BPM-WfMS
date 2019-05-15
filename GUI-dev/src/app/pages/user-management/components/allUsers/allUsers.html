@@ -1,0 +1,26 @@
+<div class="row">
+  <toaster-container [toasterconfig]="config"></toaster-container>
+  <h1>ALL USERS</h1>
+</div>
+<div class="user-list">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Organization</th>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>E-Mail</th>
+      <th>User-Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{user.organization}}</td>
+      <td>{{user.firstname}}</td>
+      <td>{{user.lastname}}</td>
+      <td>{{user.email}}</td>
+      <td>{{user.roles}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

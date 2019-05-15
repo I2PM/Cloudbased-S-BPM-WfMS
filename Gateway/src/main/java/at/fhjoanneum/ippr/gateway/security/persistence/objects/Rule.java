@@ -1,13 +1,20 @@
 package at.fhjoanneum.ippr.gateway.security.persistence.objects;
 
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.CrudTypeImpl;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.ResourceImpl;
+
 public interface Rule {
+    Long getRuleId();
 
-  Long getRuleId();
+    String getSystemId();
 
-  String getSystemId();
+    void setSystemId(String systemId);
 
-  String getName();
+    void setResource(ResourceImpl resource);
 
-  void setName(String name);
+    Resource getResource();
 
+    CrudType getCrudType();
+
+    void setCrudType(CrudTypeImpl crudType);
 }

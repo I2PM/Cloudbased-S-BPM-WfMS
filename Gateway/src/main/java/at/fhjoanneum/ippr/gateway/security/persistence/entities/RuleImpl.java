@@ -1,96 +1,78 @@
 package at.fhjoanneum.ippr.gateway.security.persistence.entities;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlRootElement;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.CrudType;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.google.common.base.Objects;
-
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @Entity(name = "rule")
 @XmlRootElement
 public class RuleImpl implements Rule, Serializable {
 
-  private static final long serialVersionUID = 4352903292474094588L;
+    private static final long serialVersionUID = 4352903291274094588L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long ruleId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long ruleId;
 
-  @Column
-  @NotBlank
-  private String name;
+    @Column(unique = true)
+    @NotBlank
+    private String systemId;
 
-  @Column(unique = true)
-  @NotBlank
-  private String systemId;
+    @ManyToOne
+    @NotNull
+    private CrudTypeImpl crudType;
 
-  public RuleImpl() {}
+    @ManyToOne
+    @NotNull
+    private ResourceImpl resource;
 
-  public RuleImpl(final String name, final String systemId) {
-    this.name = name;
-    this.systemId = systemId;
-  }
+    public RuleImpl() {
+    }
 
-  @Override
-  public Long getRuleId() {
-    return ruleId;
-  }
+    public RuleImpl(String systemId, CrudTypeImpl crudType, ResourceImpl resource) {
+        this.systemId = systemId;
+        this.crudType = crudType;
+        this.resource = resource;
+    }
 
-  @Override
-  public String getSystemId() {
-    return systemId;
-  }
+    @Override
+    public Long getRuleId() {
+        return ruleId;
+    }
 
-  @Override
-  public String getName() {
-    return name;
-  }
+    @Override
+    public String getSystemId() {
+        return systemId;
+    }
 
-  @Override
-  public void setName(final String name) {
-    checkArgument(StringUtils.isNotBlank(name));
-    this.name = name;
-  }
+    @Override
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
 
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final RuleImpl other = (RuleImpl) obj;
-    if (ruleId == null) {
-      if (other.ruleId != null)
-        return false;
-    } else if (!ruleId.equals(other.ruleId))
-      return false;
-    return true;
-  }
+    @Override
+    public CrudType getCrudType() {
+        return crudType;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(ruleId);
-  }
+    @Override
+    public void setCrudType(CrudTypeImpl crudType) {
+        this.crudType = crudType;
+    }
 
-  @Override
-  public String toString() {
-    return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("ruleId", ruleId)
-        .append("name", name).toString();
-  }
+    @Override
+    public Resource getResource() {
+        return resource;
+    }
+
+    @Override
+    public void setResource(ResourceImpl resource) {
+        this.resource = resource;
+    }
 }

@@ -55,7 +55,7 @@ dependencies {
 	compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.3.1'
 
 	// database
-	runtime 'mysql:mysql-connector-java'
+	runtime 'mysql:mysql-connector-java:5.1.46'
 	testRuntime 'com.h2database:h2'
 	
 	// utils   

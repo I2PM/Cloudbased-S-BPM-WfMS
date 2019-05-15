@@ -7,6 +7,7 @@
 /RemoteSystemsTempFiles/.project
 **/out/
 
+
 # DS_Store
 .DS_Store
 
@@ -256,3 +257,7 @@ node_modules
 /ProcessModelStorage/.idea/modules/Gateway_main.iml
 /ProcessModelStorage/.idea/modules/Gateway_test.iml
 /ProcessModelStorage/.idea/vcs.xml
+GUI-dev/package-lock.json
+
+# ignore all files in the build folder
+builds/

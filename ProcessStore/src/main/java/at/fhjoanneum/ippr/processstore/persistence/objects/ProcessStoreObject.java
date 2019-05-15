@@ -10,4 +10,8 @@ public interface ProcessStoreObject {
 
     Boolean isApproved();
 
+    String getProcessApprover();
+
+    void setProcessApprover(String processApprover);
+
 }

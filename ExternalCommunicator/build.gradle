@@ -45,7 +45,7 @@ dependencies {
 
 	compile group: 'com.jcabi.incubator', name: 'xembly', version: '0.22'
 
-	runtime 'mysql:mysql-connector-java'
+	runtime 'mysql:mysql-connector-java:5.1.46'
     
     compile group: 'javax.mail', name: 'mail', version: '1.5.0-b01'
 }

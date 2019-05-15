@@ -17,7 +17,7 @@
             <tr *ngFor="let process of myProcesses">
                <td>{{ process.processId }}</td>
                <td>{{ process.processName }}</td>
-               <td>{{ process.processCreatedAt | date:'dd.MM.yyyy HH:mm:ss'}}</td>
+               <td>{{ process.processCreatedAt | date:'dd.MM.yyyy'}}</td>
                <td>
                  <button class="btn btn-primary btn-sm" (click)="showProcessDetails(process.processId, process.processName, process.processVersion, process.processPrice, process.processCreator, process.processDescription)">Show</button>
                </td>

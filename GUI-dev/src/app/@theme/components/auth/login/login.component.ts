@@ -11,6 +11,7 @@ import { NB_AUTH_OPTIONS, NbAuthSocialLink } from '@nebular/auth';
 import { getDeepFromObject } from '@nebular/auth/helpers';
 import { NbAuthService } from '@nebular/auth';
 import { NbAuthResult } from '@nebular/auth';
+import {NbAclService} from '@nebular/security';
 
 
 @Component({
@@ -31,7 +32,8 @@ export class EbLoginComponent {
 
   constructor(protected service: NbAuthService,
               @Inject(NB_AUTH_OPTIONS) protected config = {},
-              protected router: Router) {
+              protected router: Router,
+              protected aclService: NbAclService) {
 
     this.redirectDelay = this.getConfigValue('forms.login.redirectDelay');
     this.showMessages = this.getConfigValue('forms.login.showMessages');
@@ -48,6 +50,28 @@ export class EbLoginComponent {
 
       if (result.isSuccess()) {
         this.messages = result.getMessages();
+        this.aclService.setAccessControl({
+          USER: {
+            view: ['profile', 'processes'],
+          },
+          ORG_EMP: {
+            parent: 'USER',
+            view: 'org',
+          },
+          ORG_CEO: {
+            parent: 'ORG_EMP',
+            view: 'ceo_org',
+          },
+          SYS_ADMIN: {
+            parent: 'USER',
+            create: '*',
+            delete: '*',
+          },
+          SYS_APPROVER: {
+            parent: 'USER',
+            view: ['new_processes', 'approvals'],
+          },
+        });
       } else {
         this.errors = result.getErrors();
       }

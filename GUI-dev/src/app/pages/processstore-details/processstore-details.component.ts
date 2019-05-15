@@ -31,6 +31,10 @@ export class ProcessStoreDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._init();
+  };
+
+  _init() {
     // get the ID from the selected process
     this.route.params.subscribe(params => {
       this.processId = params['processId'];
@@ -40,6 +44,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
     this.gateway.getProcessById(this.processId)
       .then((process) => {
         this.process = process;
+        this._setProcessApprover();
       });
     this
 
@@ -64,6 +69,16 @@ export class ProcessStoreDetailsComponent implements OnInit {
       });
   }
 
+  _setProcessApprover() {
+    this.gateway.getUsersOfMyOrg()
+      .then((users) => {
+        for (let i = 0; i <= users.length; i++) {
+          if (this.process.processApprover === '' + users[i].uid) {
+            this.process.processApprover = users[i].firstname + ' ' + users[i].lastname;
+          }
+        }
+      });
+  }
   // activates a modal for approval of payment
   // method for buy can be found in the modal
   showBuyModal() {

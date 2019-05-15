@@ -29,6 +29,7 @@ import {EventLoggerService} from './evntLogger.service';
 import {ProcessesService} from './allProcesses.service';
 import {User} from '../models/models';
 import {ApprovalAuthGuard} from './approval-auth-guard.service';
+import {RuleProvider} from './rule.provider';
 
 @NgModule({
   declarations: [AppComponent],
@@ -115,6 +116,7 @@ import {ApprovalAuthGuard} from './approval-auth-guard.service';
     EventLoggerService,
     ProcessesService,
     RoleProvider,
+    RuleProvider,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: NB_AUTH_TOKEN_CLASS, useValue: NbAuthJWTToken },
     { provide: NbRoleProvider, useClass: RoleProvider },
