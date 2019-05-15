@@ -69,6 +69,44 @@ const routes: Routes = [{
       ],
     },
     {
+      path: 'myprocesses',
+      data: {
+        menu: {
+          title: 'Prozesse',
+          icon: 'ion-clipboard',
+          selected: false,
+          expanded: false,
+          order: 2,
+        }
+      },
+      children: [
+        {
+          path: 'startable',
+          data: {
+            menu: {
+              title: 'Prozess starten'
+            }
+          }
+        },
+        {
+          path: 'active',
+          data: {
+            menu: {
+              title: 'Aktive Prozesse'
+            }
+          }
+        },
+        {
+          path: 'terminated',
+          data: {
+            menu: {
+              title: 'Beendete Prozesse'
+            }
+          }
+        }
+      ]
+    },
+    {
       path: 'user-management',
       component: UserManagementComponent,
       canActivate: [AuthGuard],

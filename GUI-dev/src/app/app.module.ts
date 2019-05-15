@@ -27,9 +27,10 @@ import { AsyncEmailValidatorProvider } from './@theme/providers/async-email-vali
 import { ServerConfigProvider } from './@theme/providers/backend-server/serverconfig';
 import {EventLoggerService} from './evntLogger.service';
 import {ProcessesService} from './allProcesses.service';
-import {User} from '../models/models';
 import {ApprovalAuthGuard} from './approval-auth-guard.service';
 import {RuleProvider} from './rule.provider';
+import { AmChartsModule } from '@amcharts/amcharts3-angular';
+import {User} from './user';
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,6 +40,7 @@ import {RuleProvider} from './rule.provider';
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
+    AmChartsModule,
     FormsModule,
     ReactiveFormsModule,
     NgbModule.forRoot(),
