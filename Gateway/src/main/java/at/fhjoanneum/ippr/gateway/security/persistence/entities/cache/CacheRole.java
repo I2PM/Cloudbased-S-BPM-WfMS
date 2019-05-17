@@ -11,15 +11,21 @@ public class CacheRole {
     private final String systemId;
     private final String name;
     private final List<CacheRule> rules;
+    private final boolean subjectRole;
+    private final CacheOrganization organization;
+    private final CacheRole parent;
 
 
-    public CacheRole(final String systemId, final String name, final List<CacheRule> rules) {
+    public CacheRole(String systemId, String name, List<CacheRule> rules, boolean subjectRole, CacheOrganization organization, CacheRole parent) {
         checkArgument(StringUtils.isNotBlank(systemId));
         checkArgument(StringUtils.isNotBlank(name));
         checkArgument(rules != null);
         this.systemId = systemId;
         this.name = name;
         this.rules = rules;
+        this.subjectRole = subjectRole;
+        this.organization = organization;
+        this.parent = parent;
     }
 
     public String getSystemId() {
@@ -32,6 +38,18 @@ public class CacheRole {
 
     public List<CacheRule> getRules() {
         return rules;
+    }
+
+    public boolean isSubjectRole() {
+        return subjectRole;
+    }
+
+    public CacheOrganization getOrganization() {
+        return organization;
+    }
+
+    public CacheRole getParent() {
+        return parent;
     }
 
     @Override

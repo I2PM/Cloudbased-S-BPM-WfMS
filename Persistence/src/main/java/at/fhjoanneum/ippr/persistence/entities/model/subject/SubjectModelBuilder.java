@@ -16,6 +16,7 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
   private String name;
   private final List<String> assignedRules = Lists.newArrayList();
   private SubjectModelType type;
+  private List<Long>assignedRoles = Lists.newArrayList();
 
   public SubjectModelBuilder name(final String name) {
     isNotBlank(name);
@@ -35,6 +36,12 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
     return this;
   }
 
+  public SubjectModelBuilder addAssignedRole(final Long roleId) {
+    Preconditions.checkNotNull(type);
+    assignedRoles.add(roleId);
+    return this;
+  }
+
   @Override
   public SubjectModel build() {
     isNotBlank(name);
@@ -46,7 +53,7 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
       Preconditions.checkArgument(!assignedRules.isEmpty());
     }
 
-    final SubjectModel subjectModel = new SubjectModelImpl(name, assignedRules, type);
+    final SubjectModel subjectModel = new SubjectModelImpl(name, assignedRules, type, assignedRoles);
     return subjectModel;
   }
 

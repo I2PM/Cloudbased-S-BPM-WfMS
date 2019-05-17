@@ -82,45 +82,27 @@ public class RBACMappingServiceImpl implements RBACMappingService {
         return resource.orElseGet(() -> rbacRepository.saveResource(new ResourceImpl(cachedResource.getSystemId())));
     }
 
-    private void storeRoles(final Map<String, CacheRole> roles) {
-        roles.forEach((key, role) -> {
-            final Optional<Role> roleOpt = rbacRepository.getRoleBySystemId(role.getSystemId());
-            if (!roleOpt.isPresent()) {
-                final RoleBuilder roleBuilder =
-                        new RoleBuilder().systemId(role.getSystemId()).name(role.getName());
-                role.getRules().stream().map(rule -> ruleCache.get(rule.getSystemId())).forEach(roleBuilder::addRule);
-                rolesCache.put(role.getSystemId(), rbacRepository.saveRole(roleBuilder.build()));
-            } else {
-                updateRole(role, roleOpt);
-            }
-        });
+    private Role updateOrCreateRole(CacheRole cacheRole) {
+        final Optional<Role> roleOpt = rbacRepository.getRoleBySystemId(cacheRole.getSystemId());
+        Role parent = cacheRole.getParent() == null ? null : updateOrCreateRole(cacheRole.getParent());
+        Role role = roleOpt.orElseGet(() -> new RoleImpl(null, cacheRole.getSystemId(), null, null, null, null));
+
+        role.setName(cacheRole.getName());
+        role.setOrganization(null); // TODO: Save org if necessary
+        final List<Rule> newRules = cacheRole.getRules().stream()
+                .map(rule -> ruleCache.get(rule.getSystemId())).collect(Collectors.toList());
+        role.setRules(newRules);
+        role.setSubjectRole(cacheRole.isSubjectRole());
+        role.setParent(parent);
+        role = rbacRepository.saveRole(role);
+        rolesCache.put(role.getSystemId(), role);
+        return role;
     }
 
-    private void updateRole(final CacheRole role, final Optional<Role> roleOpt) {
-        final Role dbRole = roleOpt.get();
-        if (!dbRole.getName().equals(role.getName())) {
-            dbRole.setName(role.getName());
-            rbacRepository.saveRole(dbRole);
-        }
-
-        boolean toUpdate = false;
-        if (dbRole.getRules().size() == role.getRules().size()) {
-            toUpdate = true;
-
-        }
-        if (!toUpdate) {
-            List<CacheRule> rulesInDb = dbRole.getRules().stream().map(rule -> CacheRule.fromRule(rule)).collect(Collectors.toList());
-            toUpdate = rulesInDb.containsAll(role.getRules());
-        }
-
-        if (toUpdate) {
-            final List<Rule> newRules = role.getRules().stream()
-                    .map(rule -> ruleCache.get(rule.getSystemId())).collect(Collectors.toList());
-            dbRole.setRules(newRules);
-            rbacRepository.saveRole(dbRole);
-        }
-
-        rolesCache.put(dbRole.getSystemId(), dbRole);
+    private void storeRoles(final Map<String, CacheRole> roles) {
+        roles.forEach((key, cacheRole) -> {
+            updateOrCreateRole(cacheRole);
+        });
     }
 
     private void storeUsers(final Map<String, CacheUser> users) {

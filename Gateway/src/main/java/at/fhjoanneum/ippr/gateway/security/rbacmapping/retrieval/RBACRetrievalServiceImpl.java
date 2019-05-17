@@ -86,8 +86,12 @@ public class RBACRetrievalServiceImpl implements RBACRetrievalService {
             final String roleRulesRaw = RoleRow.RULES.index < line.size() ? line.get(RoleRow.RULES.index) : "";
             final List<CacheRule> roleRules = Splitter.on(',').omitEmptyStrings().trimResults().splitToList(roleRulesRaw).stream()
                     .map(systemId -> rules.get(systemId)).collect(Collectors.toList());
+            final CacheRole parent = roles.get(line.get(RoleRow.PARENT.index));
+            if (parent == null && !line.get(RoleRow.PARENT.index).equals("NULL")) {
+                throw new RuntimeException("Parent role must be defined before child role in roles.csv");
+            }
             final CacheRole role = new CacheRole(line.get(RoleRow.SYSTEM_ID.index),
-                    line.get(RoleRow.NAME.index), roleRules);
+                    line.get(RoleRow.NAME.index), roleRules, Boolean.parseBoolean(line.get(RoleRow.SUBJECTROLE.index)), null, parent);
             roles.put(role.getSystemId(), role);
         }
         return roles;
@@ -147,7 +151,7 @@ public class RBACRetrievalServiceImpl implements RBACRetrievalService {
     }
 
     private enum RoleRow {
-        NAME(0), SYSTEM_ID(1), RULES(2);
+        NAME(0), SYSTEM_ID(1), RULES(2), SUBJECTROLE(3), PARENT(4);
 
         private final int index;
 

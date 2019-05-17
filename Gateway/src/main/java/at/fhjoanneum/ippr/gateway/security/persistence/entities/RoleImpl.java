@@ -6,17 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -53,14 +47,27 @@ public class RoleImpl implements Role, Serializable {
             inverseJoinColumns = {@JoinColumn(name = "rule_id")})
     private List<RuleImpl> rules = Lists.newArrayList();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private OrganizationImpl organization;
+
+    @Column
+    @NotNull
+    private Boolean subjectRole;
+
+    @ManyToOne
+    private RoleImpl parent;
+
 
     RoleImpl() {
     }
 
-    public RoleImpl(String name, String systemId, List<RuleImpl> rules) {
+    public RoleImpl(String name, String systemId, List<RuleImpl> rules, OrganizationImpl organization, Boolean subjectRole, RoleImpl parent) {
         this.name = name;
         this.systemId = systemId;
         this.rules = rules;
+        this.organization = organization;
+        this.subjectRole = subjectRole;
+        this.parent = parent;
     }
 
     @Override
@@ -78,7 +85,34 @@ public class RoleImpl implements Role, Serializable {
         return name;
     }
 
+    @Override
+    public OrganizationImpl getOrganization() {
+        return organization;
+    }
 
+    @Override
+    public void setOrganization(OrganizationImpl organization) {
+        this.organization = organization;
+    }
+
+    @Override
+    public boolean getSubjectRole() {
+        return subjectRole;
+    }
+
+    @Override
+    public void setSubjectRole(boolean subjectRole) {
+        this.subjectRole = subjectRole;
+    }
+
+    public RoleImpl getParent() {
+        return parent;
+    }
+
+    public void setParent(Role parent) {
+        checkArgument(parent instanceof RoleImpl || parent == null);
+        this.parent = (RoleImpl) parent;
+    }
 
     @Override
     public void setName(final String name) {
