@@ -8,7 +8,7 @@ describe('PayAsYouGoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PayAsYouGoComponent ]
+      declarations: [ PayAsYouGoComponent ],
     })
     .compileComponents();
   }));

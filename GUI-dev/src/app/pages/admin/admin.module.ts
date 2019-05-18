@@ -23,7 +23,7 @@ import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.co
     CommonModule,
     FormsModule,
     routing,
-    ThemeModule
+    ThemeModule,
   ],
   declarations: [
     AdminComponent,
@@ -33,10 +33,10 @@ import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.co
     EventLoggerComponent,
     ManipulatePNMLComponent,
     GenerateOWLComponent,
-    PayAsYouGoComponent
+    PayAsYouGoComponent,
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
   ],
 })
 export default class AdminModule {}

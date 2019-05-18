@@ -26,7 +26,7 @@ import { AsyncEmailValidatorProvider } from './@theme/providers/async-email-vali
 import { ServerConfigProvider } from './@theme/providers/backend-server/serverconfig';
 import { EventLoggerService } from './evntLogger.service';
 import { ProcessesService } from './allProcesses.service';
-import { User }  from '../models/models';
+import { User } from '../models/models';
 import { ApprovalAuthGuard } from './approval-auth-guard.service';
 
 @NgModule({

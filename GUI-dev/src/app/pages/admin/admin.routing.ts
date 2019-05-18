@@ -22,7 +22,7 @@ const routes: Routes = [
       { path: 'eventLogger', component: EventLoggerComponent },
       { path: 'manipulatePNML', component: ManipulatePNMLComponent },
       { path: 'generateOWL', component: GenerateOWLComponent },
-      { path: 'pay-as-you-go', component: PayAsYouGoComponent }
+      { path: 'pay-as-you-go', component: PayAsYouGoComponent },
     ],
   },
 ];
