@@ -6,7 +6,8 @@ import { ProcessModelsComponent } from './components/processModels/processModels
 import { EventLoggerComponent } from './components/eventLogger/eventLogger.component';
 import { ManipulatePNMLComponent } from './components/manipulatePNML/manipulatePNML.component';
 import { GenerateOWLComponent } from './components/generateOWL/generateOWL.component';
-import {AuthGuard} from '../../auth-guard.service';
+import { AuthGuard } from '../../auth-guard.service';
+import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.component';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'eventLogger', component: EventLoggerComponent },
       { path: 'manipulatePNML', component: ManipulatePNMLComponent },
       { path: 'generateOWL', component: GenerateOWLComponent },
+      { path: 'pay-as-you-go', component: PayAsYouGoComponent }
     ],
   },
 ];

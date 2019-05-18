@@ -42,7 +42,6 @@ export class AverageRating {
   averageRating: number;
 }
 
-
 export class Review {
   // define props...
   review_id?: number;
@@ -54,8 +53,6 @@ export class Review {
   uploader?: string;
   created_at?: Date;
 }
-
-
 
 export class User {
   firstname: string;
@@ -89,6 +86,16 @@ export class Rule {
   ruleId: number;
   name: string;
   systemId: string;
+}
+
+export class PAYGentry {
+  entryId: number;
+  processId: number;
+  orgId: number;
+  dateTimeStart: Date;
+  dateTimeEnd: Date;
+  rate: number;
+  totalCost: number;
 }
 
 

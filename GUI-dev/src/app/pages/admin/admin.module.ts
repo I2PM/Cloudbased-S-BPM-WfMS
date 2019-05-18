@@ -12,8 +12,9 @@ import { ProcessModelsComponent } from './components/processModels/processModels
 import { EventLoggerComponent } from './components/eventLogger/eventLogger.component';
 import { ManipulatePNMLComponent } from './components/manipulatePNML/manipulatePNML.component';
 import { GenerateOWLComponent } from './components/generateOWL/generateOWL.component';
-import {AuthGuard} from '../../auth-guard.service';
-import {ThemeModule} from '../../@theme/theme.module';
+import { AuthGuard } from '../../auth-guard.service';
+import { ThemeModule } from '../../@theme/theme.module';
+import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.component';
 
 
 
@@ -22,7 +23,7 @@ import {ThemeModule} from '../../@theme/theme.module';
     CommonModule,
     FormsModule,
     routing,
-    ThemeModule,
+    ThemeModule
   ],
   declarations: [
     AdminComponent,
@@ -32,9 +33,10 @@ import {ThemeModule} from '../../@theme/theme.module';
     EventLoggerComponent,
     ManipulatePNMLComponent,
     GenerateOWLComponent,
+    PayAsYouGoComponent
   ],
   providers: [
-    AuthGuard,
+    AuthGuard
   ],
 })
 export default class AdminModule {}

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { EventLoggerService} from '../../../../evntLogger.service';
+import { EventLoggerService } from '../../../../evntLogger.service';
 
 @Component({
   selector: 'ngx-manipulate-import',
