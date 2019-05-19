@@ -1,2 +1,2 @@
 username;firstname;lastname;password;email;systemId;roles
-admin;Admin;Admin;Pa$$w0rd;admin@ebusa.com;ADMIN_EBUSA_COM;SYS_ADMIN,USER
+admin;Admin;Admin;Pa$$w0rd;admin@ebusa.com;ADMIN_EBUSA_COM;SYS_ADMIN

@@ -68,6 +68,8 @@ public class RBACMappingServiceImpl implements RBACMappingService {
                 final Rule dbRule =
                         new RuleBuilder().systemId(rule.getSystemId()).resource(dbResource).crudType(dbCrudType).build();
                 ruleCache.put(rule.getSystemId(), rbacRepository.saveRule(dbRule));
+            } else {
+                ruleCache.put(rule.getSystemId(), ruleOpt.get());
             }
         });
     }
@@ -106,7 +108,7 @@ public class RBACMappingServiceImpl implements RBACMappingService {
     }
 
     private void storeUsers(final Map<String, CacheUser> users) {
-        users.values().stream().forEach(user -> {
+        users.values().forEach(user -> {
             final Optional<User> userOpt = rbacRepository.getUserBySystemId(user.getSystemId());
             if (!userOpt.isPresent()) {
                 final UserBuilder userBuilder =
@@ -147,6 +149,7 @@ public class RBACMappingServiceImpl implements RBACMappingService {
             final List<Role> newRoles = cacheUser.getRoles().stream()
                     .map(role -> rolesCache.get(role.getSystemId())).collect(Collectors.toList());
             dbUser.setRoles(newRoles);
+            rbacRepository.saveUser(dbUser);
         }
     }
 
