@@ -6,7 +6,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-bar-chart',
     link: '/dashboard',
   },
-
   {
     title: 'Process Store',
     icon: 'ion-cash',
@@ -21,6 +20,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Create Process',
     icon: 'nb-paper-plane',
     link: '/createProcess',
+  },
+  {
+    title: 'Pay As You Go',
+    icon: 'ion-cash',
+    link: '/pay-as-you-go',
   },
   /*{
     title: 'FEATURES',
