@@ -9,14 +9,14 @@ public class SubjectModelDTO {
 
   private Long smId;
   private String name;
-  private List<String> assignedRules;
+  private List<Long> assignedRoles;
 
   public SubjectModelDTO() {}
 
-  public SubjectModelDTO(final Long smId, final String name, final List<String> assignedRules) {
+  public SubjectModelDTO(final Long smId, final String name, final List<Long> assignedRoles) {
     this.smId = smId;
     this.name = name;
-    this.assignedRules = assignedRules;
+    this.assignedRoles = assignedRoles;
   }
 
   public Long getSmId() {
@@ -27,7 +27,7 @@ public class SubjectModelDTO {
     return name;
   }
 
-  public List<String> getAssignedRules() {
-    return assignedRules;
+  public List<Long> getAssignedRoles() {
+    return assignedRoles;
   }
 }

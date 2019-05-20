@@ -16,7 +16,7 @@ import {isNullOrUndefined} from "util";
 })
 export class ImportProcessModel implements OnInit {
   processModel;
-  rules;
+  roles;
   error = undefined;
   formBuilder;
   buildedBusinessObjects = {};
@@ -90,7 +90,7 @@ export class ImportProcessModel implements OnInit {
               that.processModel.boms.forEach(businessObject => {
                 that.buildedBusinessObjects[businessObject.id] = {};
               });
-              that.initRules();
+              that.initRoles();
             },
             err => {
               that.error = 'Die OWL Datei konnte nicht richtig interpretiert werden!';
@@ -104,14 +104,14 @@ export class ImportProcessModel implements OnInit {
    // }
   }
 
-  initRules(): void {
+  initRoles(): void {
     const that = this;
     this.gateway.getUser().then( (user) =>
     {
         this.gateway.getRolesOfOrganization(user.organization).then( (roles) =>
         {
           console.log(roles[0])
-          this.rules = roles;
+          this.roles = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
         }).catch( (err) =>
@@ -123,25 +123,26 @@ export class ImportProcessModel implements OnInit {
     });
   }
 
+  /*
   assignRoleIdsToSubjects(processModelResult)
   {
     for (let i = 0; i < processModelResult.subjectModels.length; i++)
     {
-      for (let j = 0; j < processModelResult.subjectModels[i].assignedRules.length; j++)
+      for (let j = 0; j < processModelResult.subjectModels[i].assignedRoles.length; j++)
       {
         let roleId = -1;
-        console.log('Role Name: ' + processModelResult.subjectModels[i].assignedRules[j]);
-        const roleName = processModelResult.subjectModels[i].assignedRules[j];
+        console.log('Role Name: ' + processModelResult.subjectModels[i].assignedRoles[j]);
+        const roleName = processModelResult.subjectModels[i].assignedRoles[j];
 
-        for (let x = 0; x < this.rules.length && roleId === -1; x++)
+        for (let x = 0; x < this.roles.length && roleId === -1; x++)
         {
-          if (this.rules[x].name === roleName)
-            roleId = this.rules[x].roleId;
+          if (this.roles[x].name === roleName)
+            roleId = this.roles[x].roleId;
         }
 
         if (roleId !== -1)
         {
-          processModelResult.subjectModels[i].assignedRules[j] = roleId;
+          processModelResult.subjectModels[i].assignedRoles[j] = roleId;
         }
         console.log('Role ID: ' + roleId);
       }
@@ -149,6 +150,7 @@ export class ImportProcessModel implements OnInit {
 
     return processModelResult;
   }
+  */
 
   uploadProcessModel(form): void {
     const that = this;
@@ -162,7 +164,8 @@ export class ImportProcessModel implements OnInit {
       processModelResult.bofps = processModelResult.bofps.concat((<any>Object).values(this.buildedBofps[a])));
 
     console.log(processModelResult);
-    processModelResult = this.assignRoleIdsToSubjects(processModelResult);
+
+    //processModelResult = this.assignRoleIdsToSubjects(processModelResult);
 
     /*
     for (let i = 0; i < processModelResult.subjectModels.length; i++)
@@ -192,7 +195,7 @@ export class ImportProcessModel implements OnInit {
         data => {
           if (data === true) {
             that.processModel = undefined;
-            that.rules = undefined;
+            that.roles = undefined;
             that.error = undefined;
             that.formBuilder = undefined;
             that.buildedBusinessObjects = {};

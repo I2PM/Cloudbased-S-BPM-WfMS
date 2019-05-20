@@ -226,14 +226,14 @@ public class StateObjectRetrieveTask extends AbstractTask<StateObjectMessage.Req
     final Subject subject =
         subjectRepository.getSubjectForSubjectModelInProcess(piId, subjectModel.getSmId());
     return new SubjectDTO(subjectModel.getSmId(), subject.getUser(), subjectModel.getName(),
-        subjectModel.getAssignedRules());
+        subjectModel.getAssignedRoles());
   }
 
   private SubjectDTO getAssignedProcessUser(final MessageFlow mf, final Long piID) {
     if (mf.getAssignedProcessModel().isPresent()) {
       final ProcessModel pm = mf.getAssignedProcessModel().get();
       final SubjectModel sm = pm.getStarterSubjectModel();
-      return new SubjectDTO(sm.getSmId(), null, sm.getName(), sm.getAssignedRules());
+      return new SubjectDTO(sm.getSmId(), null, sm.getName(), sm.getAssignedRoles());
     }
 
     return null;

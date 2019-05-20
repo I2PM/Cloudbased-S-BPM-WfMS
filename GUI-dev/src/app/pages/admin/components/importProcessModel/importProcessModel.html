@@ -59,9 +59,9 @@
                <label for="name">Name</label>
                <input type="text" class="form-control" id="name" name="subjectModel-'{{processModel.subjectModels.indexOf(subjectModel)}}'-Name" [ngModel]="subjectModel.name" readonly>
                <br />
-               <label for="assignedRules">Rechte</label>
-               <select multiple class="form-control" name="subjectModel-'{{processModel.subjectModels.indexOf(subjectModel)}}'-Rule" [(ngModel)]="subjectModel.assignedRules" required>
-                 <option *ngFor="let rule of rules" [ngValue]="rule.systemId">{{rule.systemId}}</option>
+               <label for="assignedRoles">Rollen</label>
+               <select multiple class="form-control" name="subjectModel-'{{processModel.subjectModels.indexOf(subjectModel)}}'-Rule" [(ngModel)]="subjectModel.assignedRoles" required>
+                 <option *ngFor="let role of roles" [ngValue]="role.roleId">{{role.name}}</option>
                </select>
              </div>
            </div>
