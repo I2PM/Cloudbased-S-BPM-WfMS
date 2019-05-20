@@ -5,6 +5,7 @@ import * as $ from 'jquery';
 import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 import {User} from "../../../../../models/models";
+import {isNullOrUndefined} from "util";
 
 
 @Component({
@@ -122,15 +123,70 @@ export class ImportProcessModel implements OnInit {
     });
   }
 
+  assignRoleIdsToSubjects(processModelResult)
+  {
+    for (let i = 0; i < processModelResult.subjectModels.length; i++)
+    {
+      for (let j = 0; j < processModelResult.subjectModels[i].assignedRules.length; j++)
+      {
+        let roleId = -1;
+        console.log('Role Name: ' + processModelResult.subjectModels[i].assignedRules[j]);
+        const roleName = processModelResult.subjectModels[i].assignedRules[j];
+
+        for (let x = 0; x < this.rules.length && roleId === -1; x++)
+        {
+          if (this.rules[x].name === roleName)
+            roleId = this.rules[x].roleId;
+        }
+
+        if (roleId !== -1)
+        {
+          processModelResult.subjectModels[i].assignedRules[j] = roleId;
+        }
+        console.log('Role ID: ' + roleId);
+      }
+    }
+
+    return processModelResult;
+  }
+
   uploadProcessModel(form): void {
     const that = this;
     let processModelResult;
     this.getFormData(this.currentSelectedBusinessObject);
+
     processModelResult = this.processModel;
     processModelResult.bofms = this.getBofms();
     processModelResult.bofps = [];
     Object.keys(this.buildedBofps).forEach(a =>
       processModelResult.bofps = processModelResult.bofps.concat((<any>Object).values(this.buildedBofps[a])));
+
+    console.log(processModelResult);
+    processModelResult = this.assignRoleIdsToSubjects(processModelResult);
+
+    /*
+    for (let i = 0; i < processModelResult.subjectModels.length; i++)
+    {
+      for(let j = 0; j < processModelResult.subjectModels[i].assignedRules.length; j++)
+      {
+          let roleId = -1;
+          console.log('Role Name: ' + processModelResult.subjectModels[i].assignedRules[j]);
+          const roleName = processModelResult.subjectModels[i].assignedRules[j];
+
+          for(let x = 0; x < this.rules.length && roleId === -1; x++)
+          {
+            if(this.rules[x].name===roleName)
+              roleId = this.rules[x].roleId;
+          }
+
+          if(roleId !== -1)
+          {
+            processModelResult.subjectModels[i].assignedRules[j]=roleId;
+          }
+          console.log('Role ID: ' + roleId);
+      }
+    }*/
+
     this.service.importProcessModel(processModelResult)
       .subscribe(
         data => {

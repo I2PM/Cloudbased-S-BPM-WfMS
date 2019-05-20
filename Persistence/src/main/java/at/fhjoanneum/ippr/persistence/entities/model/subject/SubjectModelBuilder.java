@@ -30,6 +30,7 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
     return this;
   }
 
+
   public SubjectModelBuilder addAssignedRule(final String rule) {
     isNotBlank(rule);
     assignedRules.add(rule);

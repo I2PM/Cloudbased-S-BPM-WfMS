@@ -50,8 +50,8 @@ public class SubjectModelImpl implements SubjectModel, Serializable {
   private final List<StateImpl> states = Lists.newArrayList();
 
   @ElementCollection
-  @CollectionTable(name = "SUBJECT_MODEL_RULE", joinColumns = @JoinColumn(name = "sm_id"))
-  @Column(name = "name")
+  @CollectionTable(name = "SUBJECT_MODEL_ROLE", joinColumns = @JoinColumn(name = "sm_id"))
+  @Column(name = "role_id")
   private List<String> assignedRules = Lists.newArrayList();
 
   @ElementCollection
