@@ -1,7 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
-import {User, StoreProcess, StoreProcessRating, Organization, AverageRating} from '../../../../models/models';
+import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role} from '../../../../models/models';
 import {toPromise} from "rxjs/operator/toPromise";
 
 @Injectable()
@@ -60,6 +60,11 @@ export class GatewayProvider {
       .toPromise();
   }
 
+  getRolesOfOrganization(organization: Organization): Promise<Role[]> {
+    return this.http.get<Role[]>(this.serverConfig.getRolesOfOrganization + '/' + organization.oid + '/roles')
+      .toPromise()
+  }
+
   getUsersOfMyOrg(): Promise<User[]> {
     return this.http.get<User[]>(this.serverConfig.getUsersOfMyOrg).toPromise();
   }
@@ -85,6 +90,8 @@ export class GatewayProvider {
     return this.http.get<StoreProcess[]>(this.serverConfig.getUnapprovedStoreProcesses)
       .toPromise()
   }
+
+
 
   getApprovedStoreProcesses(): Promise<StoreProcess[]> {
     return this.http.get<StoreProcess[]>(this.serverConfig.getApprovedProcesses)

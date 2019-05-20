@@ -44,6 +44,14 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
+    public Future<List<Role>> getRolesOfOrganization(final Long oId) {
+
+        LOG.info("reached function getRolesOfOrganization, with id: "+oId);
+
+        return new AsyncResult<List<Role>>(rbacRepository.getRolesOfOrganization(oId));
+    }
+
+    @Override
     public Future<List<Organization>> getOrganizations() {
         return new AsyncResult<List<Organization>>(organizationRepository.getOrganizations());
     }

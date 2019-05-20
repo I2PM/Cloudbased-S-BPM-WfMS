@@ -4,6 +4,7 @@ import { ProcessesService } from '../../../../allProcesses.service';
 import * as $ from 'jquery';
 import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
+import {User} from "../../../../../models/models";
 
 
 @Component({
@@ -104,17 +105,21 @@ export class ImportProcessModel implements OnInit {
 
   initRules(): void {
     const that = this;
-    this.service.getRules()
-      .subscribe(
-        data => {
-          console.log(data);
-          that.rules = data; //JSON.parse(data['_body']);
+    this.gateway.getUser().then( (user) =>
+    {
+        this.gateway.getRolesOfOrganization(user.organization).then( (roles) =>
+        {
+          console.log(roles[0])
+          this.rules = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
-        },
-        err => that.error = err,
-        () => console.log('Request Complete'),
-      );
+        }).catch( (err) =>
+        {
+          console.log(err);
+        });
+    }).catch( (err) =>{
+        console.log(err);
+    });
   }
 
   uploadProcessModel(form): void {

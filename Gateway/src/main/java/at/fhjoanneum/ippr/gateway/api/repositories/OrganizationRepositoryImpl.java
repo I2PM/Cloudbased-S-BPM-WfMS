@@ -2,6 +2,7 @@ package at.fhjoanneum.ippr.gateway.api.repositories;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.OrganizationImpl;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
@@ -49,5 +50,4 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
         @Query(value = "SELECT * FROM organization WHERE organization_name = :organizationName", nativeQuery = true)
         OrganizationImpl findOrganizationByOrganizationName(@Param("organizationName") String organizationName);
     }
-
 }
