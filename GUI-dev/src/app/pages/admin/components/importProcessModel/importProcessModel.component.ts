@@ -108,8 +108,10 @@ export class ImportProcessModel implements OnInit {
     const that = this;
     this.gateway.getUser().then( (user) =>
     {
+      console.log(user);
         this.gateway.getRolesOfOrganization(user.organization).then( (roles) =>
         {
+          console.log(roles);
           console.log(roles[0])
           this.roles = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];

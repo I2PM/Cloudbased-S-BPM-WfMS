@@ -20,7 +20,8 @@ export class ActiveProcesses implements OnInit  {
   ];
   msg = undefined;
 
-  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner, protected route: ActivatedRoute, protected router: Router) {
+  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner,
+              protected route: ActivatedRoute, protected router: Router) {
   }
 
   ngOnInit() {

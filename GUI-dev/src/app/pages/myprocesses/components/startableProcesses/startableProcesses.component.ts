@@ -18,7 +18,9 @@ export class StartableProcesses implements OnInit {
    selectedUserAssignments = {};
    isSelectionValid = false;
 
-  constructor(protected service:ProcessesService, protected route: ActivatedRoute, protected router: Router) {}
+  constructor(protected service:ProcessesService, protected route: ActivatedRoute, protected router: Router) {
+    console.log("startable");
+  }
 
   ngOnInit(): void {
     var that = this;

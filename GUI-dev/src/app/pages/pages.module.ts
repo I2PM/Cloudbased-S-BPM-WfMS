@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
@@ -13,6 +13,13 @@ import { ProcessRatingModule } from './includes/process-ratings/process-ratings.
 import { ProcessstoreDetailsModule } from './processstore-details/processstore-details.module';
 import {CreateProcessModule} from './create-process/create-process.module';
 import {UserManagementModule} from './user-management/user-management.module';
+import MyProcessesModule from "./myprocesses/myprocesses.module";
+import {MyProcesses} from "./myprocesses";
+import {StartableProcesses} from "./myprocesses/components/startableProcesses";
+import {TerminatedProcesses} from "./myprocesses/components/terminatedProcesses";
+import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
+import {FormsModule} from "@angular/forms";
+import {NgaModule} from "../theme/nga.module";
 
 
 const PAGES_COMPONENTS = [
@@ -34,10 +41,16 @@ const PAGES_COMPONENTS = [
     ProcessstoreDetailsModule,
     CreateProcessModule,
     UserManagementModule,
+    FormsModule
   ],
   declarations: [
     ...PAGES_COMPONENTS,
+    MyProcesses,
+    StartableProcesses,
+    TerminatedProcesses,
+    ActiveProcesses
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class PagesModule {
 }

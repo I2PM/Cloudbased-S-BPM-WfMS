@@ -30,6 +30,10 @@ import {OrganizationsComponent} from './user-management/components/organizations
 import {AllUsersComponent} from './user-management/components/allUsers';
 import {AllRolesComponent} from './user-management/components/allRoles';
 import {EditOrgaModalComponent} from './user-management/components/editOrgaModal/editOrgaModal.component';
+import {MyProcesses} from "./myprocesses";
+import {StartableProcesses} from "./myprocesses/components/startableProcesses";
+import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
+import {TerminatedProcesses} from './myprocesses/components/terminatedProcesses/terminatedProcesses.component';
 
 
 const routes: Routes = [{
@@ -70,6 +74,7 @@ const routes: Routes = [{
     },
     {
       path: 'myprocesses',
+      component: MyProcesses,
       data: {
         menu: {
           title: 'Prozesse',
@@ -82,6 +87,7 @@ const routes: Routes = [{
       children: [
         {
           path: 'startable',
+          component: StartableProcesses,
           data: {
             menu: {
               title: 'Prozess starten'
@@ -90,6 +96,7 @@ const routes: Routes = [{
         },
         {
           path: 'active',
+          component: ActiveProcesses,
           data: {
             menu: {
               title: 'Aktive Prozesse'
@@ -98,6 +105,7 @@ const routes: Routes = [{
         },
         {
           path: 'terminated',
+          component: TerminatedProcesses,
           data: {
             menu: {
               title: 'Beendete Prozesse'
