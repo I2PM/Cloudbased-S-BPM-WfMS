@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   public processesByDate: StoreProcess[] = [];
   public processesByRating = [];
   public ratings: AverageRating[] = [];
-  public class;
+  public emailAdress: String;
 
   user = {};
   authenticated = false;
@@ -49,12 +49,11 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(private gateway: GatewayProvider, private router: Router, private authService: NbAuthService) {
-    this.class = HomeComponent;
-
     this.authService.onTokenChange()
       .subscribe((token: NbAuthJWTToken) => {
         if (token.isValid()) {
           this.user = token.getPayload();
+          this.emailAdress = token.getPayload().email;
           this.authenticated = true;
         } else {
           this.authenticated = false;
@@ -73,9 +72,9 @@ export class HomeComponent implements OnInit {
   }
 
   _filterDataAfterCreator() {
-    const userMailAdress = '' + this.class.user.sub;
+    let mailAdress = this.emailAdress;
     this.processes = this.processes.filter(function (process) {
-      return process.processCreator === userMailAdress;
+      return process.processCreator === mailAdress;
     });
     this.data = this.processes;
   }
