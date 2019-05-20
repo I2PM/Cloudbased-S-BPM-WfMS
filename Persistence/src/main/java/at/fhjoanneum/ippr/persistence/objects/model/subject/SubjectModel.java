@@ -19,4 +19,6 @@ public interface SubjectModel {
   List<State> getStates();
 
   List<String> getAssignedRules();
+
+  List<Long> getAssignedRoles();
 }
