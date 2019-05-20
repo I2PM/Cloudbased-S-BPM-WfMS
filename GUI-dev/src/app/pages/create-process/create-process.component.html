@@ -36,13 +36,14 @@
         <h3>Process Approver</h3>
         <div class="form-group">
           <select class="form-control inputfields" (change)="selectedApprover($event.target.value)">
-            <option name="processApprover" required="true" id="input-processApprover" *ngFor="let user of usersFromOrganization" [value]="user.uid" >
+            <option [value]="noApprover">Please select an approver</option>
+            <option name="processApprover" id="input-processApprover" *ngFor="let user of usersFromOrganization" [value]="user.uid" >
               {{user.email}}
             </option>
           </select>
         </div>
 
-      <button [disabled]="(!owlFile || !form.valid)" class="btn btn-block btn-hero-success inputfields" ng-click="createProcess()">
+      <button [disabled]="(!owlFile || !form.valid || !process.processApprover)" class="btn btn-block btn-hero-success inputfields" ng-click="createProcess()">
         Create new process
       </button>
       </form>

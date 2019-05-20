@@ -7,7 +7,6 @@ import {Router} from '@angular/router';
   selector: 'ngx-create-process',
   templateUrl: './create-process.component.html',
   styleUrls: ['./create-process.component.scss'],
-
 })
 export class CreateProcessComponent implements OnInit {
 
@@ -21,7 +20,6 @@ export class CreateProcessComponent implements OnInit {
   usersFromOrganization: User[];
 
   constructor(private gateway: GatewayProvider, private router: Router) {
-
   }
 
   ngOnInit() {
@@ -55,8 +53,8 @@ export class CreateProcessComponent implements OnInit {
 
   createProcess(): void {
     this.process.processCreator = this.creator;
-    if (!this.process.processApprover) {
-      this.process.processApprover = '' + 2;
+    if (!this.process.processApprover || this.process.processApprover === 'noApprover') {
+      return;
     }
     this.gateway.createProcess(this.process)
       .then(data => {
@@ -65,7 +63,7 @@ export class CreateProcessComponent implements OnInit {
       .then(() => {
         // _addProcessToOrganisation();
         this.router.navigateByUrl('/dashboard')})
-      .catch(err => console.warn(err))
+      .catch(err => console.warn(err));
     ;
   }
 }
