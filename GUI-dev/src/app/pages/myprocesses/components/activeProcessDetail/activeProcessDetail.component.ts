@@ -72,20 +72,20 @@ export class ActiveProcessDetail implements OnInit {
     this.piId = +this.route.snapshot.params['piId'];
     this.businessObjects = undefined;
     this.nextStates = undefined;
-    this.spinner.show();
+    //this.spinner.show();
     if(!this.nextIsEndState){
       that.assignedUsers = undefined;
       this.service.getProcessState(this.piId)
       .subscribe(
           data => {
-            that.subjectsState = JSON.parse(data['_body']);
+            that.subjectsState = JSON.parse(data + '');
             that.myCurrentState = that.subjectsState.subjects.filter(s => s.userId === that._user.getUid())[0].stateName;
-            that.spinner.hide();
+            //that.spinner.hide();
           },
           err =>{
             that.msg = {text: err, type: 'error'}
             console.log(err);
-            that.spinner.hide();
+            //that.spinner.hide();
           }
         );
 
@@ -94,7 +94,7 @@ export class ActiveProcessDetail implements OnInit {
           data => {
             var dataJson;
             try {
-              dataJson = JSON.parse(data['_body']);
+              dataJson = JSON.parse(data + '');
             } catch(e) {
               return false;
             }
@@ -112,7 +112,7 @@ export class ActiveProcessDetail implements OnInit {
         );
       } else {
         this.isFinished = true;
-        this.spinner.hide();
+        //this.spinner.hide();
       }
   }
 
@@ -124,7 +124,7 @@ export class ActiveProcessDetail implements OnInit {
           that.service.getPossibleUsersForProcessModel(au.assignedRules).
           subscribe(
             data => {
-              let users = JSON.parse(data['_body']);
+              let users = JSON.parse(data + '');
               au.assignedRules.forEach(rule => {
                 that.possibleUserAssignments.push({rule: rule, smId: au.smId, users: users, subjectName: au.subjectName});
                 that.selectedUserAssignments[rule] = undefined;

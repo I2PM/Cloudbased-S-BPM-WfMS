@@ -19,6 +19,7 @@ export class TerminatedProcesses implements OnInit  {
       startUserId:number
     }
   ];
+  terminP;
   msg = undefined;
 
   constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner, protected route: ActivatedRoute, protected router: Router) {
@@ -33,7 +34,7 @@ export class TerminatedProcesses implements OnInit  {
     .subscribe(
         data => {
           console.log(data);
-          that.terminatedProcesses = JSON.parse(data['_body']);
+          that.terminP = data;
           //that.spinner.hide();
         },
         err =>{

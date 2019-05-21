@@ -29,7 +29,7 @@ export class StartableProcesses implements OnInit {
       .subscribe(
          data => {
            console.log(data);
-           that.processModels = JSON.parse(data + "");
+           that.processModels = (<any[]>data);
 
          },
          err => that.msg = {text: err, type: 'error'},
