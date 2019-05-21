@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {User} from './user';
+import {AuthGuard} from "./auth-guard.service";
+import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
 
 @Injectable()
 export class ProcessesService {
@@ -17,8 +19,12 @@ export class ProcessesService {
     this.currentProcessModel = processModel;
   }
 
-  constructor(private _authHttp: HttpClient, private _user: User) {
-
+  constructor(private _authHttp: HttpClient, private _user: User, private authService : NbAuthService) {
+    // this._user = this.authService.getToken(); ???
+    this.authService.getToken().subscribe((token) => {
+      console.log("payload");
+      console.log(token.getValue());
+    })
   }
 
    getProcessModels() {
@@ -61,6 +67,7 @@ export class ProcessesService {
    }
 
    getTerminatedProcessesForUser() {
+    console.log(this._user);
      return this._authHttp.get(this.restApi + '/processes/finished/' + this._user.getUid() + '?page=0');
    }
 

@@ -31,6 +31,7 @@ import {ApprovalAuthGuard} from './approval-auth-guard.service';
 import {RuleProvider} from './rule.provider';
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
 import {User} from './user';
+import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
 
 @NgModule({
   declarations: [AppComponent],
@@ -123,6 +124,7 @@ import {User} from './user';
     { provide: NB_AUTH_TOKEN_CLASS, useValue: NbAuthJWTToken },
     { provide: NbRoleProvider, useClass: RoleProvider },
     { provide: User, useClass: User},
+    BaThemeSpinner,
   ],
 })
 export class AppModule {

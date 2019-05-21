@@ -1,7 +1,8 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 
 import {GlobalState} from '../../../global.state';
-import { AuthService } from '../../../auth.service'
+import {NbAuthService} from '@nebular/auth';
+
 
 @Component({
   selector: 'ba-page-top',
@@ -14,7 +15,7 @@ export class BaPageTop {
   public isScrolled:boolean = false;
   public isMenuCollapsed:boolean = false;
 
-  constructor(private _state:GlobalState, private _authService:AuthService) {
+  constructor(private _state:GlobalState, private _authService: NbAuthService) {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
@@ -31,6 +32,6 @@ export class BaPageTop {
   }
 
   public logout() {
-    this._authService.logout();
+    this._authService.logout('email');
   }
 }

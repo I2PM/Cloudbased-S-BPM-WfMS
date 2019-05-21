@@ -14,7 +14,7 @@ import { TerminatedProcesses } from './components/terminatedProcesses/terminated
 import { StartableProcesses } from './components/startableProcesses/startableProcesses.component';
 import { BusinessObjects } from './components/activeProcessDetail/businessObjects.component';
 import {AuthGuard} from '../../auth-guard.service';
-
+import {BaThemeSpinner} from '../../theme/services/index';
 
 
 @NgModule({
@@ -35,7 +35,11 @@ import {AuthGuard} from '../../auth-guard.service';
     BusinessObjects
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    BaThemeSpinner
   ]
 })
 export default class MyProcessesModule {}
+
+
+

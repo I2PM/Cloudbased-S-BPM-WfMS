@@ -48,7 +48,7 @@ const PAGES_COMPONENTS = [
     MyProcesses,
     StartableProcesses,
     TerminatedProcesses,
-    ActiveProcesses
+    ActiveProcesses,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

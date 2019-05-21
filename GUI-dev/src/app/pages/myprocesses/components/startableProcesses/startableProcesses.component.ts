@@ -20,6 +20,7 @@ export class StartableProcesses implements OnInit {
 
   constructor(protected service:ProcessesService, protected route: ActivatedRoute, protected router: Router) {
     console.log("startable");
+
   }
 
   ngOnInit(): void {
