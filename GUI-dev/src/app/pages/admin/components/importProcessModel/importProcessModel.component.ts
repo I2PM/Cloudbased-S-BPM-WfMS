@@ -192,8 +192,19 @@ export class ImportProcessModel implements OnInit {
 
     this.service.importProcessModel(processModelResult)
       .subscribe(
-        data => {
-          if (data === true) {
+        processModelId => {
+
+          console.log('Received data from import Model: '+processModelId);
+
+          if (processModelId !== -1) {
+
+            const another = that;
+            this.gateway.getUser().then( (user) => {
+
+              let processStoreModel = this.service.getCurrentProcessModel();
+              this.gateway.mapProcessModelToProcess(processStoreModel.processId, processModelId,user.organization.oid);
+
+            });
             that.processModel = undefined;
             that.roles = undefined;
             that.error = undefined;

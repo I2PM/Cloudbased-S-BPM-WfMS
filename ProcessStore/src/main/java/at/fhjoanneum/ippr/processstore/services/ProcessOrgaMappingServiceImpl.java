@@ -29,11 +29,17 @@ public class ProcessOrgaMappingServiceImpl implements ProcessOrgaMappingService 
 
 
     @Override
-    public void saveMapping(String orgaId, String userId, String processId) {
+    public void saveMapping(String orgaId, String userId, String processStoreId) {
 
-        ProcessOrgaMappingObjectImpl newMapping = new ProcessOrgaMappingObjectImpl(orgaId, userId, processId);
+        ProcessOrgaMappingObjectImpl newMapping = new ProcessOrgaMappingObjectImpl(orgaId, userId, processStoreId);
 
         processOrgaMapping.save(newMapping);
 
+    }
+
+    @Override
+    public void mapProcessModelToProcess(Long processStoreId, Long processModelId, Long orgId)
+    {
+        processOrgaMapping.mapProcessModelToProcess(processStoreId, processModelId, orgId);
     }
 }

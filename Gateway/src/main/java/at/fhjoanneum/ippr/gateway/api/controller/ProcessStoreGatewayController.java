@@ -192,6 +192,20 @@ public class ProcessStoreGatewayController {
         runnable.run();
     }
 
+    @RequestMapping(value ="api/store/process/map/{processStoreId}/with/{processModelId}/of/{orgId}", method = RequestMethod.POST)
+    public void mapProcessStoreIdWithProcessModelId(@PathVariable("processStoreId") final Long processStoreId,@PathVariable("processModelId") final Long processModelId,@PathVariable("orgId") final Long orgId ) {
+        final Runnable runnable = () -> {
+            try {
+
+                LOG.info("serwas do bin i!");
+                LOG.info("mapProcessStoreIdWithProcessModelId it is! processStoreId: " + processStoreId + ", processModelId: " + processModelId + ", orgId: " + orgId);
+                processStoreCaller.mapProcessMapingToProcess(processStoreId, processModelId, orgId);
+            } catch (final URISyntaxException e) {
+                LOG.error(e.getMessage());
+            }
+        };
+        runnable.run();
+    }
 
     @RequestMapping(value ="api/store/process/create", method = RequestMethod.POST)
 

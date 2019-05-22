@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.stream.IntStream;
+import at.fhjoanneum.ippr.persistence.entities.model.process.*;
 
 @Transactional
 @Service
@@ -62,7 +63,7 @@ public class OwlImportServiceImpl implements OwlImportService {
 
   @Async
   @Override
-  public Future<Boolean> importProcessModel(final ImportProcessModelDTO processModelDTO) {
+  public Future<Long> importProcessModel(final ImportProcessModelDTO processModelDTO) {
     try {
 
       LOG.info("here in function importProcessModel! 1111111");
@@ -206,7 +207,13 @@ public class OwlImportServiceImpl implements OwlImportService {
       });
 
       saveSubjectModels(subjectModelMap.values());
-      saveProcessModel(pmBuilder.build());
+
+      ProcessModel process = pmBuilder.build();
+      LOG.info("process model before persist id: "+process.getPmId());
+
+      saveProcessModel(process);
+
+      LOG.info("process model after persist id: "+process.getPmId());
       saveStates(stateMap.values());
       saveTransitions(transitions);
       saveBusinessObjectModels(bomMap.values());
@@ -215,10 +222,10 @@ public class OwlImportServiceImpl implements OwlImportService {
       saveMessageFlows(messageFlows);
       LOG.info("here in function importProcessModel! 777777777777777");
 
-      return new AsyncResult<Boolean>(Boolean.TRUE);
+      return new AsyncResult<Long>(process.getPmId());
     } catch (final Exception e) {
       e.printStackTrace();
-      return new AsyncResult<Boolean>(Boolean.FALSE);
+      return new AsyncResult<Long>((long)-1.0);
     }
   }
 

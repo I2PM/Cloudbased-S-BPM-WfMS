@@ -9,5 +9,8 @@ public interface ProcessOrgaMappingService {
 
     Future<Iterable<ProcessOrgaMappingDTO>> findAll();
 
-    void saveMapping(String orgaId, String userId, String processId);
+    void saveMapping(String orgaId, String userId, String processStoreId);
+
+    void mapProcessModelToProcess(Long processStoreId, Long processModelId, Long orgId);
+
 }
