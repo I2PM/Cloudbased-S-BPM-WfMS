@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { BaThemeSpinner } from '../../../../theme/services';
 import {ProcessesService} from '../../../../allProcesses.service';
 import {User} from '../../../../../models/models';
+import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
 
 type businessObject = {
   bomId:number,
@@ -64,9 +65,14 @@ export class ActiveProcessDetail implements OnInit {
   nextIsEndState = false;
   isFinished = false;
   myCurrentState;
+  _userId;
 
   constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner,
-              protected route: ActivatedRoute, protected router: Router, private _user:User) {
+              protected route: ActivatedRoute, protected router: Router, private _user:User, private authService: NbAuthService) {
+    this.authService.getToken().subscribe((token: NbAuthJWTToken) => {
+      console.log("payload");
+      this._userId = token.getPayload().userId;
+    });
   }
 
   ngOnInit() {
@@ -82,7 +88,7 @@ export class ActiveProcessDetail implements OnInit {
       .subscribe(
           data => {
             that.subjectsState = (<any>data);
-            that.myCurrentState = that.subjectsState.subjects.filter(s => s.userId === that._user.getUid())[0].stateName;
+            that.myCurrentState = that.subjectsState.subjects.filter(s => s.userId === that._userId)[0].stateName;
             //that.spinner.hide();
           },
           err =>{
@@ -212,8 +218,10 @@ export class ActiveProcessDetail implements OnInit {
   }
 
   isReceiveState(){
+    console.log(this._user);
+    console.log(this.subjectsState);
     if(this.subjectsState){
-      return this.subjectsState.subjects.filter(s => s.userId === this._user.getUid())[0].stateFunctionType === "RECEIVE";
+      return this.subjectsState.subjects.filter(s => s.userId === this._userId)[0].stateFunctionType === "RECEIVE";
     } else {
       return false;
     }
@@ -221,7 +229,7 @@ export class ActiveProcessDetail implements OnInit {
 
   isToReceiveState(){
     if(this.subjectsState){
-      return this.subjectsState.subjects.filter(s => s.userId === this._user.getUid())[0].subState === "TO_RECEIVE";
+      return this.subjectsState.subjects.filter(s => s.userId === this._userId)[0].subState === "TO_RECEIVE";
     } else {
       return false;
     }
@@ -229,7 +237,7 @@ export class ActiveProcessDetail implements OnInit {
 
   isReceivedState(){
     if(this.subjectsState){
-      return this.subjectsState.subjects.filter(s => s.userId === this._user.getUid())[0].subState === "RECEIVED";
+      return this.subjectsState.subjects.filter(s => s.userId === this._userId)[0].subState === "RECEIVED";
     } else {
       return false;
     }
@@ -237,7 +245,7 @@ export class ActiveProcessDetail implements OnInit {
 
   isSendState(){
     if(this.subjectsState){
-      return this.subjectsState.subjects.filter(s => s.userId === this._user.getUid())[0].stateFunctionType === "SEND";
+      return this.subjectsState.subjects.filter(s => s.userId === this._userId)[0].stateFunctionType === "SEND";
     } else {
       return false;
     }
