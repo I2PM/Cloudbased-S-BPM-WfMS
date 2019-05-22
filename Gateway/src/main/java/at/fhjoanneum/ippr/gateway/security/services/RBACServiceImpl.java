@@ -22,6 +22,7 @@ import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 import at.fhjoanneum.ippr.gateway.security.repositories.RBACRepository;
 
+
 @Service
 public class RBACServiceImpl implements RBACService {
 
@@ -41,6 +42,15 @@ public class RBACServiceImpl implements RBACService {
     public Future<List<UserDTO>> getUsersOfRule(final List<String> ruleNames) {
         final List<User> users = rbacRepository.getUsersByRuleNames(ruleNames);
         return new AsyncResult<>(users.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList()));
+    }
+
+    @Async
+    @Override
+    public Future<List<User>> getUsersByOrgId(final Long orgId) {
+        //final List<User> users = rbacRepository.getUsersByOrgId(orgId);
+        return new AsyncResult<List<User>>(rbacRepository.getUsersByOrgId(orgId));
+
+       // return new AsyncResult<>(users.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList()));
     }
 
     @Override

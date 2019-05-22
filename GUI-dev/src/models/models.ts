@@ -81,6 +81,7 @@ export class Role {
   roleId: number;
   name: string;
   systemId: string;
+  orgId:number;
   rules: [Rule];
 }
 

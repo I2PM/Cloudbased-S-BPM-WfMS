@@ -13,6 +13,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.AsyncResult;
+import java.util.concurrent.Future;
+
 
 import com.google.common.collect.Lists;
 
@@ -106,6 +109,17 @@ public class RBACRepositoryImpl implements RBACRepository {
   }
 
   @Override
+  public List<User> getUsersByOrgId(final Long oId) {
+
+    LOG.info("reached function getUsersByOrgId, with id: "+oId);
+
+    List<User> users = Lists.newArrayList(userRepository.findUsersByOrgId(oId));
+
+    LOG.info("received users: "+users.size());
+    return users;
+  }
+
+  @Override
   public List<Resource> getRules() {
     return Lists.newArrayList(resourceRepository.findAll());
   }
@@ -156,6 +170,9 @@ public class RBACRepositoryImpl implements RBACRepository {
             + "join user u on urm.u_id = u.u_id where rule.name in ( :ruleNames )",
         nativeQuery = true)
     List<UserImpl> findByRuleNames(@Param("ruleNames") List<String> ruleNames);
+
+    @Query(value = "select * from user where o_id = :orgId",nativeQuery = true)
+    List<UserImpl> findUsersByOrgId(@Param("orgId") Long oId);
   }
 
   @Repository
@@ -167,7 +184,7 @@ public class RBACRepositoryImpl implements RBACRepository {
     @Query(value = "SELECT * FROM role WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
     RoleImpl findByRoleName(@Param("roleName") String roleName);
 
-    @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId", nativeQuery = true)
+    @Query(value = "SELECT * FROM role WHERE o_id = :organizationId", nativeQuery = true)
     RoleImpl[] findRolesOfOrganization(@Param("organizationId") Long oId);
   }
 

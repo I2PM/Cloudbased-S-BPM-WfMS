@@ -2,6 +2,7 @@ package at.fhjoanneum.ippr.gateway.security.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.*;
 
@@ -34,6 +35,8 @@ public interface RBACRepository {
   List<User> getUsersByRoleName(final String roleName);
 
   List<User> getUsersByRuleNames(final List<String> ruleNames);
+
+  List<User> getUsersByOrgId(final Long oId);
 
   List<Resource> getRules();
 

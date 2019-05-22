@@ -37,15 +37,16 @@ public class OrganizationBuilder implements Builder<Organization> {
         return this;
     }
 
+    /*
     public OrganizationBuilder addProcess(final ProcessStore process) {
         checkArgument(process instanceof ProcessStoreImpl);
         processes.add((ProcessStoreImpl) process);
         return this;
-    }
+    }*/
 
     public OrganizationBuilder addEmployee(final User employee) {
         checkArgument(employee instanceof UserImpl);
-        employees.add((UserImpl) employee);
+        employees.add((UserImpl)employee);
         return this;
     }
 
@@ -56,6 +57,6 @@ public class OrganizationBuilder implements Builder<Organization> {
         checkArgument(StringUtils.isNotBlank(organizationName));
         checkArgument(StringUtils.isNotBlank(organizationDescription));
 
-        return new OrganizationImpl(systemId, organizationName, organizationDescription, processes, employees);
+        return new OrganizationImpl(systemId, organizationName, organizationDescription, employees);
     }
 }
