@@ -44,7 +44,7 @@ export class StartableProcesses implements OnInit {
         data => {
           that.msg = {text: "Process started", type: 'success'};
           //this.modal.hide();
-          var piId = JSON.parse(data + "").piId;
+          var piId = (<any>data).piId;
           that.router.navigate(['../active', piId], { relativeTo: that.route });
         },
         err =>{
