@@ -30,6 +30,12 @@ export class GatewayProvider {
     return this.http.post<StoreProcess>(this.serverConfig.createProcess, process).toPromise()
   }
 
+  mapProcessModelToProcess(processStoreId: number, processModelId, orgaId: number)
+  {
+    return this.http.post<any>(this.serverConfig.mapProcessModelIdToProcessStoreId + '/' + processStoreId
+      + '/with/' + processModelId + '/of/' + orgaId, undefined).toPromise();
+  }
+
   uploadOWLModel(processId: number, owlFile: File): Promise<any> {
     const headers = new HttpHeaders();
     headers.append('Content-Type', 'multipart/form-data');

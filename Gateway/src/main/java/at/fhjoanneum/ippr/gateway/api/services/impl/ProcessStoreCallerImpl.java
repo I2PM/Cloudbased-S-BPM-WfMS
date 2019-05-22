@@ -138,6 +138,13 @@ public class ProcessStoreCallerImpl implements Caller {
     }
 
     @Async
+    public void mapProcessMapingToProcess(Long processStoreId, Long processModelId, Long orgId) throws URISyntaxException {
+        final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessStoreAddress()).setPath("/process/map/"+processStoreId+"/with/"+processModelId+"/of/"+orgId);
+
+        createRequest(uri, HttpMethod.POST, null, ProcessOrgaMappingDTO.class, null);
+    }
+
+    @Async
 
     public Future<ResponseEntity<ProcessStoreDTO>> createProcess(ProcessStoreDTO process, HttpHeaders headers) throws URISyntaxException {
         final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessStoreAddress()).setPath("/process/create");

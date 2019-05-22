@@ -42,7 +42,7 @@ public interface ProcessStore extends CrudRepository<ProcessStoreObjectImpl, Lon
 
     @Query(value ="SELECT ps.* FROM ippr_store.processstore ps " +
             "INNER JOIN ippr_store.processorgamapping pom "+
-            "ON ps.process_id = pom.process_id "+
+            "ON ps.process_id = pom.process_store_id "+
             "WHERE pom.orga_id = ?1", nativeQuery = true)
     public List<ProcessStoreObjectImpl> findAllProcessesByOrgaId(String orgaId);
 }

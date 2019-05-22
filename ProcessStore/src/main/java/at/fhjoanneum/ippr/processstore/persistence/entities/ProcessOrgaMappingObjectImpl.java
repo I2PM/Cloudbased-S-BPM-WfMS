@@ -22,14 +22,16 @@ public class ProcessOrgaMappingObjectImpl implements ProcessOrgaMappingObject {
     private String userId;
 
     @Column
-    private String processId;
+    private String processStoreId;
+
+    @Column
+    private String processModelId;
 
 
-    public ProcessOrgaMappingObjectImpl(String orgaId, String userId, String processId) {
+    public ProcessOrgaMappingObjectImpl(String orgaId, String userId, String processStoreId) {
 
         this.orgaId = orgaId;
         this.userId = userId;
-        this.processId = processId;
-
+        this.processStoreId = processStoreId;
     }
 }

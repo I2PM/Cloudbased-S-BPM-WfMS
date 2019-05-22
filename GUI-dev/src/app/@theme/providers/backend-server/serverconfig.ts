@@ -12,6 +12,7 @@ export class ServerConfigProvider {
   private _getStoreProcesses = `${this._host}api/store/processes`;
   private _getOrPostStoreProcessRatings = `${this._host}api/store/processRating`;
   private _uploadOWL = `${this._host}api/store/process/`;
+  private _mapProcessModelIdToProcessStoreId = `${this._host}api/store/process/map`;
   private _createProcess = `${this._host}api/store/process/create`;
   private _getUserProcesses = `${this._host}api/store/processes/byUser`;
   private _getProcessById = `${this._host}api/store/process/{processId}`;
@@ -43,6 +44,7 @@ export class ServerConfigProvider {
   public get postStoreProcessRating(): string {return this._getOrPostStoreProcessRatings};
   public get uploadOWL(): string {return this._uploadOWL};
   public get createProcess(): string {return this._createProcess};
+  public get mapProcessModelIdToProcessStoreId(): string {return this._mapProcessModelIdToProcessStoreId};
 
   public get getUserProcesses(): string {return this._getUserProcesses};
   public get getProcessById(): string {return this._getProcessById};
