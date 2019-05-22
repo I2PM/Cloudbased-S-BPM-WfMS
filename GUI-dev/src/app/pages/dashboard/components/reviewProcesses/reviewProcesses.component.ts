@@ -14,7 +14,7 @@ import {StoreProcess, User} from '../../../../../models/models';
 })
 export class ReviewProcessesComponent implements OnInit  {
 
-  protected reviewProcesses: StoreProcess[];
+  public reviewProcesses: StoreProcess[];
   selectedProc: StoreProcess;
   inOrganization: boolean = false;
   user: User;

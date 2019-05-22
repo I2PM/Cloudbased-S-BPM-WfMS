@@ -11,6 +11,7 @@ export class ManipulatePNMLComponent implements OnInit {
    error = undefined;
    pnmlFile;
    csvFile;
+  success;
 
   constructor(protected service: EventLoggerService) {}
 

@@ -16,6 +16,7 @@ export class UserManagementComponent implements OnInit {
   bestRatedProcess: StoreProcess = new StoreProcess();
   tabName: any[];
   user: User;
+  isOrgCEO;
 
   inOrganization: boolean;
 
