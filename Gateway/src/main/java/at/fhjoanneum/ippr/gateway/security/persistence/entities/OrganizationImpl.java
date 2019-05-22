@@ -39,7 +39,7 @@ public class OrganizationImpl implements Organization {
 
     @ManyToMany
     @JoinTable(name = "orga_process_map", joinColumns = {@JoinColumn(name = "o_id")},
-            inverseJoinColumns = {@JoinColumn(name = "process_id")})
+            inverseJoinColumns = {@JoinColumn(name = "process_store_id")})
     private List<ProcessStoreImpl> processes = Lists.newArrayList();
 
 

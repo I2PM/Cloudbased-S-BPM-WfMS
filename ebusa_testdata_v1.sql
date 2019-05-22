@@ -196,7 +196,8 @@ COMMIT;
 INSERT INTO ippr_store.processorgamapping
 (
 	orga_id,
-    process_id,
+    process_store_id,
+    process_model_id,
     user_id
 )
 SELECT '101', '100', '102'
@@ -260,13 +261,14 @@ BEGIN
 	INSERT INTO ippr_store.processorgamapping
     (
 		orga_id,
-        process_id,
+        process_store_id,
+        process_model_id,
         user_id
     )
     VALUES
     (
 		(SELECT o_id FROM ippr_security.user WHERE username = NEW.process_creator),
-		NEW.process_id,
+		NEW.process_store_id,
         (SELECT u_id FROM ippr_security.user WHERE username = NEW.process_creator)
 	);
     
