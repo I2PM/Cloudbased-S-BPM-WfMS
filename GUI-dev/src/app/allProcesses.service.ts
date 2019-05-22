@@ -29,7 +29,7 @@ export class ProcessesService {
   }
 
    getProcessModels() {
-    return this._authHttp.get(this.restApi + '/processes/toStart?page=0');
+    return this._authHttp.get(this.restApi + '/processes?page=0'); ///toStart
    }
 
    startProcess(pmId: number) {

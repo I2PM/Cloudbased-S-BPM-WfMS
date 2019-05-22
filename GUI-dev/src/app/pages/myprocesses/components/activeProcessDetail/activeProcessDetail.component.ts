@@ -24,7 +24,8 @@ type businessObject = {
 @Component({
   selector: 'activeProcessDetail',
     styles: [require('./activeProcessDetail.scss')],
-  template:  require('./activeProcessDetail.html')
+  template:  require('./activeProcessDetail.html'),
+  providers: [User]
 })
 export class ActiveProcessDetail implements OnInit {
 
@@ -64,10 +65,12 @@ export class ActiveProcessDetail implements OnInit {
   isFinished = false;
   myCurrentState;
 
-  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner, protected route: ActivatedRoute, protected router: Router, private _user:User) {
+  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner,
+              protected route: ActivatedRoute, protected router: Router, private _user:User) {
   }
 
   ngOnInit() {
+
     var that = this;
     this.piId = +this.route.snapshot.params['piId'];
     this.businessObjects = undefined;
@@ -78,7 +81,7 @@ export class ActiveProcessDetail implements OnInit {
       this.service.getProcessState(this.piId)
       .subscribe(
           data => {
-            that.subjectsState = JSON.parse(data + '');
+            that.subjectsState = (<any>data);
             that.myCurrentState = that.subjectsState.subjects.filter(s => s.userId === that._user.getUid())[0].stateName;
             //that.spinner.hide();
           },
@@ -94,7 +97,7 @@ export class ActiveProcessDetail implements OnInit {
           data => {
             var dataJson;
             try {
-              dataJson = JSON.parse(data + '');
+              dataJson = (<any>data);
             } catch(e) {
               return false;
             }
@@ -124,7 +127,7 @@ export class ActiveProcessDetail implements OnInit {
           that.service.getPossibleUsersForProcessModel(au.assignedRules).
           subscribe(
             data => {
-              let users = JSON.parse(data + '');
+              let users = (<any>data);
               au.assignedRules.forEach(rule => {
                 that.possibleUserAssignments.push({rule: rule, smId: au.smId, users: users, subjectName: au.subjectName});
                 that.selectedUserAssignments[rule] = undefined;

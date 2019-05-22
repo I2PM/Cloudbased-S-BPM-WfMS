@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Process, Review, StoreProcess, User} from '../../../models/models';
 import { GatewayProvider } from '../../@theme/providers/backend-server/gateway';
 import {Router} from '@angular/router';
+import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
 
 @Component({
   selector: 'ngx-approval',
@@ -48,7 +49,7 @@ actions: false,
 data: StoreProcess[] = [];
 loggedInUser: User;
 
-constructor(private gateway: GatewayProvider, private router: Router) {
+constructor(private gateway: GatewayProvider, private router: Router, private authService : NbAuthService) {
 
 }
 // Only users with SYS_APPROVER role can access approval page
@@ -56,7 +57,6 @@ constructor(private gateway: GatewayProvider, private router: Router) {
 ngOnInit() {
 // this.getUnapprovedProcesses();
 this._getUser();
-this._getAllProcesses();
 }
 
 getUnapprovedProcesses() {
@@ -71,11 +71,13 @@ _getUser() {
 this.gateway.getUser()
  .then((user) => {
    this.loggedInUser = user;
+   this._getAllProcesses();
  })
 }
 
 _getAllProcesses() {
 this.gateway.getStoreProcesses().then((processes) => {
+  console.log(processes);
  this.processes = processes;
  this._filterDataAfterApprover();
 })
@@ -83,6 +85,7 @@ this.gateway.getStoreProcesses().then((processes) => {
 
 _filterDataAfterApprover() {
 const userUid = '' + this.loggedInUser.uid;
+console.log(this.processes);
 this.processes = this.processes.filter(function (approver) {
  return approver.processApprover === userUid;
 });

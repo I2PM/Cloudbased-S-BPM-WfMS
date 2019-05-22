@@ -34,6 +34,7 @@ import {MyProcesses} from "./myprocesses";
 import {StartableProcesses} from "./myprocesses/components/startableProcesses";
 import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
 import {TerminatedProcesses} from './myprocesses/components/terminatedProcesses/terminatedProcesses.component';
+import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 
 
 const routes: Routes = [{
@@ -95,13 +96,25 @@ const routes: Routes = [{
           }
         },
         {
+          path: 'active/:piId',
+          component: ActiveProcessDetail,
+          data: {
+            menu: {
+              title: 'Prozessdetails'
+            }
+          }
+        },
+        {
           path: 'active',
           component: ActiveProcesses,
           data: {
             menu: {
               title: 'Aktive Prozesse'
             }
-          }
+          },
+          children: [
+            { path: ':piId', component: ActiveProcessDetail }
+          ]
         },
         {
           path: 'terminated',

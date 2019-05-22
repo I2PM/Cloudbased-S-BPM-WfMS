@@ -1,4 +1,4 @@
-import { Routes, RouterModule }  from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { MyProcesses } from './myprocesses.component';
 import { ActiveProcesses } from './components/activeProcesses/activeProcesses.component';
@@ -14,8 +14,10 @@ const routes: Routes = [
     component: MyProcesses,
     canActivate: [AuthGuard],
     children: [
-      { path: 'active', component: ActiveProcesses },
-      { path: 'active/:piId', component: ActiveProcessDetail },
+      { path: 'active', component: ActiveProcesses,
+        children: [
+        {path: ':piId', component: ActiveProcessDetail}
+      ]},
       { path: 'terminated', component: TerminatedProcesses },
       { path: 'startable', component: StartableProcesses }
     ]

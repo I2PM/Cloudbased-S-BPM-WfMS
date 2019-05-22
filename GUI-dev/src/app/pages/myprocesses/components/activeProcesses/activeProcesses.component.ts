@@ -30,7 +30,7 @@ export class ActiveProcesses implements OnInit  {
     this.service.getProcessTasksForUser()
     .subscribe(
         data => {
-          that.activeProcesses = JSON.parse(data + '');
+          that.activeProcesses = (<any>data);
           //that.spinner.hide();
         },
         err =>{
@@ -42,6 +42,7 @@ export class ActiveProcesses implements OnInit  {
   }
 
   showProcess(piId:number){
+    console.log(piId);
     this.router.navigate(['../active', piId], { relativeTo: this.route });
   }
 }

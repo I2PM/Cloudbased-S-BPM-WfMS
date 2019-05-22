@@ -9,7 +9,6 @@ import { StateService } from '../../../@core/data/state.service';
     <h6>LAYOUTS</h6>
     <div class="settings-row">
       <a *ngFor="let layout of layouts"
-         href="#"
          [class.selected]="layout.selected"
          [attr.title]="layout.name"
          (click)="layoutSelect(layout)">
@@ -19,7 +18,6 @@ import { StateService } from '../../../@core/data/state.service';
     <h6>SIDEBAR</h6>
     <div class="settings-row">
       <a *ngFor="let sidebar of sidebars"
-         href="#"
          [class.selected]="sidebar.selected"
          [attr.title]="sidebar.name"
          (click)="sidebarSelect(sidebar)">
@@ -28,6 +26,7 @@ import { StateService } from '../../../@core/data/state.service';
     </div>
   `,
 })
+//<!-- hre(ChangeCheckboxFn)="#" -->
 export class ThemeSettingsComponent {
 
   layouts = [];

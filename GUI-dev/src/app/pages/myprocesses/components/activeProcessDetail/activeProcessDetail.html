@@ -20,7 +20,7 @@
                 <label class="control-label" *ngIf="field.type !== 'checkbox'">{{field.description}}</label>
                 <input type="text" *ngSwitchCase="'STRING'" class="form-control" id="{{field.id}}" name="{{businessObject.bomId}}-:_{{field.bofmId}}" [ngModel]="field.value" [attr.maxlength]="field.maxlength" [attr.minlength]="field.minlength" [attr.required]="field.required ? field.required : null" [readonly]="field.readonly">
                 <input type="number" *ngSwitchCase="'number'" class="form-control" id="{{field.id}}" name="{{businessObject.bomId}}-:_{{field.bofmId}}" [ngModel]="field.value" [attr.max]="field.max" [attr.min]="field.min" [attr.required]="field.required ? field.required : null" [readonly]="field.readonly">
-                <ba-checkbox *ngSwitchCase="'checkbox'" name="{{businessObject.bomId}}-:_{{field.readonly ? field.name + '-:_control' : field.bofmId }}" [ngModel]="field.value" [value]="field.value" [label]="field.description" [onChangeCheckboxFn]="onChangeCheckboxFn" [disabled]="field.readonly"></ba-checkbox>
+                <ba-checkbox *ngSwitchCase="'checkbox'" name="{{businessObject.bomId}}-:_{{field.readonly ? field.name + '-:_control' : field.bofmId }}" [ngModel]="field.value" [value]="field.value" [label]="field.description" [ChangeCheckboxFn]="onChangeCheckboxFn" [disabled]="field.readonly"></ba-checkbox>
                 <div class="row" *ngSwitchCase="'radio'">
                   <div class="col-sm-1" *ngFor="let choice of field.choices">
                     <label class="radio-inline nowrap">
@@ -65,7 +65,7 @@
   <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12">
     <p>Status: {{subjectsState.status}}</p>
     <p>Start: {{subjectsState.startTime | date:'dd.MM.yyyy HH:mm'}} </p> <!-- | commaDate -->
-    <p *ngIf="subjectsState.endTime">Ende: {{subjectsState.endTime | commaDate | date:'dd.MM.yyyy HH:mm'}}</p>
+    <p *ngIf="subjectsState.endTime">Ende: {{subjectsState.endTime | date:'dd.MM.yyyy HH:mm'}}</p> <!-- | commaDate  -->
   </ba-card>
 </div>
 <div class="row">

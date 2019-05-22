@@ -20,6 +20,7 @@ import {TerminatedProcesses} from "./myprocesses/components/terminatedProcesses"
 import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
 import {FormsModule} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
+import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 
 
 const PAGES_COMPONENTS = [
@@ -41,7 +42,7 @@ const PAGES_COMPONENTS = [
     ProcessstoreDetailsModule,
     CreateProcessModule,
     UserManagementModule,
-    FormsModule
+    FormsModule,
   ],
   declarations: [
     ...PAGES_COMPONENTS,
@@ -49,6 +50,7 @@ const PAGES_COMPONENTS = [
     StartableProcesses,
     TerminatedProcesses,
     ActiveProcesses,
+    ActiveProcessDetail,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
