@@ -57,6 +57,7 @@ export class Review {
 
 
 export class User {
+  confirmPassword: string;
   firstname: string;
   lastname: string;
   username: string;

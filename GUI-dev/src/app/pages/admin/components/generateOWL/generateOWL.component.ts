@@ -11,6 +11,7 @@ export class GenerateOWLComponent implements OnInit {
    error = undefined;
    pnmlFiles = [{id: 1, name: '', file: undefined}, {id: 2, name: '', file: undefined}];
    processName = '';
+   success;
 
   constructor(protected service: EventLoggerService) {}
 

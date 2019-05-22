@@ -20,6 +20,7 @@ export class DashboardComponent {
   user: User;
   canApprove: boolean;
   inOrganization: boolean;
+  isUser;
 
   tabsApprover: any[] = [
     {
