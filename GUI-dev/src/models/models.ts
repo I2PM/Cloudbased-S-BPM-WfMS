@@ -85,6 +85,9 @@ export class Role {
   name: string;
   systemId: string;
   rules: [Rule];
+  parent: Role;
+  subjectRole: boolean;
+  organization: Organization;
 }
 
 export class Rule {

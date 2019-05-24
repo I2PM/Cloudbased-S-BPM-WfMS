@@ -10,7 +10,8 @@
       <th>Firstname</th>
       <th>Lastname</th>
       <th>E-Mail</th>
-      <th>User-Roles</th>
+      <th>Process-Roles</th>
+      <th>GUI-Roles</th>
     </tr>
     </thead>
     <tbody>
@@ -19,7 +20,8 @@
       <td>{{user.firstname}}</td>
       <td>{{user.lastname}}</td>
       <td>{{user.email}}</td>
-      <td>{{user.roles[0].name}}</td>
+      <td><a *ngFor="let role of user.roles"><a *ngIf="role.subjectRole">{{role.name}}</a></a></td>
+      <td><a *ngFor="let role of user.roles"><a *ngIf="!role.subjectRole">{{role.name}}</a></a></td>
     </tr>
     </tbody>
   </table>
