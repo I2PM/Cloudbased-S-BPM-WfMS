@@ -89,8 +89,8 @@ export class Role {
 
 export class Rule {
   ruleId: number;
-  type: string;
-  scope: string;
+  crudType: string;
+  resource: string;
   systemId: string;
 }
 

@@ -20,8 +20,8 @@
       <td>{{user.firstname}}</td>
       <td>{{user.lastname}}</td>
       <td>{{user.email}}</td>
-      <td><a *ngFor="let role of user.roles"><a *ngIf="role.subjectRole">{{role.name}}</a></a></td>
-      <td><a *ngFor="let role of user.roles"><a *ngIf="!role.subjectRole">{{role.name}}</a></a></td>
+      <td><a *ngFor="let role of user.roles"><a *ngIf="role.subjectRole">{{role.name}}    </a></a></td>
+      <td><a *ngFor="let role of user.roles"><a *ngIf="!role.subjectRole">{{role.name}}    </a></a></td>
     </tr>
     </tbody>
   </table>
