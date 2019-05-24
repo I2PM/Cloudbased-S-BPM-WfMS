@@ -9,15 +9,15 @@ public class ImportSubjectModelDTO implements Serializable {
 
   private String id;
   private String name;
-  private List<String> assignedRules;
+  private List<Long> assignedRoles;
 
   public ImportSubjectModelDTO() {}
 
   public ImportSubjectModelDTO(final String id, final String name,
-      final List<String> assignedRules) {
+      final List<Long> assignedRoles) {
     this.id = id;
     this.name = name;
-    this.assignedRules = assignedRules;
+    this.assignedRoles = assignedRoles;
   }
 
   public String getId() {
@@ -28,8 +28,8 @@ public class ImportSubjectModelDTO implements Serializable {
     return name;
   }
 
-  public List<String> getAssignedRules() {
-    return assignedRules;
+  public List<Long> getAssignedRoles() {
+    return assignedRoles;
   }
 
 

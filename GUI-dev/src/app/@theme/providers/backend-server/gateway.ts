@@ -1,7 +1,8 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
-import {User, StoreProcess, StoreProcessRating, Organization, AverageRating} from '../../../../models/models';
+import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role} from '../../../../models/models';
+import {toPromise} from "rxjs/operator/toPromise";
 
 @Injectable()
 export class GatewayProvider {
@@ -25,9 +26,14 @@ export class GatewayProvider {
       .toPromise()
   }
 
-
   createProcess(process: StoreProcess): Promise<StoreProcess> {
     return this.http.post<StoreProcess>(this.serverConfig.createProcess, process).toPromise()
+  }
+
+  mapProcessModelToProcess(processStoreId: number, processModelId, orgaId: number)
+  {
+    return this.http.post<any>(this.serverConfig.mapProcessModelIdToProcessStoreId + '/' + processStoreId
+      + '/with/' + processModelId + '/of/' + orgaId, undefined).toPromise();
   }
 
   uploadOWLModel(processId: number, owlFile: File): Promise<any> {
@@ -60,6 +66,11 @@ export class GatewayProvider {
       .toPromise();
   }
 
+  getRolesOfOrganization(organization: Organization): Promise<Role[]> {
+    return this.http.get<Role[]>(this.serverConfig.getRolesOfOrganization + '/' + organization.oid + '/roles')
+      .toPromise()
+  }
+
   getUsersOfMyOrg(): Promise<User[]> {
     return this.http.get<User[]>(this.serverConfig.getUsersOfMyOrg).toPromise();
   }
@@ -85,6 +96,8 @@ export class GatewayProvider {
     return this.http.get<StoreProcess[]>(this.serverConfig.getUnapprovedStoreProcesses)
       .toPromise()
   }
+
+
 
   getApprovedStoreProcesses(): Promise<StoreProcess[]> {
     return this.http.get<StoreProcess[]>(this.serverConfig.getApprovedProcesses)
@@ -116,6 +129,13 @@ export class GatewayProvider {
   getProcessById(processId: string): Promise<StoreProcess> {
     return this.http.get<StoreProcess>(this.serverConfig.getProcess + processId)
       .toPromise()
+  }
+
+  // gets the processfile by its processId
+  getProcessFileById (processId: string): Promise<Blob>{
+
+    let promise = this.http.get(this.serverConfig.getProcessFile + processId + '/getProcessFile',  { responseType: 'blob' }).toPromise();
+    return promise;
   }
 
   // adds a process to an organization

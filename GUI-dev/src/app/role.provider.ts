@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators/map';
 
 import {NbAuthService, NbAuthJWTToken} from '@nebular/auth';
 import {NbRoleProvider} from '@nebular/security';
+import {Role} from "../models/models";
 
 @Injectable()
 export class RoleProvider implements NbRoleProvider {
@@ -23,4 +24,11 @@ export class RoleProvider implements NbRoleProvider {
         }),
       );
   }
+
+
+  //gerRolesOfOrganization():Observable<Role>{
+
+
+
+  //}
 }

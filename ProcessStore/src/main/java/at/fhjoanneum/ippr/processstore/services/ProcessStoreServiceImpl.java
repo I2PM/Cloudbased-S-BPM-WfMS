@@ -117,10 +117,10 @@ public class ProcessStoreServiceImpl implements ProcessStoreService {
 
     @Override
 
-    public Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription, String processCreator, Double processPrice) {
+    public Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription, String processCreator, Double processPrice, String processApprover) {
 
         ProcessStoreObjectImpl processStoreObject = new ProcessStoreObjectImpl(processName, processDescription, processCreator, new Date(),
-                1L, processPrice, null, null, false,
+                1L, processPrice, processApprover, null, false,
                 null, null);
 
         processStore.save(processStoreObject);

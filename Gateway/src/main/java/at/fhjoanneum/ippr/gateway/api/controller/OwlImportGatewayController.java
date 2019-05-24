@@ -38,7 +38,7 @@ public class OwlImportGatewayController {
   }
 
   @RequestMapping(value = "api/import", method = RequestMethod.POST)
-  public @ResponseBody Callable<ResponseEntity<Boolean>> importProcess(
+  public @ResponseBody Callable<ResponseEntity<Long>> importProcess(
       final @RequestBody ImportProcessModelDTO processModelDTO, final HttpServletRequest request) {
     return () -> {
       final HttpHeaderUser user = new HttpHeaderUser(request);

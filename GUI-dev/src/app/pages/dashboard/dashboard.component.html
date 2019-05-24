@@ -1,5 +1,18 @@
 <div class="row">
 <div class="col-md-12">
+  <h2>Dashboard</h2>
+  <div class="col-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="btn-group btn-group-toggle btn-divided-group btn-outline-divided-group btn-group-full-width col-md-12">
+          <button class="btn btn-outline-primary" routerLink="/createProcess">Create Process</button>
+          <button class="btn btn-outline-primary" routerLink="/processstore-search">Process Store</button>
+          <button class="btn btn-outline-primary" onclick="window.location.port=4000">Process Designer</button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+
       <div class="tabs-table">
         <nb-card class="col-md-12">
 
@@ -15,6 +28,7 @@
         </nb-card>
       </div>
 
+  <!--
   <nb-card class="col-md-12" accent="primary">
     <nb-badge text="new" status="success" position="top right"></nb-badge>
       <nb-card-header>News</nb-card-header>
@@ -43,6 +57,6 @@
         </table>
       </nb-card-body>
   </nb-card>
-
+-->
 </div>
 </div>

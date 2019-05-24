@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Future;
 import java.util.stream.IntStream;
+import at.fhjoanneum.ippr.persistence.entities.model.process.*;
 
 @Transactional
 @Service
@@ -62,24 +63,56 @@ public class OwlImportServiceImpl implements OwlImportService {
 
   @Async
   @Override
-  public Future<Boolean> importProcessModel(final ImportProcessModelDTO processModelDTO) {
+  public Future<Long> importProcessModel(final ImportProcessModelDTO processModelDTO) {
     try {
+
+      LOG.info("here in function importProcessModel! 1111111");
+
       final ProcessModelBuilder pmBuilder =
           new ProcessModelBuilder().name(processModelDTO.getName()).state(ProcessModelState.ACTIVE)
               .description(processModelDTO.getDescription()).version(processModelDTO.getVersion());
+
+      LOG.info("here in function importProcessModel! 1.5");
+
 
       final Map<String, SubjectModel> subjectModelMap = Maps.newHashMap();
 
       processModelDTO.getSubjectModels().stream().forEachOrdered(subjectModelDTO -> {
         final SubjectModelBuilder smBuilder =
             new SubjectModelBuilder().name(subjectModelDTO.getName());
-        subjectModelDTO.getAssignedRules().stream()
-            .forEachOrdered(rule -> smBuilder.addAssignedRule(rule));
+
+        List<Long> roles = subjectModelDTO.getAssignedRoles();
+
+        if(roles.size()>0)
+        {
+          for(Long role :  subjectModelDTO.getAssignedRoles())
+          {
+            LOG.info("Received Role: "+role);
+          }
+        }
+        else
+          LOG.info("No roles received!!");
+
+        if(smBuilder!=null)
+          LOG.info("smBuilder is not null!");
+        else
+          LOG.info("smBuilder is null!!");
+
+        for(Long roleId: subjectModelDTO.getAssignedRoles())
+          smBuilder.addAssignedRole(roleId);
+
+          /*
+        subjectModelDTO.getAssignedRoles().stream()
+            .forEachOrdered(role -> smBuilder.addAssignedRole(role));*/
+
+        LOG.info("here in function importProcessModel! 1.8");
 
         final SubjectModel subjectModel = smBuilder.build();
         subjectModelMap.put(subjectModelDTO.getId(), subjectModel);
         pmBuilder.addSubjectModel(subjectModel);
       });
+
+      LOG.info("here in function importProcessModel! 22222222222");
 
       pmBuilder.starterSubject(subjectModelMap.get(processModelDTO.getStartSubjectModelId()));
 
@@ -96,6 +129,7 @@ public class OwlImportServiceImpl implements OwlImportService {
         final State state = stateBuilder.build();
         stateMap.put(stateDTO.getId(), state);
       });
+      LOG.info("here in function importProcessModel! 333333333333");
 
       final List<Transition> transitions = Lists.newArrayList();
 
@@ -109,6 +143,8 @@ public class OwlImportServiceImpl implements OwlImportService {
 
         transitions.add(tBuilder.build());
       });
+
+      LOG.info("here in function importProcessModel! 44444444444");
 
       final Map<String, BusinessObjectModel> bomMap = Maps.newHashMap();
 
@@ -135,6 +171,7 @@ public class OwlImportServiceImpl implements OwlImportService {
         final BusinessObjectFieldModel fieldModel = builder.build();
         bofmMap.put(bofmDTO.getId(), fieldModel);
       });
+      LOG.info("here in function importProcessModel! 555555555555");
 
       final List<BusinessObjectFieldPermission> permissions = Lists.newArrayList();
 
@@ -155,6 +192,7 @@ public class OwlImportServiceImpl implements OwlImportService {
         builder.state(stateMap.get(bofpDTO.getStateId()));
         permissions.add(builder.build());
       });
+      LOG.info("here in function importProcessModel! 6666666666666666666");
 
       final List<MessageFlow> messageFlows = Lists.newArrayList();
 
@@ -169,18 +207,25 @@ public class OwlImportServiceImpl implements OwlImportService {
       });
 
       saveSubjectModels(subjectModelMap.values());
-      saveProcessModel(pmBuilder.build());
+
+      ProcessModel process = pmBuilder.build();
+      LOG.info("process model before persist id: "+process.getPmId());
+
+      saveProcessModel(process);
+
+      LOG.info("process model after persist id: "+process.getPmId());
       saveStates(stateMap.values());
       saveTransitions(transitions);
       saveBusinessObjectModels(bomMap.values());
       saveBusinessObjectFieldModels(bofmMap.values());
       saveBusinessObjectFieldPermissions(permissions);
       saveMessageFlows(messageFlows);
+      LOG.info("here in function importProcessModel! 777777777777777");
 
-      return new AsyncResult<Boolean>(Boolean.TRUE);
+      return new AsyncResult<Long>(process.getPmId());
     } catch (final Exception e) {
       e.printStackTrace();
-      return new AsyncResult<Boolean>(Boolean.FALSE);
+      return new AsyncResult<Long>((long)-1.0);
     }
   }
 

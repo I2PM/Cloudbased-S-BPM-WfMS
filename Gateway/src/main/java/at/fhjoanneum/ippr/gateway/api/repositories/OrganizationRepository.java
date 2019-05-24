@@ -1,6 +1,7 @@
 package at.fhjoanneum.ippr.gateway.api.repositories;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 
 import java.util.List;
 import java.util.Optional;

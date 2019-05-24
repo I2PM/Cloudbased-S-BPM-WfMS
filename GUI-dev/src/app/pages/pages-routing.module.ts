@@ -22,6 +22,9 @@ import {ValidatedProcessesComponent} from './dashboard/components/validatedProce
 import {CreateOrgaModalComponent} from './dashboard/components/createOrgaModal/createOrgaModal.component';
 
 import {ApprovalAuthGuard} from '../approval-auth-guard.service';
+import {AdminComponent} from "./admin";
+import {adminrouting} from "./admin/admin.routing";
+import {ImportProcessModel} from "./admin/components/importProcessModel";
 import {UserManagementComponent} from './user-management/user-management.component';
 import {OrganizationsComponent} from './user-management/components/organizations';
 import {AllUsersComponent} from './user-management/components/allUsers';
@@ -96,7 +99,13 @@ const routes: Routes = [{
       canActivate: [AuthGuard],
 
     },
-
+    { path: 'admin',
+    component: AdminComponent,
+      children: [{
+      path: 'import',
+        component: ImportProcessModel
+      }]
+    },
     {
       path: 'processstore-search',
       component: ProcessStoreSearchComponent,

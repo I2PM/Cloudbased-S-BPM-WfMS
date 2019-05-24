@@ -13,16 +13,16 @@ public class SubjectDTO implements Serializable {
   private Long smId;
   private Long userId;
   private String subjectName;
-  private List<String> assignedRules;
+  private List<Long> assignedRoles;
 
   public SubjectDTO() {}
 
   public SubjectDTO(final Long smId, final Long userId, final String subjectName,
-      final List<String> assignedRules) {
+      final List<Long> assignedRoles) {
     this.smId = smId;
     this.userId = userId;
     this.subjectName = subjectName;
-    this.assignedRules = assignedRules;
+    this.assignedRoles = assignedRoles;
   }
 
   public Long getSmId() {
@@ -37,7 +37,7 @@ public class SubjectDTO implements Serializable {
     return subjectName;
   }
 
-  public List<String> getAssignedRules() {
-    return assignedRules;
+  public List<Long> getAssignedRoles() {
+    return assignedRoles;
   }
 }

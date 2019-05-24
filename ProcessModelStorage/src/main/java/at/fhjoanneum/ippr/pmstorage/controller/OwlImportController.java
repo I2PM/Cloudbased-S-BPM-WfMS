@@ -26,7 +26,7 @@ public class OwlImportController {
   }
 
   @RequestMapping(value = "import", method = RequestMethod.POST)
-  public @ResponseBody Callable<Boolean> importProcess(
+  public @ResponseBody Callable<Long> importProcess(
       final @RequestBody ImportProcessModelDTO processModelDTO) {
     return () -> {
       return owlImportService.importProcessModel(processModelDTO).get();

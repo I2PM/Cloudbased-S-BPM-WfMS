@@ -7,6 +7,7 @@ import { EventLoggerComponent } from './components/eventLogger/eventLogger.compo
 import { ManipulatePNMLComponent } from './components/manipulatePNML/manipulatePNML.component';
 import { GenerateOWLComponent } from './components/generateOWL/generateOWL.component';
 import {AuthGuard} from '../../auth-guard.service';
+import {ImportProcessModel} from './components/importProcessModel';
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'active', component: ActiveProcessesComponent },
       { path: 'terminated', component: TerminatedProcessesComponent },
       { path: 'models', component: ProcessModelsComponent },
+      { path: 'import', component: ImportProcessModel },
       { path: 'eventLogger', component: EventLoggerComponent },
       { path: 'manipulatePNML', component: ManipulatePNMLComponent },
       { path: 'generateOWL', component: GenerateOWLComponent },
@@ -25,4 +27,4 @@ const routes: Routes = [
   },
 ];
 
-export const routing = RouterModule.forChild(routes);
+export const adminrouting = RouterModule.forChild(routes);

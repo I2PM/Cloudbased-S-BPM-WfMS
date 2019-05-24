@@ -30,3 +30,14 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-rest')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+task copyJarToBin {
+	String relativeProjectPath = project.projectDir.path.replace(project.name, "")
+	String dest = relativeProjectPath+"/builds"
+	
+    copy {
+        from 'build/libs'
+        into dest
+		exclude '*.original'
+    }
+}

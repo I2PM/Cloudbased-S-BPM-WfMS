@@ -23,11 +23,9 @@ export class AllUsersComponent implements OnInit {
   orgaId: number;
   config: ToasterConfig;
   users: User[];
-  rolesProcess: Role[];
-  rolesGUI: Role[];
 
   constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
-              private gateway: GatewayProvider, private modalService: NgbModal,
+              private gateway: GatewayProvider,
               private toasterService: ToasterService) {
 
     this.config = new ToasterConfig({
@@ -41,8 +39,8 @@ export class AllUsersComponent implements OnInit {
 
   }
 
-  initializeUsers(): Promise<User[]> {
-    return this.gateway.getUsersOfMyOrg()
+  initializeUsers() {
+    this.gateway.getUsersOfMyOrg()
       .then((users) => this.users = users);
   }
 

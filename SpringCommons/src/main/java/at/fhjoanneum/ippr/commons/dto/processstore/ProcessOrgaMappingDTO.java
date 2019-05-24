@@ -4,7 +4,8 @@ public class ProcessOrgaMappingDTO {
 
     private String orgaId;
     private String userId;
-    private String processId;
+    private String processStoreId;
+    private String processModelId;
 
     public ProcessOrgaMappingDTO() {
     }
@@ -12,7 +13,7 @@ public class ProcessOrgaMappingDTO {
     public ProcessOrgaMappingDTO(String orgaId, String userId, String processId) {
         this.orgaId = orgaId;
         this.userId = userId;
-        this.processId = processId;
+        this.processStoreId = processId;
     }
 
     public String getOrgaId() {
@@ -32,10 +33,12 @@ public class ProcessOrgaMappingDTO {
     }
 
     public String getProcessId() {
-        return processId;
+        return processStoreId;
     }
 
     public void setProcessId(String processId) {
-        this.processId = processId;
+        this.processStoreId = processId;
     }
+
+    public void SetProcessModelId(String processModelId) {this.processModelId=processModelId;}
 }

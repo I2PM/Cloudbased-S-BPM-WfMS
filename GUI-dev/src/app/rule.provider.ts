@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {map} from 'rxjs/operators/map';
 
 import {NbAuthService, NbAuthJWTToken} from '@nebular/auth';
-import {Role, Rule} from '../models/models';
+import {Rule} from '../models/models';
 
 
 export enum RuleScope {
