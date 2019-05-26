@@ -3,6 +3,7 @@ import { Component,  OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {ProcessesService} from '../../../../allProcesses.service';
 import {User} from '../../../../../models/models';
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 
 interface BusinessObject {
   bomId: number,
@@ -63,8 +64,8 @@ export class ActiveProcessDetailComponent implements OnInit {
   isFinished = false;
   myCurrentState;
 
-  constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
-              private _user: User) {
+  constructor(protected service: ProcessesService, protected gateway:GatewayProvider, protected route: ActivatedRoute,
+              protected router: Router, private _user: User) {
   }
 
   ngOnInit() {
@@ -90,27 +91,29 @@ export class ActiveProcessDetailComponent implements OnInit {
           },
         );
 
-      this.service.getTasksForProcessForUser(this.piId)
-        .subscribe(
-          data => {
-            let dataJson;
-            try {
-              dataJson = JSON.parse(data['_body']);
-            } catch (e) {
-              return false;
-            }
-            that.businessObjects = dataJson.businessObjects;
-            that.nextStates = dataJson.nextStates;
-            that.assignedUsers = dataJson.assignedUsers;
-            if (that.assignedUsers) {
-              that.getPossibleUserAssignments();
-            }
-          },
-          err => {
-            that.msg = {text: err, type: 'error'}
-            // console.log(err);
-          },
-        );
+      this.gateway.getUser().then((user)=> {
+        that.service.getTasksForProcessForUser(this.piId,user.uid)
+          .subscribe(
+            data => {
+              let dataJson;
+              try {
+                dataJson = JSON.parse(data['_body']);
+              } catch (e) {
+                return false;
+              }
+              that.businessObjects = dataJson.businessObjects;
+              that.nextStates = dataJson.nextStates;
+              that.assignedUsers = dataJson.assignedUsers;
+              if (that.assignedUsers) {
+                that.getPossibleUserAssignments();
+              }
+            },
+            err => {
+              that.msg = {text: err, type: 'error'}
+              // console.log(err);
+            },
+          );
+      });
     } else {
       this.isFinished = true;
       // this.spinner.hide();
@@ -192,16 +195,19 @@ export class ActiveProcessDetailComponent implements OnInit {
 
   private submitStateChange(businessObjectsAndNextStateAndUserAssignments) {
     const that = this;
-    this.service.submitBusinessObjectsAndNextStateAndUserAssignments(this.piId, businessObjectsAndNextStateAndUserAssignments)
-      .subscribe(
-        data => {
-          that.ngOnInit();
-        },
-        err => {
-          that.msg = {text: err, type: 'error'}
-          // console.log(err);
-        },
-      );
+
+    this.gateway.getUser().then( (user)=> {
+      that.service.submitBusinessObjectsAndNextStateAndUserAssignments(this.piId, user.uid, businessObjectsAndNextStateAndUserAssignments)
+        .subscribe(
+          data => {
+            that.ngOnInit();
+          },
+          err => {
+            that.msg = {text: err, type: 'error'}
+            // console.log(err);
+          },
+        );
+    });
   }
 
   // dirty hack so that the value of the checkbox changes (otherwise the form submit value will stay the original value)

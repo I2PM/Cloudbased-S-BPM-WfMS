@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import {ProcessesService} from '../../../../allProcesses.service';
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 // import { ModalModule, ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
@@ -18,7 +19,8 @@ export class StartableProcessesComponent implements OnInit {
    selectedUserAssignments = {};
    isSelectionValid = false;
 
-  constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router) {}
+  constructor(protected service: ProcessesService,protected gateway:GatewayProvider, protected route: ActivatedRoute,
+              protected router: Router) {}
 
   ngOnInit(): void {
     const that = this;
@@ -34,7 +36,9 @@ export class StartableProcessesComponent implements OnInit {
 
   startProcess(pmId: number): void {
     const that = this;
-    this.service.startProcess(pmId)
+
+    this.gateway.getUser().then( (user)=>{
+      that.service.startProcess(pmId, user.uid)
       .subscribe(
         data => {
           that.msg = {text: 'Process started', type: 'success'};
@@ -48,5 +52,6 @@ export class StartableProcessesComponent implements OnInit {
         },
         () => {}, // console.log('Request done')
       );
+    });
   }
 }

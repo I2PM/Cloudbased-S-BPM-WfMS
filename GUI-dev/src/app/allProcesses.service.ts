@@ -32,10 +32,10 @@ export class ProcessesService {
     return this._authHttp.get(this.restApi + '/processes?page=0'); ///toStart
    }
 
-   startProcess(pmId: number) {
+   startProcess(pmId: number, userId: number) {
      return this._authHttp.post(this.restApi + '/processes/startProcess', {
       'pmId': pmId,
-      'startUserId': this._userId,
+      'startUserId': userId,
       });
    }
 
@@ -63,13 +63,13 @@ export class ProcessesService {
       return this._authHttp.get(this.restApi + '/processes/finished?page=0');
    }
 
-   getActiveProcessesForUser() {
-     return this._authHttp.get(this.restApi + '/processes/active/' + this._userId + '?page=0');
+   getActiveProcessesForUser(userId: number) {
+     return this._authHttp.get(this.restApi + '/processes/active/' + userId + '?page=0');
    }
 
-   getTerminatedProcessesForUser() {
+   getTerminatedProcessesForUser(userId: number) {
     console.log(this._user);
-     return this._authHttp.get(this.restApi + '/processes/finished/' + this._userId + '?page=0');
+     return this._authHttp.get(this.restApi + '/processes/finished/' + userId + '?page=0');
    }
 
    getUserById(userId: number) {
@@ -80,19 +80,16 @@ export class ProcessesService {
       return this._authHttp.post(this.restApi + '/processes/stop/' + piId, {});
    }
 
-   getProcessTasksForUser(userId?: number) {
-     if (!userId) {
-       userId = this._userId;
-     }
+   getProcessTasksForUser(userId: number) {
      return this._authHttp.get(this.restApi + '/processes/tasks/' + userId);
    }
 
-   getTasksForProcessForUser(piId: number) {
-     return this._authHttp.get(this.restApi + '/processes/task/' + piId + '/' + this._userId);
+   getTasksForProcessForUser(piId: number, userId: number) {
+     return this._authHttp.get(this.restApi + '/processes/task/' + piId + '/' + userId);
    }
 
-   submitBusinessObjectsAndNextStateAndUserAssignments(piId: number, objectsAndStateAndUserAssignments) {
-     return this._authHttp.post(this.restApi + '/processes/task/' + piId + '/' + this._userId, objectsAndStateAndUserAssignments);
+   submitBusinessObjectsAndNextStateAndUserAssignments(piId: number, userId:number, objectsAndStateAndUserAssignments) {
+     return this._authHttp.post(this.restApi + '/processes/task/' + piId + '/' + userId, objectsAndStateAndUserAssignments);
    }
 
    uploadOWLModel(body) {
@@ -111,24 +108,24 @@ export class ProcessesService {
      return this._authHttp.get(this.restApi + '/processes/count/started/' + hoursBefore);
    }
 
-   getProcessesThatStartedHoursAgoForUser(hoursBefore: number) {
-     return this._authHttp.get(this.restApi + '/processes/count/started/' + hoursBefore + '/' + this._userId);
+   getProcessesThatStartedHoursAgoForUser(hoursBefore: number, userId: number) {
+     return this._authHttp.get(this.restApi + '/processes/count/started/' + hoursBefore + '/' + userId);
    }
 
    getProcessesThatFinishedHoursAgo(hoursBefore: number) {
      return this._authHttp.get(this.restApi + '/processes/count/finished/' + hoursBefore);
    }
 
-   getProcessesThatFinishedHoursAgoForUser(hoursBefore: number) {
-     return this._authHttp.get(this.restApi + '/processes/count/finished/' + hoursBefore + '/' + this._userId);
+   getProcessesThatFinishedHoursAgoForUser(hoursBefore: number, userId: number) {
+     return this._authHttp.get(this.restApi + '/processes/count/finished/' + hoursBefore + '/' + userId);
    }
 
    getProcessesInState(state: string) {
      return this._authHttp.get(this.restApi + '/processes/count/' + state);
    }
 
-   getProcessesInStateForUser(state: string) {
-     return this._authHttp.get(this.restApi + '/processes/count/' + state + '/' + this._userId);
+   getProcessesInStateForUser(state: string, userId: number) {
+     return this._authHttp.get(this.restApi + '/processes/count/' + state + '/' + userId);
    }
 
    importProcessModel(processModel) {

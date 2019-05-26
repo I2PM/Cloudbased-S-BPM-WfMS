@@ -1,6 +1,7 @@
 import { Component,  OnInit } from '@angular/core';
 import {ProcessesService} from '../../../../allProcesses.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 
 @Component({
   selector: 'ngx-terminated-processes',
@@ -19,22 +20,25 @@ export class TerminatedProcessesComponent implements OnInit  {
   ];
   msg = undefined;
 
-  constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router) {
+  constructor(protected service: ProcessesService, protected gateway:GatewayProvider, protected route: ActivatedRoute,
+              protected router: Router) {
   }
 
   ngOnInit() {
     const that = this;
 
-    this.service.getTerminatedProcessesForUser()
-    .subscribe(
-        data => {
-          that.terminatedProcesses = JSON.parse(data['_body']);
+    this.gateway.getUser().then( (user) => {
+      that.service.getTerminatedProcessesForUser(user.uid)
+        .subscribe(
+          data => {
+            that.terminatedProcesses = JSON.parse(data['_body']);
 
-        },
-        err => {
-          that.msg = {text: err, type: 'error'}
-          // console.log(err);
-        },
-      );
+          },
+          err => {
+            that.msg = {text: err, type: 'error'}
+            // console.log(err);
+          },
+        );
+    });
   }
 }

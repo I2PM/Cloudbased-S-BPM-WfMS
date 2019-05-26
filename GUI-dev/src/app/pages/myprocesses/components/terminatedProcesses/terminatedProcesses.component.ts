@@ -2,6 +2,7 @@ import { Component,  OnInit } from '@angular/core';
 import {ProcessesService} from '../../../../allProcesses.service';
 import { BaThemeSpinner } from '../../../../theme/services';
 import { Router, ActivatedRoute } from '@angular/router';
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 
 
 @Component({
@@ -22,7 +23,8 @@ export class TerminatedProcesses implements OnInit  {
   terminP;
   msg = undefined;
 
-  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner, protected route: ActivatedRoute, protected router: Router) {
+  constructor(protected service: ProcessesService, protected gateway:GatewayProvider,
+              protected spinner:BaThemeSpinner, protected route: ActivatedRoute, protected router: Router) {
     this.ngOnInit();
   }
 
@@ -30,18 +32,20 @@ export class TerminatedProcesses implements OnInit  {
     var that = this;
     //this.spinner.show();
     console.log("get terminated processes");
-    this.service.getTerminatedProcessesForUser()
-    .subscribe(
-        data => {
-          console.log(data);
-          that.terminP = data;
-          //that.spinner.hide();
-        },
-        err =>{
-          that.msg = {text: err, type: 'error'}
-          console.log(err);
-          //that.spinner.hide();
-        }
-      );
+    this.gateway.getUser().then((user)=> {
+      that.service.getTerminatedProcessesForUser(user.uid)
+        .subscribe(
+          data => {
+            console.log(data);
+            that.terminP = data;
+            //that.spinner.hide();
+          },
+          err => {
+            that.msg = {text: err, type: 'error'}
+            console.log(err);
+            //that.spinner.hide();
+          }
+        );
+    });
   }
 }

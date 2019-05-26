@@ -5,6 +5,7 @@ import { BaThemeSpinner } from '../../../../theme/services';
 import {ProcessesService} from '../../../../allProcesses.service';
 import {User} from '../../../../../models/models';
 import {NbAuthJWTToken, NbAuthService} from "@nebular/auth";
+import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 
 type businessObject = {
   bomId:number,
@@ -67,7 +68,7 @@ export class ActiveProcessDetail implements OnInit {
   myCurrentState;
   _userId;
 
-  constructor(protected service: ProcessesService, protected spinner:BaThemeSpinner,
+  constructor(protected service: ProcessesService, protected gateway:GatewayProvider, protected spinner:BaThemeSpinner,
               protected route: ActivatedRoute, protected router: Router, private _user:User, private authService: NbAuthService) {
     this.authService.getToken().subscribe((token: NbAuthJWTToken) => {
       console.log("payload");
@@ -98,30 +99,32 @@ export class ActiveProcessDetail implements OnInit {
           }
         );
 
-        this.service.getTasksForProcessForUser(this.piId)
-        .subscribe(
-          data => {
+      this.gateway.getUser().then((user)=> {
+        that.service.getTasksForProcessForUser(this.piId, user.uid)
+          .subscribe(
+            data => {
 
-            console.log('response of getTasksForProcessForUser:' +data);
+              console.log('response of getTasksForProcessForUser:' + data);
 
-            var dataJson;
-            try {
-              dataJson = (<any>data);
-            } catch(e) {
-              return false;
+              var dataJson;
+              try {
+                dataJson = (<any>data);
+              } catch (e) {
+                return false;
+              }
+              that.businessObjects = dataJson.businessObjects;
+              that.nextStates = dataJson.nextStates;
+              that.assignedUsers = dataJson.assignedUsers;
+              if (that.assignedUsers) {
+                that.getPossibleUserAssignments();
+              }
+            },
+            err => {
+              that.msg = {text: err, type: 'error'}
+              console.log(err);
             }
-            that.businessObjects = dataJson.businessObjects;
-            that.nextStates = dataJson.nextStates;
-            that.assignedUsers = dataJson.assignedUsers;
-            if(that.assignedUsers) {
-              that.getPossibleUserAssignments();
-            }
-          },
-          err =>{
-            that.msg = {text: err, type: 'error'}
-            console.log(err);
-          }
-        );
+          );
+      });
       } else {
         this.isFinished = true;
         //this.spinner.hide();
@@ -202,16 +205,18 @@ export class ActiveProcessDetail implements OnInit {
 
   private submitStateChange(businessObjectsAndNextStateAndUserAssignments) {
     var that = this;
-    this.service.submitBusinessObjectsAndNextStateAndUserAssignments(this.piId, businessObjectsAndNextStateAndUserAssignments)
-    .subscribe(
-        data => {
-          that.ngOnInit();
-        },
-        err =>{
-          that.msg = {text: err, type: 'error'}
-          console.log(err);
-        }
-      );
+    this.gateway.getUser().then( (user)=> {
+      that.service.submitBusinessObjectsAndNextStateAndUserAssignments(this.piId,user.uid, businessObjectsAndNextStateAndUserAssignments)
+        .subscribe(
+          data => {
+            that.ngOnInit();
+          },
+          err => {
+            that.msg = {text: err, type: 'error'}
+            console.log(err);
+          }
+        );
+    });
   }
 
   //dirty hack so that the value of the checkbox changes (otherwise the form submit value will stay the original value)
