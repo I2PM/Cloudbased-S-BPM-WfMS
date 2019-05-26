@@ -57,7 +57,7 @@ export class ActiveProcessDetail implements OnInit {
   assignedUsers:[{
     smId:number,
     userId:number,
-    assignedRules:string[],
+    assignedRoles:string[],
     subjectName:string
   }];
   possibleUserAssignments = [];
@@ -101,6 +101,9 @@ export class ActiveProcessDetail implements OnInit {
         this.service.getTasksForProcessForUser(this.piId)
         .subscribe(
           data => {
+
+            console.log('response of getTasksForProcessForUser:' +data);
+
             var dataJson;
             try {
               dataJson = (<any>data);
@@ -130,13 +133,13 @@ export class ActiveProcessDetail implements OnInit {
     this.assignedUsers.forEach(
       au => {
         if(!au.userId){
-          that.service.getPossibleUsersForProcessModel(au.assignedRules).
+          that.service.getPossibleUsersForProcessModel(au.assignedRoles).
           subscribe(
             data => {
               let users = (<any>data);
-              au.assignedRules.forEach(rule => {
-                that.possibleUserAssignments.push({rule: rule, smId: au.smId, users: users, subjectName: au.subjectName});
-                that.selectedUserAssignments[rule] = undefined;
+              au.assignedRoles.forEach(role => {
+                that.possibleUserAssignments.push({role: role, smId: au.smId, users: users, subjectName: au.subjectName});
+                that.selectedUserAssignments[role] = undefined;
               });
             },
             err =>{
@@ -218,8 +221,8 @@ export class ActiveProcessDetail implements OnInit {
   }
 
   isReceiveState(){
-    console.log(this._user);
-    console.log(this.subjectsState);
+    //onsole.log(this._user);
+    //console.log(this.subjectsState);
     if(this.subjectsState){
       return this.subjectsState.subjects.filter(s => s.userId === this._userId)[0].stateFunctionType === "RECEIVE";
     } else {

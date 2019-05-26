@@ -164,11 +164,17 @@ public class RBACRepositoryImpl implements RBACRepository {
         nativeQuery = true)
     List<UserImpl> findByRoleName(@Param("roleName") String roleName);
 
-    @Query(
+    /*@Query(
         value = "select distinct(u.u_id), u.* from rule join role_rule_map rrm on rrm.rule_id = rule.rule_id "
             + "join user_role_map urm on urm.role_id = rrm.role_id "
             + "join user u on urm.u_id = u.u_id where rule.name in ( :ruleNames )",
-        nativeQuery = true)
+        nativeQuery = true)*/
+
+    @Query(
+    value = " select distinct(u.u_id), u.* from role" +
+            "    join user_role_map urm on urm.role_id = role.role_id" +
+            "    join user u on urm.u_id = u.u_id" +
+            "    where role.role_id in ( :ruleNames )", nativeQuery = true)
     List<UserImpl> findByRuleNames(@Param("ruleNames") List<String> ruleNames);
 
     @Query(value = "select * from user where o_id = :orgId",nativeQuery = true)
