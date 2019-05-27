@@ -19,7 +19,6 @@ export class StartableProcesses implements OnInit {
    selectedUserAssignments = {};
    userSpecificProcessModels = [];
    isSelectionValid = false;
-   userRoles = [];
    loggedInUser;
 
   constructor(protected service:ProcessesService, protected gateway: GatewayProvider,
@@ -42,20 +41,19 @@ export class StartableProcesses implements OnInit {
                this.service
                  .getPossibleUsersForProcessModel(process.starterSubject.assignedRoles)
                  .subscribe((userData) => {
-                   const user = <any> userData;
+                   const user = <any>userData;
                    user.forEach(userInstance => {
-                     if(userInstance.uid === that.loggedInUser.uid)
-                     {
+                     if (userInstance.uid === that.loggedInUser.uid) {
                        that.userSpecificProcessModels.push(process);
                        console.log("User can start the Process");
                      }
                    })
                  })
              });
+         },
          err => that.msg = {text: err, type: 'error'},
          () => console.log('Request Complete')
        );
-    console.log(this.userSpecificProcessModels.length);
   }
 
   getLoggedInUser():void {

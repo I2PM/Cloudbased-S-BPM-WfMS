@@ -29,7 +29,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'My Processes',
-    icon: 'ion-arrow-left',
+    icon: 'nb-lightbulb',
     link: '/myprocesses/startable',
   },
   /*{
