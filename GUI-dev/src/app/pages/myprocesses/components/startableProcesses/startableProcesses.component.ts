@@ -17,9 +17,12 @@ export class StartableProcesses implements OnInit {
    selectedProcessModel = {name: "Kein Modell ausgewählt"};
    possibleUserAssignments = [];
    selectedUserAssignments = {};
+   userSpecificProcessModels = [];
    isSelectionValid = false;
+   userRoles = [];
+   loggedInUser;
 
-  constructor(protected service:ProcessesService, protected gateway:GatewayProvider,
+  constructor(protected service:ProcessesService, protected gateway: GatewayProvider,
               protected route: ActivatedRoute, protected router: Router) {
     console.log("startable");
 
@@ -27,16 +30,37 @@ export class StartableProcesses implements OnInit {
 
   ngOnInit(): void {
     var that = this;
+    //this.getUserRoles();
+    this.getLoggedInUser()
     this.service.getProcessModels()
       .subscribe(
          data => {
            console.log(data);
            that.processModels = (<any[]>data);
-
-         },
+           that.processModels.forEach(
+             process => {
+               this.service
+                 .getPossibleUsersForProcessModel(process.starterSubject.assignedRoles)
+                 .subscribe((userData) => {
+                   const user = <any> userData;
+                   user.forEach(userInstance => {
+                     if(userInstance.uid === that.loggedInUser.uid)
+                     {
+                       that.userSpecificProcessModels.push(process);
+                       console.log("User can start the Process");
+                     }
+                   })
+                 })
+             });
          err => that.msg = {text: err, type: 'error'},
          () => console.log('Request Complete')
        );
+    console.log(this.userSpecificProcessModels.length);
+  }
+
+  getLoggedInUser():void {
+    var that = this;
+    this.gateway.getUser().then((user) => {const userResolved = <any> user; that.loggedInUser = userResolved});
   }
 
   startProcess(pmId:number):void {

@@ -6,8 +6,8 @@
 </div>
 <div class="row">
    <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12">
-      <h4 *ngIf="processModels.length < 1">Es gibt keine Prozesse, die Sie starten können!</h4>
-      <table class="table table-striped" *ngIf="processModels.length > 0">
+      <h4 *ngIf="userSpecificProcessModels.length < 1">Es gibt keine Prozesse, die Sie starten können!</h4>
+      <table class="table table-striped" *ngIf="userSpecificProcessModels.length > 0">
          <thead>
             <tr>
                <th>#</th>
@@ -18,7 +18,7 @@
             </tr>
          </thead>
          <tbody>
-            <tr *ngFor="let processModel of processModels">
+            <tr *ngFor="let processModel of userSpecificProcessModels">
                <td>{{ processModel.pmId }}</td>
                <td>{{ processModel.name }}</td>
                <td>{{ processModel.description }}</td>
