@@ -105,9 +105,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
   }
 
   // configuring the process
-  // TODO: implement configure process
   configureProcess() {
-    // TODO Call ImportProcessModel with bought process
     console.log('configure process');
     this.processService.setCurrentProcessModel(this.process);
     this.router.navigateByUrl('/admin/import').then((msg) => {

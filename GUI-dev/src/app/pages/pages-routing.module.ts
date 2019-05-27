@@ -80,12 +80,15 @@ const routes: Routes = [{
         menu: {
           title: 'Prozesse',
           icon: 'ion-clipboard',
-          selected: false,
-          expanded: false,
-          order: 2,
+          //selected: false,
+          //expanded: false,
+          //order: 2,
         }
       },
-      children: [
+      children: [{
+        path: '',
+        pathMatch: 'full',
+      },
         {
           path: 'startable',
           component: StartableProcesses,

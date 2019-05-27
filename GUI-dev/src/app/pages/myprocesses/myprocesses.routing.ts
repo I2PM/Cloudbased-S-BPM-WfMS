@@ -13,13 +13,17 @@ const routes: Routes = [
     path: '',
     component: MyProcesses,
     canActivate: [AuthGuard],
-    children: [
+    children: [{
+      pathMatch: 'full',
+    },
+
       { path: 'active', component: ActiveProcesses,
         children: [
         {path: ':piId', component: ActiveProcessDetail}
       ]},
       { path: 'terminated', component: TerminatedProcesses },
-      { path: 'startable', component: StartableProcesses }
+      { path: 'startable', component: StartableProcesses },
+      {path: 'myprocesses', component: MyProcesses}
     ]
   }
 ];
