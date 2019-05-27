@@ -18,17 +18,14 @@ import { ThemeModule } from './@theme/theme.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NB_AUTH_TOKEN_CLASS, NbAuthJWTToken, NbAuthModule } from '@nebular/auth';
 import { NbRoleProvider, NbSecurityModule } from '@nebular/security';
-
 import { RoleProvider } from './role.provider';
 import { AuthGuard } from './auth-guard.service';
-
 import { EbEmailPassAuthProvider } from './@theme/providers/auth/email-pass-auth.provider';
 import { AsyncEmailValidatorProvider } from './@theme/providers/async-email-validator/async-email-validator';
 import { ServerConfigProvider } from './@theme/providers/backend-server/serverconfig';
 import {EventLoggerService} from './evntLogger.service';
 import {ProcessesService} from './allProcesses.service';
 import {ApprovalAuthGuard} from './approval-auth-guard.service';
-import {RuleProvider} from './rule.provider';
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
 import {User} from './user';
 import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
@@ -83,31 +80,7 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
       //
     }),
 
-    NbSecurityModule.forRoot({
-      accessControl: {
-        USER: {
-          view: ['profile', 'processes', 'home'],
-        },
-        ORG_EMP: {
-          parent: 'USER',
-          view: 'org',
-        },
-        ORG_CEO: {
-          parent: 'ORG_EMP',
-          view: 'ceo_org',
-        },
-        SYS_ADMIN: {
-          parent: 'USER',
-          view: '*',
-          create: '*',
-          delete: '*',
-        },
-        SYS_APPROVER: {
-          parent: 'USER',
-          view: ['new_processes', 'approvals'],
-        },
-      },
-    }),
+    NbSecurityModule.forRoot(),
 
   ],
   bootstrap: [AppComponent],
@@ -119,7 +92,6 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
     EventLoggerService,
     ProcessesService,
     RoleProvider,
-    RuleProvider,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: NB_AUTH_TOKEN_CLASS, useValue: NbAuthJWTToken },
     { provide: NbRoleProvider, useClass: RoleProvider },

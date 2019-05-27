@@ -83,12 +83,15 @@ export class Role {
   systemId: string;
   orgId:number;
   rules: [Rule];
+  parent: Role;
+  subjectRole: boolean;
+  organization: Organization;
 }
 
 export class Rule {
   ruleId: number;
-  type: string;
-  scope: string;
+  crudType: string;
+  resource: string;
   systemId: string;
 }
 
