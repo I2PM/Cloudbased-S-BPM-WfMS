@@ -6,6 +6,7 @@ import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 import {User} from "../../../../../models/models";
 import {isNullOrUndefined} from "util";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -29,14 +30,18 @@ export class ImportProcessModel implements OnInit {
   version = 5;
   processfile;
 
-  constructor(protected service: ProcessesService, private gateway: GatewayProvider) {
+  constructor(protected service: ProcessesService, private gateway: GatewayProvider, protected router: Router,
+              protected route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.processModel = this.service.getCurrentProcessModel();
     console.log(this.processModel);
+    console.log("ONINIT");
     this._getProcessFile();
+    this.initRoles();
   }
+
 
   onFileChange(event) {
     const that = this;
@@ -81,6 +86,7 @@ export class ImportProcessModel implements OnInit {
     //const reader = new FileReader();
     //if (this.owlFile) {
       //reader.onload = function (e) {
+    console.log(this.gateway.getUser());
         const body = {owlContent: this.processfile, version: '0.7.2'}
         that.service.uploadOWLModel(body)
           .subscribe(
@@ -106,6 +112,7 @@ export class ImportProcessModel implements OnInit {
 
   initRoles(): void {
     const that = this;
+    console.log("INIT ROLES");
     this.gateway.getUser().then( (user) =>
     {
       console.log(user);
@@ -221,6 +228,7 @@ export class ImportProcessModel implements OnInit {
             that.error = 'Das Prozessmodell konnte nicht importiert werden!';
             window.scrollTo(0, 0);
           }
+          this.router.navigate(['../../myprocesses/active'], { relativeTo: this.route });
         },
         err => that.error = 'Das Prozessmodell konnte nicht importiert werden!',
         () => console.log('Request Complete'),

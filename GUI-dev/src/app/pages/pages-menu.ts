@@ -28,9 +28,9 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/user-management',
   },
   {
-    title: 'My Processes',
+    title: 'Process execution',
     icon: 'nb-lightbulb',
-    link: '/myprocesses/startable',
+    link: '/myprocesses/active',
   },
   /*{
     title: 'FEATURES',
