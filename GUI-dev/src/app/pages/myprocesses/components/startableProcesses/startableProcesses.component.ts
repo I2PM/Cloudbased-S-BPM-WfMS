@@ -29,14 +29,14 @@ export class StartableProcesses implements OnInit {
 
   ngOnInit(): void {
     var that = this;
-    //this.getUserRoles();
-    this.getLoggedInUser()
     this.service.getProcessModels()
       .subscribe(
          data => {
            console.log(data);
            that.processModels = (<any[]>data);
-           that.processModels.forEach(
+           this.gateway.getUser().then((user) => {
+             const userResolved = <any> user; that.loggedInUser = userResolved}).then(() => {
+             that.processModels.forEach(
              process => {
                this.service
                  .getPossibleUsersForProcessModel(process.starterSubject.assignedRoles)
@@ -49,16 +49,11 @@ export class StartableProcesses implements OnInit {
                      }
                    })
                  })
-             });
+             });})
          },
          err => that.msg = {text: err, type: 'error'},
          () => console.log('Request Complete')
        );
-  }
-
-  getLoggedInUser():void {
-    var that = this;
-    this.gateway.getUser().then((user) => {const userResolved = <any> user; that.loggedInUser = userResolved});
   }
 
   startProcess(pmId:number):void {
