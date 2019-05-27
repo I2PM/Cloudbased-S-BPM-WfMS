@@ -38,6 +38,8 @@ export class TerminatedProcesses implements OnInit  {
           data => {
             console.log(data);
             that.terminP = data;
+            that.terminatedProcesses = <any>data;
+            console.log("Get Terminated Processes successfull");
             //that.spinner.hide();
           },
           err => {
