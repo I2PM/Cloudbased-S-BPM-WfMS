@@ -6,6 +6,7 @@ import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 import {User} from "../../../../../models/models";
 import {isNullOrUndefined} from "util";
+import {NbSpinnerService} from "@nebular/theme";
 
 
 @Component({
@@ -29,13 +30,15 @@ export class ImportProcessModel implements OnInit {
   version = 5;
   processfile;
 
-  constructor(protected service: ProcessesService, private gateway: GatewayProvider) {
+  constructor(protected service: ProcessesService, protected spinner: NbSpinnerService, private gateway: GatewayProvider) {
   }
 
   ngOnInit(): void {
+    this.spinner.load();
     this.processModel = this.service.getCurrentProcessModel();
     console.log(this.processModel);
     this._getProcessFile();
+    this.spinner.clear();
   }
 
   onFileChange(event) {

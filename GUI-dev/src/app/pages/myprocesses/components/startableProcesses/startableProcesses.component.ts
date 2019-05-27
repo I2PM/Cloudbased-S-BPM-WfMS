@@ -58,7 +58,9 @@ export class StartableProcesses implements OnInit {
 
   getLoggedInUser():void {
     var that = this;
-    this.gateway.getUser().then((user) => {const userResolved = <any> user; that.loggedInUser = userResolved});
+    this.gateway.getUser().then((user) => {
+      const userResolved = <any> user;
+      that.loggedInUser = userResolved});
   }
 
   startProcess(pmId:number):void {

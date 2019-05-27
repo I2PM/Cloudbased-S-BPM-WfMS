@@ -113,6 +113,48 @@ export class ActiveProcessDetail implements OnInit {
                 return false;
               }
               that.businessObjects = dataJson.businessObjects;
+
+              that.businessObjects = that.formatDateValuesOfBusinessObjects(that.businessObjects)
+
+              /*
+              for(let i = 0; i < that.businessObjects.length; i++)
+              {
+                  for(let j=0; j< that.businessObjects[i].fields.length; j++)
+                  {
+                    if(that.businessObjects[i].fields[j].type==="DATE" && that.businessObjects[i].fields[j].value!==null)
+                    {
+                      console.log("converting date!");
+                      let extendedMillisecondString = that.businessObjects[i].fields[j].value+"000";
+                      console.log("extended millisecond value: "+extendedMillisecondString);
+                      var extendedMillisecondNumber = Number(extendedMillisecondString)
+                      let d = new Date(extendedMillisecondNumber);
+                      console.log('Date format: ' + d);
+                      //new Date().toString('yyyy-MM-d-h-mm-ss');
+                      //let date = new Date().toString('yyyy-MM-d-h-mm-ss');
+
+                      var dateFormat = require('dateformat');
+                      //let format = dateFormat(d, "yyyy-MM-dd");
+
+                      //console.log(format);
+
+                      var month = dateFormat(d .getMonth() + 1);
+
+                      var day = dateFormat(d .getDate());
+
+                      var year = dateFormat(d .getFullYear());
+
+                      let formattedString= year+"-"+ month+ "-" + day;
+
+                      let formatted_date = d.getFullYear() + "-" + this.appendLeadingZeroes(d.getMonth() + 1) + "-" + this.appendLeadingZeroes(d.getDate());
+                      //that.businessObjects[i].fields[j].type="STRING";
+
+                      that.businessObjects[i].fields[j].value = formatted_date;
+                    }
+                  }
+              }
+*/
+              console.log('Business Objects: '+JSON.stringify(that.businessObjects));
+
               that.nextStates = dataJson.nextStates;
               that.assignedUsers = dataJson.assignedUsers;
               if (that.assignedUsers) {
@@ -129,6 +171,37 @@ export class ActiveProcessDetail implements OnInit {
         this.isFinished = true;
         //this.spinner.hide();
       }
+  }
+
+  formatDateValuesOfBusinessObjects(businessObjects: any[])
+  {
+    for(let i = 0; i < businessObjects.length; i++)
+    {
+      for(let j=0; j< businessObjects[i].fields.length; j++)
+      {
+        if(businessObjects[i].fields[j].type==="DATE" && businessObjects[i].fields[j].value!==null)
+        {
+          console.log("converting date!");
+          let extendedMillisecondString = businessObjects[i].fields[j].value+"000";
+          console.log("extended millisecond value: "+extendedMillisecondString);
+          var extendedMillisecondNumber = Number(extendedMillisecondString)
+          let d = new Date(extendedMillisecondNumber);
+          console.log('Date format: ' + d);
+
+          let formatted_date = d.getFullYear() + "-" + this.appendLeadingZeroes(d.getMonth() + 1) + "-" + this.appendLeadingZeroes(d.getDate());
+          businessObjects[i].fields[j].value = formatted_date;
+        }
+      }
+    }
+
+    return businessObjects;
+  }
+
+   appendLeadingZeroes(n){
+    if(n <= 9){
+      return "0" + n;
+    }
+    return n
   }
 
   getPossibleUserAssignments() {
