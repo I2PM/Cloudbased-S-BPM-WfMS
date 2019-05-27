@@ -6,11 +6,8 @@ import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 import {User} from "../../../../../models/models";
 import {isNullOrUndefined} from "util";
-<<<<<<< HEAD
 import {NbSpinnerService} from "@nebular/theme";
-=======
 import {ActivatedRoute, Router} from "@angular/router";
->>>>>>> 117fbefcc820a2653c5550cd1a1ab4b2d7784eda
 
 
 @Component({
@@ -35,8 +32,8 @@ export class ImportProcessModel implements OnInit {
   processfile;
 
 
-  constructor(protected service: ProcessesService, private gateway: GatewayProvider, protected router: Router,
-              protected route: ActivatedRoute) {
+  constructor(protected service: ProcessesService, private gateway: GatewayProvider, protected spinner: NbSpinnerService,
+              protected router: Router, protected route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -46,7 +43,6 @@ export class ImportProcessModel implements OnInit {
     console.log("ONINIT");
     this._getProcessFile();
     this.initRoles();
-	this.spinner.clear();
   }
 
 
@@ -130,6 +126,7 @@ export class ImportProcessModel implements OnInit {
           this.roles = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
+          this.spinner.clear();
         }).catch( (err) =>
         {
           console.log(err);
@@ -235,7 +232,7 @@ export class ImportProcessModel implements OnInit {
             that.error = 'Das Prozessmodell konnte nicht importiert werden!';
             window.scrollTo(0, 0);
           }
-          this.router.navigate(['../../myprocesses/active'], { relativeTo: this.route });
+          this.router.navigate(['../../dashboard/myProcesses'], { relativeTo: this.route });
         },
         err => that.error = 'Das Prozessmodell konnte nicht importiert werden!',
         () => console.log('Request Complete'),
