@@ -64,8 +64,8 @@
 <div class="row  v-padding" *ngIf="subjectsState && !isFinished">
   <ba-card class="col-xlg-12 col-xl-12 col-lg-12 col-sm-12 col-xs-12">
     <p>Status: {{subjectsState.status}}</p>
-    <p>Start: {{subjectsState.startTime | date:'dd.MM.yyyy HH:mm'}} </p> <!-- | commaDate -->
-    <p *ngIf="subjectsState.endTime">Ende: {{subjectsState.endTime | date:'dd.MM.yyyy HH:mm'}}</p> <!-- | commaDate  -->
+    <p>Start: {{subjectsState.startTime }} </p> <!-- | commaDate | date:'dd.MM.yyyy HH:mm' -->
+    <p *ngIf="subjectsState.endTime">Ende: {{subjectsState.endTime }}</p> <!-- | commaDate  | date:'dd.MM.yyyy HH:mm' -->
   </ba-card>
 </div>
 <div class="row">
@@ -88,7 +88,7 @@
           <td>{{ subject.user ? subject.user.firstname + " " + subject.user.lastname : "Noch keinem User zugewiesen" }}</td>
           <td>{{ subject.stateName }}</td>
           <td>{{ subject.stateFunctionType }}</td>
-          <td>{{ subject.lastChanged | date:'dd.MM.yyyy HH:mm:ss' }} <!-- | commaDate  -->
+          <td>{{ subject.lastChanged  }} <!-- | commaDate  | date:'dd.MM.yyyy HH:mm:ss' -->
           </tr>
         </tbody>
       </table>
