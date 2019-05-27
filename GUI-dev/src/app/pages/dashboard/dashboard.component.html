@@ -28,6 +28,37 @@
         </nb-card>
       </div>
 
+  <div class="row" style="background-color: #fff;">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+      <div class="row col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2>Prozessübersicht</h2>
+      </div>
+      <div class="row quick-stats">
+        <ba-card title="Gestartete Prozesse (24h)" class="col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+          <div class="description">
+            <div class="description-stats"><span><i class="fa fa-cog"></i></span>Gestartet (24h): {{activeProcesses24Hours}}</div>
+          </div>
+        </ba-card>
+        <ba-card title="Alle gestarteten Prozesse" class="col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+          <div class="description">
+            <div class="description-stats"><span><i class="fa fa-cogs"></i></span>Gestartet: {{ activeProcesses }}</div>
+          </div>
+        </ba-card>
+        <ba-card title="Beendete Prozesse (24h)" class="col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+          <div class="description">
+            <div class="description-stats"><span><i class="fa fa-check"></i></span>Beendet (24h): {{finishedProcesses24Hours}}</div>
+          </div>
+        </ba-card>
+        <ba-card title="Alle beendeten Prozesse" class="col-xlg-3 col-lg-3 col-md-6 col-sm-12 col-xs-12">
+          <div class="description">
+            <div class="description-stats"><span><i class="fa fa-archive"></i></span>Beendet: {{finishedProcesses}}</div>
+          </div>
+        </ba-card>
+      </div>
+
+    </div>
+  </div>
+
   <!--
   <nb-card class="col-md-12" accent="primary">
     <nb-badge text="new" status="success" position="top right"></nb-badge>
