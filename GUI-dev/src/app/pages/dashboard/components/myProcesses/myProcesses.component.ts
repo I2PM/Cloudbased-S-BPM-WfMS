@@ -25,6 +25,7 @@ export class MyProcessesComponent implements OnInit  {
   config: ToasterConfig;
   navigationSubscription;
 
+
   constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
               private gateway: GatewayProvider, private modalService: NgbModal,
               private toasterService: ToasterService) {
@@ -105,6 +106,13 @@ export class MyProcessesComponent implements OnInit  {
       body: 'Die Organisation wurde erfolgreich gespeichert!',
     };
     this.toasterService.popAsync(toast)
+  }
+  
+  configureProcess(p) {
+    this.service.setCurrentProcessModel(p);
+    this.router.navigateByUrl('/admin/import').then((msg) => {
+      console.log(msg);
+    }).catch((err) => console.log(err));
   }
 
 
