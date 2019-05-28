@@ -1,8 +1,5 @@
 // Define all models (i.e. User JSON Structure or Process from process store strucutre as class)
 
-
-import {RuleScope, RuleType} from '../app/rule.provider';
-
 export class Process {
   // define props...
   process_id?: number;
@@ -85,12 +82,15 @@ export class Role {
   name: string;
   systemId: string;
   rules: [Rule];
+  parent: Role;
+  subjectRole: boolean;
+  organization: Organization;
 }
 
 export class Rule {
   ruleId: number;
-  type: string;
-  scope: string;
+  crudType: string;
+  resource: string;
   systemId: string;
 }
 

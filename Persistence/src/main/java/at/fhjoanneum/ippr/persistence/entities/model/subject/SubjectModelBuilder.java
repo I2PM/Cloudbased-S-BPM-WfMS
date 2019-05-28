@@ -14,8 +14,9 @@ import at.fhjoanneum.ippr.persistence.objects.model.subject.SubjectModel;
 public class SubjectModelBuilder implements Builder<SubjectModel> {
 
   private String name;
-  private final List<String> assignedRules = Lists.newArrayList();
+  //private final List<String> assignedRules = Lists.newArrayList();
   private SubjectModelType type;
+  private final List<Long>assignedRoles = Lists.newArrayList();
 
   public SubjectModelBuilder name(final String name) {
     isNotBlank(name);
@@ -29,9 +30,15 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
     return this;
   }
 
+/*
   public SubjectModelBuilder addAssignedRule(final String rule) {
     isNotBlank(rule);
     assignedRules.add(rule);
+    return this;
+  }*/
+
+  public SubjectModelBuilder addAssignedRole(final Long roleId) {
+    assignedRoles.add(roleId);
     return this;
   }
 
@@ -43,10 +50,10 @@ public class SubjectModelBuilder implements Builder<SubjectModel> {
     }
 
     if (SubjectModelType.INTERNAL.equals(type)) {
-      Preconditions.checkArgument(!assignedRules.isEmpty());
+      Preconditions.checkArgument(!assignedRoles.isEmpty());
     }
 
-    final SubjectModel subjectModel = new SubjectModelImpl(name, assignedRules, type);
+    final SubjectModel subjectModel = new SubjectModelImpl(name, type, assignedRoles);
     return subjectModel;
   }
 

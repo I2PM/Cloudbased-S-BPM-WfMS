@@ -3,18 +3,7 @@ package at.fhjoanneum.ippr.persistence.entities.model.subject;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -60,18 +49,24 @@ public class SubjectModelImpl implements SubjectModel, Serializable {
   @NotNull
   private final List<StateImpl> states = Lists.newArrayList();
 
+  /*
   @ElementCollection
-  @CollectionTable(name = "SUBJECT_MODEL_RULE", joinColumns = @JoinColumn(name = "sm_id"))
-  @Column(name = "name")
-  private List<String> assignedRules = Lists.newArrayList();
+  @CollectionTable(name = "SUBJECT_MODEL_ROLE", joinColumns = @JoinColumn(name = "sm_id"))
+  @Column(name = "role_id")
+  private List<String> assignedRules = Lists.newArrayList();*/
+
+  @ElementCollection
+  @CollectionTable(name = "SUBJECT_MODEL_ROLE", joinColumns = @JoinColumn(name = "sm_id"))
+  @Column(name = "role_id")
+  private List<Long> assignedRoles = Lists.newArrayList();
 
   SubjectModelImpl() {}
 
-  SubjectModelImpl(final String name, final List<String> assignedRules,
-      final SubjectModelType type) {
+  SubjectModelImpl(final String name, final SubjectModelType type, final List<Long> assignedRoles) {
     this.name = name;
-    this.assignedRules = assignedRules;
+    //this.assignedRules = assignedRules;
     this.type = type;
+    this.assignedRoles = assignedRoles;
   }
 
   @Override
@@ -94,9 +89,15 @@ public class SubjectModelImpl implements SubjectModel, Serializable {
     return ImmutableList.copyOf(states);
   }
 
+  /*
   @Override
   public List<String> getAssignedRules() {
     return ImmutableList.copyOf(assignedRules);
+  }*/
+
+  @Override
+  public List<Long> getAssignedRoles() {
+    return ImmutableList.copyOf(assignedRoles);
   }
 
   @Override

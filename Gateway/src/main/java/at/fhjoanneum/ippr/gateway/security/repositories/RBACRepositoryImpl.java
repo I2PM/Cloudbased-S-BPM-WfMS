@@ -11,11 +11,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
 @Repository
 public class RBACRepositoryImpl implements RBACRepository {
+  private static final Logger LOG = LoggerFactory.getLogger(RBACRepositoryImpl.class);
 
   @Autowired
   private UserRepository userRepository;
@@ -111,6 +114,14 @@ public class RBACRepositoryImpl implements RBACRepository {
   public List<Role> getRoles() { return Lists.newArrayList(roleRepository.findAll()); }
 
   @Override
+  public List<Role> getRolesOfOrganization(Long oId) {
+
+    LOG.info("Entered function getRolesOfOrganization, with id: "+oId);
+
+    return Lists.newArrayList(roleRepository.findRolesOfOrganization(oId));
+  }
+
+  @Override
   public Optional<CrudType> getCrudTypeBySystemId(String systemId) {
     return Optional.ofNullable(crudTypeRepository.findBySystemId(systemId));
   }
@@ -155,6 +166,9 @@ public class RBACRepositoryImpl implements RBACRepository {
 
     @Query(value = "SELECT * FROM role WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
     RoleImpl findByRoleName(@Param("roleName") String roleName);
+
+    @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId", nativeQuery = true)
+    RoleImpl[] findRolesOfOrganization(@Param("organizationId") Long oId);
   }
 
   @Repository

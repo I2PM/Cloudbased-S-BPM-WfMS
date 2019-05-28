@@ -1,6 +1,7 @@
 package at.fhjoanneum.ippr.gateway.api.services;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 import org.springframework.http.ResponseEntity;
 
@@ -12,6 +13,8 @@ import java.util.concurrent.Future;
 public interface OrganizationService {
 
     public Organization getOrganizationByOrganizationId(Long oId);
+
+    public Future<List<Role>> getRolesOfOrganization(final Long oId);
 
     public Future<List<Organization>> getOrganizations();
 

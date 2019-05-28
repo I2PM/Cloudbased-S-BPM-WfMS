@@ -42,4 +42,6 @@ public interface RBACRepository {
   Optional<CrudType> getCrudTypeBySystemId(final String systemId);
 
   Optional<Resource> getRescourceBySystemId(final String systemId);
+
+  List<Role> getRolesOfOrganization(final Long oId);
 }

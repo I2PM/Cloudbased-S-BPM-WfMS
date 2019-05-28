@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.gateway.api.controller;
 import at.fhjoanneum.ippr.gateway.api.controller.user.HttpHeaderUser;
 import at.fhjoanneum.ippr.gateway.api.services.OrganizationService;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +15,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping(produces = "application/json; charset=UTF-8")
 public class OrganizationController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(OrganizationController.class);
+
     @Autowired
     private OrganizationService organizationService;
-
 
     @RequestMapping(value = "api/organization/all", method = RequestMethod.GET)
     public @ResponseBody
@@ -34,6 +39,19 @@ public class OrganizationController {
     Organization getOrganizationById(final HttpServletRequest request,
                                      @PathVariable(name = "oId", required = true) final Long oId) {
         return organizationService.getOrganizationByOrganizationId(oId);
+    }
+
+
+    @RequestMapping(value = "api/organization/{oId}/roles", method = RequestMethod.GET)
+    public @ResponseBody
+    Future<List<Role>> getRolesOfOrganization(final HttpServletRequest request,
+                                     @PathVariable(name = "oId", required = true) final Long oId) {
+
+
+        LOG.info("blablab");
+        LOG.info("Entered controller function: api/organization/{oId}/roles! with oId: "+oId);
+
+        return organizationService.getRolesOfOrganization(oId);
     }
 
     @RequestMapping(value = "api/organization", method = RequestMethod.POST)

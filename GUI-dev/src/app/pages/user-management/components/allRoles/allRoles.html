@@ -1,6 +1,6 @@
 <div class="row" style="margin-top:50px; margin-left: 35px">
   <toaster-container [toasterconfig]="config"></toaster-container>
-  <h1>ALL Roles</h1><button (click)="addRolesToOrg()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add Role</button>
+  <h1 *nbIsGranted="['delete','process']">ALL Roles</h1><button (click)="addRolesToOrg()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add Role</button>
 </div>
 <div class="user-list">
   <table class="table table-striped" style="width: 95%">

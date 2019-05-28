@@ -153,6 +153,13 @@ public class UserController {
     };
   }
 
+//  @RequestMapping(value = "api/roles", method = RequestMethod.GET)
+ // public @ResponseBody Callable<List<Role>> getRoles() {
+  //  return () -> {
+    //  return rbacService.getRoles().get();
+    //};
+ // }
+
   private static class UserLogin implements Serializable {
     private static final long serialVersionUID = -431110191246364184L;
 

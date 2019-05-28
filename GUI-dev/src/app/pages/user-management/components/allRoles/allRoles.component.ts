@@ -3,7 +3,6 @@ import {ProcessesService} from '../../../../allProcesses.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
 import {User} from '../../../../../models/models';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 import {AddRoleToOrganizationComponent} from '../addRoleToOrganization/addRoleToOrganization.component';
 
@@ -24,7 +23,7 @@ export class AllRolesComponent implements OnInit {
   config: ToasterConfig;
 
   constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
-              private gateway: GatewayProvider, private modalService: NgbModal,
+              private gateway: GatewayProvider,
               private toasterService: ToasterService) {
 
     this.config = new ToasterConfig({

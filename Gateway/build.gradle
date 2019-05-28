@@ -77,3 +77,14 @@ eclipse {
 		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
 	}
 }
+
+task copyJarToBin {
+	String relativeProjectPath = project.projectDir.path.replace(project.name, "")
+	String dest = relativeProjectPath+"/builds"
+	
+    copy {
+        from 'build/libs'
+        into dest
+		exclude '*.original'
+    }
+}

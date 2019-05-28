@@ -10,6 +10,10 @@ interface NodeModule {
   id: string;
 }
 
+interface JQuery {
+  jQuery(options?: any): any;
+}
+
 declare var tinymce: any;
 
 declare var echarts: any;

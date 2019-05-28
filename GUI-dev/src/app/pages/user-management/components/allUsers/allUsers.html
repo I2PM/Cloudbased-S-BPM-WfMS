@@ -10,7 +10,8 @@
         <th>Firstname</th>
         <th>Lastname</th>
         <th>E-Mail</th>
-        <th>User-Roles</th>
+        <th>Process-Roles</th>
+        <th>GUI-Roles</th>
         <th>Add role to user</th>
       </tr>
     </thead>
@@ -20,7 +21,8 @@
         <td>{{user.firstname}}</td>
         <td>{{user.lastname}}</td>
         <td>{{user.email}}</td>
-        <td>{{user.roles}}</td>
+        <td><a *ngFor="let role of user.roles"><a *ngIf="role.subjectRole">{{role.name}}    </a></a></td>
+        <td><a *ngFor="let role of user.roles"><a *ngIf="!role.subjectRole">{{role.name}}    </a></a></td>
         <td><button (click)="openAddRoleToUserPopup()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i></button></td>
       </tr>
     </tbody>

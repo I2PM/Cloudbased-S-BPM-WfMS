@@ -115,13 +115,23 @@ public class ProcessStoreController {
         return new ResponseEntity<>(new OrgaMappingResponse("Ok"), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "process/map/{processStoreId}/with/{processModelId}/of/{orgId}", method = RequestMethod.POST)
+    public @ResponseBody
+    ResponseEntity<ProcessStoreController.OrgaMappingResponse> mapProcessStoreIdWithProcessModelId(@PathVariable("processStoreId") final Long processStoreId,@PathVariable("processModelId") final Long processModelId,@PathVariable("orgId") final Long orgId ) {
+
+        LOG.info("serwas do bin i!");
+        LOG.info("mapProcessStoreIdWithProcessModelId it is! processStoreId: " + processStoreId + ", processModelId: " + processModelId + ", orgId: " + orgId);
+        processOrgaMappingService.mapProcessModelToProcess(processStoreId, processModelId, orgId);
+        return new ResponseEntity<>(new OrgaMappingResponse("Ok"), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "process/create", method = RequestMethod.POST)
 
     public @ResponseBody Callable<ProcessStoreDTO> saveProcess(@RequestHeader HttpHeaders headers, @RequestBody final ProcessStoreDTO process) {
 
         return() -> processStoreService.saveProcessStoreObject(process.getProcessName(),process.getProcessDescription(),
-                process.getProcessCreator(),process.getProcessPrice()).get();
+                process.getProcessCreator(),process.getProcessPrice(), process.getProcessApprover()).get();
 
     }
 

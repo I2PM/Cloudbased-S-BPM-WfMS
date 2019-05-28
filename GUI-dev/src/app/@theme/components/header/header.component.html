@@ -14,7 +14,7 @@
      [class.left]="position === 'inverse'">
 <nb-actions>
   <!--<nb-action icon="nb-grid-b" class="toggle-layout" (click)="toggleSettings()"></nb-action>-->
-  <nb-action *nbIsGranted="['view', 'profile']">
+  <nb-action *ngIf="authenticated">
     <nb-user [nbContextMenu]="userMenu" [name]="user?.email"></nb-user>
   </nb-action>
 </nb-actions>

@@ -10,6 +10,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './@core/core.module';
 import {RouterModule} from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +29,6 @@ import {EventLoggerService} from './evntLogger.service';
 import {ProcessesService} from './allProcesses.service';
 import {User} from '../models/models';
 import {ApprovalAuthGuard} from './approval-auth-guard.service';
-import {RuleProvider} from './rule.provider';
 
 @NgModule({
   declarations: [AppComponent],
@@ -38,7 +38,8 @@ import {RuleProvider} from './rule.provider';
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
-
+    FormsModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
@@ -78,31 +79,7 @@ import {RuleProvider} from './rule.provider';
       //
     }),
 
-    NbSecurityModule.forRoot({
-      accessControl: {
-        USER: {
-          view: ['profile', 'processes', 'home'],
-        },
-        ORG_EMP: {
-          parent: 'USER',
-          view: 'org',
-        },
-        ORG_CEO: {
-          parent: 'ORG_EMP',
-          view: 'ceo_org',
-        },
-        SYS_ADMIN: {
-          parent: 'USER',
-          view: '*',
-          create: '*',
-          delete: '*',
-        },
-        SYS_APPROVER: {
-          parent: 'USER',
-          view: ['new_processes', 'approvals'],
-        },
-      },
-    }),
+    NbSecurityModule.forRoot(),
 
   ],
   bootstrap: [AppComponent],
@@ -114,7 +91,6 @@ import {RuleProvider} from './rule.provider';
     EventLoggerService,
     ProcessesService,
     RoleProvider,
-    RuleProvider,
     { provide: APP_BASE_HREF, useValue: '/' },
     { provide: NB_AUTH_TOKEN_CLASS, useValue: NbAuthJWTToken },
     { provide: NbRoleProvider, useClass: RoleProvider },

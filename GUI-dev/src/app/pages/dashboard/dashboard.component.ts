@@ -3,8 +3,6 @@ import {StoreProcess, User} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NbAccessChecker} from '@nebular/security';
 import {RoleProvider} from '../../role.provider';
-import {RuleProvider, RuleScope, RuleType} from '../../rule.provider';
-
 
 @Component({
   selector: 'ngx-dashboard',
@@ -23,15 +21,15 @@ export class DashboardComponent {
 
   tabsApprover: any[] = [
     {
-      title: 'My Processes',
+      title: 'All Company Processes',
       route: '/dashboard/myProcesses',
     },
     {
-      title: 'Processes in Approval',
+      title: 'Company Processes in Approval',
       route: '/dashboard/validation',
     },
     {
-      title: 'Approved Processes',
+      title: 'Approved Company Processes (in Store)',
       route: '/dashboard/validated',
     },
   ];
@@ -43,25 +41,19 @@ export class DashboardComponent {
     },
   ];
 
-  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker,
-              private ruleProvider: RuleProvider) {
+  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker) {
 
     this.getFavoriteProcesses();
 
-   }
+  }
 
   OnInit() {
     this.gateway.getUser()
       .then((user) => {
         this.user = user;
-        this.ruleProvider.hasRuleWithMinScope(RuleType.APPROVE_PROCESS, RuleScope.MY_ORG)
-          .subscribe(canApprove => this.canApprove = canApprove);
       })
 
   }
-
-
-
 
   getFavoriteProcesses() {
     this.inOrganization = false;
@@ -69,12 +61,12 @@ export class DashboardComponent {
       .then((user) => {
         this.user = user;
         if (user.organization !== null) {
-              this.gateway.getProcessesByOrgId('' + user.organization.oid)
-              // TODO: favouriteProcess automatisch 0 und bestRated 1?? dafuq
-                .then((processes) => {
-                  this.favoriteProcess = processes[0];
-                  processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
-                })
+          this.gateway.getProcessesByOrgId('' + user.organization.oid)
+          // TODO: favouriteProcess automatisch 0 und bestRated 1?? dafuq
+            .then((processes) => {
+              this.favoriteProcess = processes[0];
+              processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
+            })
         }
       })
   }

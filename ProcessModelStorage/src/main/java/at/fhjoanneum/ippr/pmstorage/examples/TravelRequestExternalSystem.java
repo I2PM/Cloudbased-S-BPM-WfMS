@@ -50,6 +50,7 @@ public class TravelRequestExternalSystem extends AbstractExample {
 
   @Override
   protected void createData() {
+    /*
     final SubjectModel employee =
         new SubjectModelBuilder().name("MitarbeiterIn").addAssignedRule("EMPLOYEE_RULE").build();
     final SubjectModel boss =
@@ -75,7 +76,7 @@ public class TravelRequestExternalSystem extends AbstractExample {
 
 
     // accept or do not accept vacation request
-    final State bossState2 = new StateBuilder().subjectModel(boss).name("Reiseantrag prüfen")
+    final State bossState2 = new StateBuilder().subjectModel(boss).name("Reiseantrag prï¿½fen")
         .functionType(StateFunctionType.FUNCTION).build();
 
     final Transition bossT1 =
@@ -309,6 +310,8 @@ public class TravelRequestExternalSystem extends AbstractExample {
         boFromPermissionBoss12, boFromPermissionBoss13, boFromPermissionBoss14,
         boFromPermissionBoss15);
     saveMessageFlows(mf1, mf2, mf3, mf4, mf5, mf6, mf7, mf8);
+
+     */
   }
 
   @Override
