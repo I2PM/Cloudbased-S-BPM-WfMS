@@ -1,14 +1,13 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
-import {User, StoreProcess, StoreProcessRating, Organization, AverageRating} from '../../../../models/models';
+import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role} from '../../../../models/models';
 
 @Injectable()
 export class GatewayProvider {
 
   constructor(public http: HttpClient, public serverConfig: ServerConfigProvider) {
   }
-
   /**
    * EXAMPLE: Here we can define all methods which are connecting the frontend to the backend
    * i.e. => getAllProcesses or saveNewProcess or searchForProcess etc...
@@ -25,6 +24,10 @@ export class GatewayProvider {
       .toPromise()
   }
 
+  addUserToOrganisation(user: User): Promise<User> {
+    return this.http.put<User>(this.serverConfig.addUserToOrg + '/' + user.uid + '/addUserToOrg/' + user.organization.oid, {})
+      .toPromise();
+  }
 
   createProcess(process: StoreProcess): Promise<StoreProcess> {
     return this.http.post<StoreProcess>(this.serverConfig.createProcess, process).toPromise()
@@ -54,10 +57,16 @@ export class GatewayProvider {
       .toPromise();
   }
 
+
   editOrganisation(organization: Organization): Promise<Organization> {
     return this.http.put<Organization>(this.serverConfig.editOrganization + '/' + organization.oid,
       {'organizationName': organization.organizationName, 'organizationDescription': organization.description})
       .toPromise();
+  }
+
+  getRolesOfOrganization(organization: Organization): Promise<Role[]> {
+    return this.http.get<Role[]>(this.serverConfig.getRolesOfOrganization + '/' + organization.oid + '/roles')
+      .toPromise()
   }
 
   getUsersOfMyOrg(): Promise<User[]> {
@@ -67,9 +76,12 @@ export class GatewayProvider {
   getStoreProcesses(): Promise<StoreProcess[]> {
     return this.http.get<StoreProcess[]>(this.serverConfig.getStoreProcesses)
       .toPromise()
-
   }
 
+  getUserByEmail(email: String): Promise<User> {
+    return this.http.get<User>(this.serverConfig.getUserByEmail + '/' + email + '/getUserData')
+      .toPromise()
+  }
 
   getStoreProcessRatings(processId: number): Promise<StoreProcessRating[]> {
     return this.http.get<StoreProcessRating[]>(this.serverConfig.getStoreProcessRatings + '/' + processId)

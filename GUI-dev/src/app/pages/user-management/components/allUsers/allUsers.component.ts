@@ -5,6 +5,8 @@ import {GatewayProvider} from '../../../../@theme/providers/backend-server/gatew
 import {User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
+import {AddUserToOrgComponent} from '../addUserToOrg/addUserToOrg.component';
+import {AddRoleToUserComponent} from '../addRoleToUser/addRoleToUser.component';
 
 
 @Component({
@@ -15,7 +17,7 @@ import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 })
 export class AllUsersComponent implements OnInit {
 
-
+  navigationSubscription;
   myProcesses;
   user: User;
   inOrganization: boolean = false;
@@ -67,6 +69,29 @@ export class AllUsersComponent implements OnInit {
     };
     this.toasterService.popAsync(toast)
   }
+
+  public openAddUserToOrgPopup() {
+    const addUserToOrg = this.modalService.open(AddUserToOrgComponent,
+      {size: 'lg', container: 'nb-layout'});
+    addUserToOrg.componentInstance.saved.subscribe(() => {
+      this.createToast();
+      if (this.navigationSubscription) {
+        this.navigationSubscription.unsubscribe();
+      }
+    })
+  }
+  public openAddRoleToUserPopup() {
+    const addRoleToUser = this.modalService.open(AddRoleToUserComponent,
+      {size: 'lg', container: 'nb-layout'});
+    addRoleToUser.componentInstance.saved.subscribe(() => {
+      this.createToast();
+      if (this.navigationSubscription) {
+        this.navigationSubscription.unsubscribe();
+      }
+    })
+
+  }
+
 
 
 }

@@ -1,4 +1,24 @@
-<div class="row">
+<div class="row" style="margin-top:50px; margin-left: 35px">
   <toaster-container [toasterconfig]="config"></toaster-container>
-  <h1>HALLO ALL ROLES</h1>
+  <h1>ALL Roles</h1><button (click)="addRolesToOrg()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add Role</button>
+</div>
+<div class="user-list">
+  <table class="table table-striped" style="width: 95%">
+    <thead>
+    <tr>
+      <th>Role name</th>
+      <th>Process Role</th>
+      <th>Rules</th>
+      <th>Delete Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><button (click)="deleteRoleFromOrg()" class='btn btn-primary btn-sm'><i class="fa fa-trash"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
 </div>

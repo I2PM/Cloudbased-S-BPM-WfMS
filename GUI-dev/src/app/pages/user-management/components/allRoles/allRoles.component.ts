@@ -5,6 +5,7 @@ import {GatewayProvider} from '../../../../@theme/providers/backend-server/gatew
 import {User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
+import {AddRoleToOrganizationComponent} from '../addRoleToOrganization/addRoleToOrganization.component';
 
 
 @Component({
@@ -15,7 +16,7 @@ import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
 })
 export class AllRolesComponent implements OnInit {
 
-
+  navigationSubscription;
   myProcesses;
   user: User;
   inOrganization: boolean = false;
@@ -49,6 +50,34 @@ export class AllRolesComponent implements OnInit {
           }
         }
       })
+  }
+
+  public addRolesToOrg() {
+    /*
+    const toast: Toast = {
+      type: 'success',
+      title: 'Success',
+      body: 'Rolle erfolgreich hinzugefügt!',
+    };
+    this.toasterService.popAsync(toast)
+    */
+    const addRolesToOrganization = this.modalService.open(AddRoleToOrganizationComponent,
+      {size: 'lg', container: 'nb-layout'});
+    addRolesToOrganization.componentInstance.saved.subscribe(() => {
+      this.createToast();
+      if (this.navigationSubscription) {
+        this.navigationSubscription.unsubscribe();
+      }
+    })
+  }
+
+  public deleteRoleFromOrg() {
+    const toast: Toast = {
+      type: 'success',
+      title: 'Success',
+      body: 'Rolle erfolgreich gelöscht!',
+    };
+    this.toasterService.popAsync(toast)
   }
 
 

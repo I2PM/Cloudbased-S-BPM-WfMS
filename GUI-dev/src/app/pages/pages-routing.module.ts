@@ -19,7 +19,7 @@ import {CreateProcessComponent} from './create-process/create-process.component'
 import { ReviewProcessesComponent } from './dashboard/components/reviewProcesses/reviewProcesses.component';
 import {ModalComponent} from './dashboard/components/modal/modal.component';
 import {ValidatedProcessesComponent} from './dashboard/components/validatedProcesses/validatedProcesses.component';
-import {CreateOrgaModalComponent} from './dashboard/components/createOrgaModal/createOrgaModal.component';
+import {CreateOrgaModalComponent} from './user-management/components/createOrgaModal/createOrgaModal.component';
 
 import {ApprovalAuthGuard} from '../approval-auth-guard.service';
 import {UserManagementComponent} from './user-management/user-management.component';
@@ -27,6 +27,9 @@ import {OrganizationsComponent} from './user-management/components/organizations
 import {AllUsersComponent} from './user-management/components/allUsers';
 import {AllRolesComponent} from './user-management/components/allRoles';
 import {EditOrgaModalComponent} from './user-management/components/editOrgaModal/editOrgaModal.component';
+import {AddUserToOrgComponent} from './user-management/components/addUserToOrg/addUserToOrg.component';
+import {AddRoleToUserComponent} from './user-management/components/addRoleToUser/addRoleToUser.component';
+import {AddRoleToOrganizationComponent} from './user-management/components/addRoleToOrganization/addRoleToOrganization.component';
 
 
 const routes: Routes = [{
@@ -57,11 +60,7 @@ const routes: Routes = [{
         path: 'modalView',
         component: ModalComponent,
 
-      }, {
-          path: 'createOrgaModalView',
-          component: CreateOrgaModalComponent,
-
-        },
+      },
 
       ],
     },
@@ -82,12 +81,22 @@ const routes: Routes = [{
       }, {
         path: 'allRoles',
         component: AllRolesComponent,
+      }, {
+        path: 'createOrgaModalView',
+        component: CreateOrgaModalComponent,
+      }, {
+        path: 'editOrgaModalView',
+        component: EditOrgaModalComponent,
+      }, {
+        path: 'addUserToOrg',
+        component: AddUserToOrgComponent,
+      }, {
+        path: 'addRoleToUser',
+        component: AddRoleToUserComponent,
+      }, {
+        path: 'addRoleToOrganizationComponent',
+        component: AddRoleToOrganizationComponent,
       },
-        {
-          path: 'editOrgaModalView',
-          component: EditOrgaModalComponent,
-
-        },
       ],
     },
     {

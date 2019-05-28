@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
-
 @Injectable()
 export class ServerConfigProvider {
-
   private _host = 'http://localhost:10000/';
   private _checkIfMailTaken = `${this._host}user/register/checkIfMailTaken/`;
   private _getUser = `${this._host}api/me/`;
@@ -23,15 +21,15 @@ export class ServerConfigProvider {
   private _getOrgaProcesses = `${this._host}api/store/processes/byOrga`;
   private _getUsersOfMyOrg = `${this._host}api/user/myOrg`;
 
-
   private _getUnapprovedStoreProcesses = `${this._host}api/store/processes/notApproved`;
   private _postStoreProcessApproved = `${this._host}api/store/process`;
   private _postStoreProcessUnapproved = `${this._host}api/store/process`;
   private _getStoreProcessById = `${this._host}api/store/process`;
   private _postStoreProcessComment = `${this._host}api/store/process`;
   private _getAverageRating = `${this._host}api/store/processRating`;
-
-
+  private _addUserToOrg = `${this._host}api/user`;
+  private _getUserByEmail = `${this._host}api/user/getUserByEmail`;
+  private _getRolesOfOrganization = `${this._host}api/organization`;
   public get checkIfMailTaken(): string {return this._checkIfMailTaken};
   public get getUser(): string {return this._getUser};
   public get getProcess(): string {return this._getProcess};
@@ -41,7 +39,6 @@ export class ServerConfigProvider {
   public get postStoreProcessRating(): string {return this._getOrPostStoreProcessRatings};
   public get uploadOWL(): string {return this._uploadOWL};
   public get createProcess(): string {return this._createProcess};
-
   public get getUserProcesses(): string {return this._getUserProcesses};
   public get getProcessById(): string {return this._getProcessById};
   public get getApprovedProcessesByUser(): string {return this._getApprovedProcessesByUser};
@@ -67,5 +64,8 @@ export class ServerConfigProvider {
   public get getUsersOfMyOrg(): string {
     return this._getUsersOfMyOrg
   };
+  public get getUserByEmail(): string {return this._getUserByEmail};
+  public get getRolesOfOrganization(): string {return this._getRolesOfOrganization};
+  public get addUserToOrg(): string {return this._addUserToOrg};
 
 }

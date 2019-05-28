@@ -1,5 +1,5 @@
 import {Component, EventEmitter} from '@angular/core';
-import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {Organization} from '../../../../../models/models';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
 import {ToasterService} from 'angular2-toaster';
@@ -63,6 +63,7 @@ export class CreateOrgaModalComponent {
     .catch(
       // console.log("sth. went wrong" + err.message)
     );
+
 
 
 }

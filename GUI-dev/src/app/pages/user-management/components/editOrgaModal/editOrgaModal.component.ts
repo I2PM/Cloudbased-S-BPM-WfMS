@@ -20,14 +20,14 @@ import {ToasterConfig, ToasterService} from 'angular2-toaster';
       <div class="form-group">
         <br>
         <h6>organization name</h6>
-        <input name="organizationName" id="input-organizationName"
+        <input name="organizationName" id="input-organizationName" [(ngModel)]="organization.organizationName"
                class="form-control" value="{{organizationName}}"
         >
       </div>
       <div class="form-group">
         <br>
         <h6>organization description</h6>
-        <input name="organizationDescription" id="input-organizationDescription"
+        <input name="organizationDescription" id="input-organizationDescription" [(ngModel)]="organization.description"
                class="form-control" value="{{organizationDescription}}"
         >
       </div>
@@ -57,8 +57,7 @@ export class EditOrgaModalComponent {
         if (user.organization !== null) {
           this.inOrganization = true;
           if (this.inOrganization === true) {
-            this.organization = user.organization;
-            this.orgaId = user.organization.oid;
+            this.organization.oid = user.organization.oid;
             this.organizationName = user.organization.organizationName;
             this.organizationDescription = user.organization.description;
           }
@@ -70,14 +69,16 @@ export class EditOrgaModalComponent {
     this.activeModal.close();
   }
 
-  saveModal = () => this.gateway.editOrganisation(this.organization)
-    .then(() => {
-      this.saved.emit('openPopup');
-      this.activeModal.close();
-    })
-    .catch(
-      // console.log("sth. went wrong" + err.message)
-    );
+  saveModal = () => {
+    this.gateway.editOrganisation(this.organization)
+      .then(() => {
+        this.saved.emit('openPopup');
+        this.activeModal.close();
+      })
+      .catch(
+        // console.log("sth. went wrong" + err.message)
+      );
+  }
 
 
 }
