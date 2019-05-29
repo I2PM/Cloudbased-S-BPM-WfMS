@@ -15,7 +15,6 @@
     "build": "ng build",
     "clean:dist": "npm run rimraf -- dist",
     "rimraf": "rimraf",
-    "prebuild:dev": "npm run clean:dist",
     "prebuild:prod": "npm run clean:dist",
     "build:prod": "npm run build -- --prod --aot",
     "test": "ng test -sr",
