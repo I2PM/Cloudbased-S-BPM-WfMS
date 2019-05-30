@@ -3,13 +3,9 @@
     <div class="tabs-table">
       <nb-card class="col-md-12">
 
-        <div *ngIf="isOrgCEO; else admin">
-          <nb-route-tabset [tabs]="tabs" fullWidth></nb-route-tabset>
-        </div>
-
-        <ng-template #admin>
+        <div>
           <nb-route-tabset [tabs]="tabsAdmin" fullWidth></nb-route-tabset>
-        </ng-template>
+        </div>
 
       </nb-card>
     </div>

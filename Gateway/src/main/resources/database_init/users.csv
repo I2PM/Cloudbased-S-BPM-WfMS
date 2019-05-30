@@ -1,2 +1,3 @@
 username;firstname;lastname;password;email;systemId;roles
 admin;Admin;Admin;Pa$$w0rd;admin@ebusa.com;ADMIN_EBUSA_COM;PROCESS_ROLEZWEI,SYS_ADMIN,PROCESS_ROLE
+wert;wert;wert;wert;wert@wert.wert;WERT;PROCESS_ROLE

@@ -1,8 +1,9 @@
-systemId;resource;crudTypecrudType
+systemId;resource;crudType
 VIEW_PROFILE;view;profile
 CREATE_PROFILE;profile;create
 UPDATE_PROFILE;profile;update
 VIEW_HOME;home;view
 UPDATE_PROCESS;process;update
 DELETE_PROCESS;process;delete
-CREATE_APPROVAL;process_approval;create
+CREATE_APPROVAL;approval;create
+CREATE_PURCHASE;purchase;create
