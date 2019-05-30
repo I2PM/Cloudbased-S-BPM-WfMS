@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.gateway.api.services.impl;
 import java.net.URISyntaxException;
 import java.util.concurrent.Future;
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import org.apache.http.client.utils.URIBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +79,6 @@ public class ProcessModelStorageCallerImpl implements Caller {
     final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessModelStorageAddress())
         .setPath("processes/disable/" + pmId);
     createRequest(uri, HttpMethod.POST, null, null, null);
-    return;
   }
 
   @Async
@@ -89,4 +89,13 @@ public class ProcessModelStorageCallerImpl implements Caller {
 
     return createRequest(uri, HttpMethod.GET, null, ProcessModelDTO[].class, null);
   }
+
+  @Async
+  public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(final int org_id) throws URISyntaxException {
+    final URIBuilder uri =
+            new URIBuilder(gatewayConfig.getProcessModelStorageAddress()).setPath("/processes/payasyougo/" + org_id);
+
+    return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO[].class, null);
+  }
+
 }

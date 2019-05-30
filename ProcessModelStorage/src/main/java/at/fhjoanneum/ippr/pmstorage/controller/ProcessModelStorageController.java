@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,15 @@ public class ProcessModelStorageController {
     };
   }
 
+  @RequestMapping(value = "processes/payasyougo", method = RequestMethod.GET)
+  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
+      final HttpServletRequest request,
+      @RequestParam(value = "org_id") final int org_id) {
+    return () -> {
+      return processModelService.findPayAsYouGoByOrgId(org_id).get();
+    };
+  }
+
   @RequestMapping(value = "processes/toStart", method = RequestMethod.GET)
   public @ResponseBody Callable<List<ProcessModelDTO>> getProcessesToStart(
       final HttpServletRequest request,
@@ -61,8 +71,7 @@ public class ProcessModelStorageController {
       final GatewayUser gatewayUser = new GatewayUser(request);
       final PageRequest pageRequest =
           new PageRequest(page, size, new Sort(Sort.Direction.ASC, "name"));
-      return processModelService.findActiveProcessModelsToStart(gatewayUser.getRules(), pageRequest)
-          .get();
+      return processModelService.findActiveProcessModelsToStart(gatewayUser.getRules(), pageRequest).get();
     };
   }
 

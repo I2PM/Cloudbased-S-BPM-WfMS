@@ -1,14 +1,17 @@
 package at.fhjoanneum.ippr.pmstorage.services.impl;
 
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.FieldPermissionDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.FieldTypeDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.ProcessModelDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.SubjectModelDTO;
+import at.fhjoanneum.ippr.persistence.entities.model.payasyougo.PayAsYouGoImpl;
 import at.fhjoanneum.ippr.persistence.entities.model.process.ProcessModelImpl;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldPermission;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldType;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.ProcessModelState;
+import at.fhjoanneum.ippr.persistence.objects.model.payasyougo.PayAsYouGo;
 import at.fhjoanneum.ippr.persistence.objects.model.process.ProcessModel;
 import at.fhjoanneum.ippr.persistence.objects.model.subject.SubjectModel;
 import at.fhjoanneum.ippr.pmstorage.repositories.ProcessModelRepository;
@@ -44,18 +47,14 @@ public class ProcessModelServiceImpl implements ProcessModelService {
   @Async
   public Future<List<ProcessModelDTO>> findActiveProcessModels(final Pageable pageable) {
     final List<ProcessModelImpl> results = processModelRepository.findActiveProcesses();
-
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
-
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
 
   @Override
   @Async
-  public Future<List<ProcessModelDTO>> findActiveProcessModelsToStart(final List<String> rules,
-      final Pageable pageable) {
+  public Future<List<ProcessModelDTO>> findActiveProcessModelsToStart(final List<String> rules, final Pageable pageable) {
     final List<ProcessModelImpl> results = processModelRepository.findActiveProcessesToStart(rules);
-
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
@@ -64,17 +63,16 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     final List<ProcessModelDTO> processModels = Lists.newArrayList();
     List<SubjectModelDTO> subjectModels;
 
-
-    for(ProcessModelImpl process : results ){
+    for(ProcessModelImpl process : results) {
       subjectModels = Lists.newArrayList();
       for(SubjectModel subject : process.getSubjectModels()) {
-                subjectModels.add(
-                        new SubjectModelDTO(subject.getSmId(), subject.getName(), subject.getAssignedRules()));
+        subjectModels.add(new SubjectModelDTO(subject.getSmId(), subject.getName(), subject.getAssignedRules()));
       }
 
-      final ProcessModelDTO dto =
-              new ProcessModelDTO(process.getPmId(), process.getName(), process.getDescription(),
-                      process.createdAt(), subjectModels, process.getState().name(), process.getVersion());
+      final ProcessModelDTO dto = new ProcessModelDTO(
+              process.getPmId(), process.getName(), process.getDescription(), process.createdAt(),
+              subjectModels, process.getState().name(), process.getVersion()
+      );
       processModels.add(dto);
     }
 
@@ -115,4 +113,29 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
+
+  @Async
+  @Override
+  public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
+    final List<PayAsYouGoImpl> results = processModelRepository.findPayAsYouGoByOrgId(org_id);
+    final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
+    return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
+  }
+
+  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final List<PayAsYouGoImpl> results) {
+    final List<PayAsYouGoDTO> paygList = Lists.newArrayList();
+
+    for(PayAsYouGoImpl PAYGentry : results) {
+
+      final PayAsYouGoDTO dto = new PayAsYouGoDTO(
+              PAYGentry.getEntryId(), PAYGentry.getPiId(), PAYGentry.getProcessName(), PAYGentry.getOrgId(),
+              PAYGentry.getDateTimeStart(), PAYGentry.getDateTimeEnd(), PAYGentry.getDuration(),
+              PAYGentry.getRate(), PAYGentry.getTotalCost()
+      );
+      paygList.add(dto);
+    }
+
+    return paygList;
+  }
+
 }

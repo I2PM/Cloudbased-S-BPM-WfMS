@@ -1,3 +1,55 @@
-<p>
-  pay-as-you-go works!
-</p>
+<nb-card>
+  <nb-card-header>Pay As You Go</nb-card-header>
+  <nb-card-body *ngIf="PAYGentryList">
+    <table align="center" style="width: 90%;">
+      <tr>
+        <th style="width: 20%;">Process Name</th>
+        <th style="width: 15%;">Start</th>
+        <th style="width: 15%;">End</th>
+        <th style="width: 15%;">Duration</th>
+        <th style="width: 10%;">EUR/Min.</th>
+        <th style="width: 15%;">Total Cost (EUR)</th>
+      </tr>
+      <tr>
+        <td>Process Name</td>
+        <td>Start</td>
+        <td>End</td>
+        <td>Duration</td>
+        <td>Rate</td>
+        <td>Total Cost</td>
+      </tr>
+      <tr>
+        <td>Process Name</td>
+        <td>Start</td>
+        <td>End</td>
+        <td>Duration</td>
+        <td>Rate</td>
+        <td>Total Cost</td>
+      </tr>
+      <tr>
+        <td>Process Name</td>
+        <td>Start</td>
+        <td>End</td>
+        <td>Duration</td>
+        <td>Rate</td>
+        <td>Total Cost</td>
+      </tr>
+      <tr>
+        <td>Process Name</td>
+        <td>Start</td>
+        <td>End</td>
+        <td>Duration</td>
+        <td>Rate</td>
+        <td>Total Cost</td>
+      </tr>
+      <tr *ngFor="let entry of PAYGentryList">
+        <td>{{entry.processName}}</td>
+        <td>{{entry.dateTimeStart}}</td>
+        <td>{{entry.dateTimeEnd}}</td>
+        <td>{{entry.rate}}</td>
+        <td>{{entry.duration}}</td>
+        <td>{{entry.totalCost}}</td>
+      </tr>
+    </table>
+  </nb-card-body>
+</nb-card>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { EventLoggerService } from '../../../../evntLogger.service';
+import { EventLoggerService } from '../../../../eventLogger.service';
 
 @Component({
   selector: 'ngx-manipulate-import',
@@ -55,7 +55,7 @@ export class ManipulatePNMLComponent implements OnInit {
               that.error = 'Die PNML Datei konnte nicht richtig interpretiert werden! ' + JSON.parse(err._body).message;
             },
           );
-      }
+      };
       newFileName = this.pnmlFile.name.replace('.pnml', '-manipulated.pnml');
       pnmlReader.readAsText(this.pnmlFile);
     }

@@ -24,7 +24,7 @@ import { AuthGuard } from './auth-guard.service';
 import { EbEmailPassAuthProvider } from './@theme/providers/auth/email-pass-auth.provider';
 import { AsyncEmailValidatorProvider } from './@theme/providers/async-email-validator/async-email-validator';
 import { ServerConfigProvider } from './@theme/providers/backend-server/serverconfig';
-import { EventLoggerService } from './evntLogger.service';
+import { EventLoggerService } from './eventLogger.service';
 import { ProcessesService } from './allProcesses.service';
 import { User } from '../models/models';
 import { ApprovalAuthGuard } from './approval-auth-guard.service';

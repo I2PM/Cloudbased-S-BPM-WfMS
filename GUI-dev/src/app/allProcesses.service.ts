@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {User} from '../models/models';
+import { HttpClient } from '@angular/common/http';
+import { User } from '../models/models';
 
 @Injectable()
 export class ProcessesService {
 
   restApi = window.location.protocol + '//' + window.location.hostname + ':10000/api';
 
-  constructor(private _authHttp: HttpClient, private _user: User) {
-
-  }
+  constructor(private _authHttp: HttpClient, private _user: User) { }
 
    getProcessModels() {
     return this._authHttp.get(this.restApi + '/processes/toStart?page=0');
@@ -112,4 +110,8 @@ export class ProcessesService {
    importProcessModel(processModel) {
      return this._authHttp.post(this.restApi + '/import', processModel);
    }
+
+   //getPayAsYouGo(orgId: number) {
+   // return this._authHttp.get(this.restApi + '/processes/payasyougo/' + orgId)
+   //}
 }

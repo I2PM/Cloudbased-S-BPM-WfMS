@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { EventLoggerService} from '../../../../evntLogger.service';
+import { EventLoggerService } from '../../../../eventLogger.service';
 
 @Component({
   selector: 'ngx-import',
@@ -14,8 +14,7 @@ export class GenerateOWLComponent implements OnInit {
 
   constructor(protected service: EventLoggerService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onPNMLFileChange(event, id) {
     const that = this;
@@ -31,7 +30,7 @@ export class GenerateOWLComponent implements OnInit {
   uploadFiles(form): void {
     const that = this;
     const newFileName = that.processName + '-generated.owl';
-    const fileResults = {}
+    const fileResults = {};
     const fileReaderPromises = [];
     that.pnmlFiles.forEach(p => {
       if (!p.name || p.name === '' || !p.file) {
@@ -42,7 +41,7 @@ export class GenerateOWLComponent implements OnInit {
         pnmlReader.onload = (e) => {
           fileResults[p.name] = pnmlReader.result;
           resolve();
-        }
+        };
         pnmlReader.readAsText(p.file)
       });
       fileReaderPromises.push(promise);

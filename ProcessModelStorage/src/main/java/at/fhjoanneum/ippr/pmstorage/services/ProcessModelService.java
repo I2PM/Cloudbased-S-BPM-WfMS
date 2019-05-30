@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.pmstorage.services;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import org.springframework.data.domain.Pageable;
 
 import at.fhjoanneum.ippr.commons.dto.pmstorage.FieldPermissionDTO;
@@ -23,4 +24,7 @@ public interface ProcessModelService {
   Future<List<FieldPermissionDTO>> getPermissions();
 
   void disableProcessModel(Long pmId);
+
+  Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id);
+
 }

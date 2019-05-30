@@ -90,12 +90,14 @@ export class Rule {
 
 export class PAYGentry {
   entryId: number;
-  processId: number;
+  piId: number;
+  processName?: string;
   orgId: number;
   dateTimeStart: Date;
-  dateTimeEnd: Date;
+  dateTimeEnd?: Date;
+  duration?: String;
   rate: number;
-  totalCost: number;
+  totalCost?: number;
 }
 
 
