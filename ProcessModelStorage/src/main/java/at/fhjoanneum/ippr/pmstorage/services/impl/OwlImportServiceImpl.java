@@ -25,6 +25,7 @@ import at.fhjoanneum.ippr.pmstorage.services.OwlImportService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.jena.atlas.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,9 @@ public class OwlImportServiceImpl implements OwlImportService {
     try {
 
       LOG.info("here in function importProcessModel! 1111111");
+      System.out.println(processModelDTO.getName());
+      System.out.println(processModelDTO.getDescription());
+      System.out.println(processModelDTO.getVersion());
 
       final ProcessModelBuilder pmBuilder =
           new ProcessModelBuilder().name(processModelDTO.getName()).state(ProcessModelState.ACTIVE)
@@ -132,6 +136,14 @@ public class OwlImportServiceImpl implements OwlImportService {
       LOG.info("here in function importProcessModel! 333333333333");
 
       final List<Transition> transitions = Lists.newArrayList();
+
+      processModelDTO.getTransitions().forEach(test -> {
+        System.out.println(test.getFromStateId() + " " + test.getToStateId());
+        System.out.println(test.toString());
+        System.out.println(stateMap.get(test.getFromStateId()).getSId());
+        System.out.println(stateMap.get(test.getToStateId()).getSId());});
+
+      LOG.info("All IDs were correct");
 
       processModelDTO.getTransitions().stream().forEach(transitionDTO -> {
         final TransitionBuilder tBuilder =

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Future;
 
+
 @Transactional
 @Service
 public class ProcessStoreServiceImpl implements ProcessStoreService {
@@ -117,11 +118,13 @@ public class ProcessStoreServiceImpl implements ProcessStoreService {
 
     @Override
 
-    public Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription, String processCreator, Double processPrice, String processApprover) {
+    public Future<ProcessStoreDTO> saveProcessStoreObject(String processName, String processDescription,
+                                                          String processCreator, Double processPrice,
+                                                          String processApprover, Long processVersion) {
 
-        ProcessStoreObjectImpl processStoreObject = new ProcessStoreObjectImpl(processName, processDescription, processCreator, new Date(),
-                1L, processPrice, processApprover, null, false,
-                null, null);
+        ProcessStoreObjectImpl processStoreObject = new ProcessStoreObjectImpl(processName, processDescription,
+                processCreator, new Date(), processVersion, processPrice, processApprover,
+                null, false, null, null);
 
         processStore.save(processStoreObject);
         return new AsyncResult<>(createProcessStoreDTO(processStore.findProcessByProcessNameAndProcessPrice(processStoreObject.getProcessName(), processStoreObject.getProcessPrice())));
@@ -153,8 +156,9 @@ public class ProcessStoreServiceImpl implements ProcessStoreService {
         if(process != null) {
             process.setProcessFile(processFile);
             //Increment version
-            Long incrementedVersion = process.getProcessVersion() + 1;
-            process.setProcessVersion(incrementedVersion);
+
+            //Long incrementedVersion = process.getProcessVersion() + 4;
+            //process.setProcessVersion(incrementedVersion);
             processStore.save(process);
         }
 

@@ -90,7 +90,9 @@ export class ImportProcessModel implements OnInit {
     //if (this.owlFile) {
       //reader.onload = function (e) {
     console.log(this.gateway.getUser());
-        const body = {owlContent: this.processfile, version: '0.7.2'}
+      console.log(this.processModel.processVersion);
+        const body = {owlContent: this.processfile, version: ((this.processModel.processVersion == '0') ? '0.8.0' : '0.7.' + this.processModel.processVersion)}
+        console.log(body);
         that.service.uploadOWLModel(body)
           .subscribe(
             data => {
@@ -206,6 +208,7 @@ export class ImportProcessModel implements OnInit {
     this.service.importProcessModel(processModelResult)
       .subscribe(
         processModelId => {
+          console.log(processModelResult);
 
           console.log('Received data from import Model: '+processModelId);
 
