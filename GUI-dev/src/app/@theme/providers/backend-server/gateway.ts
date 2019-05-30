@@ -1,10 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ServerConfigProvider } from './serverconfig';
-import {
-  User, StoreProcess, StoreProcessRating, Organization, AverageRating,
-  PAYGentry
-} from '../../../../models/models';
+import { User, StoreProcess, StoreProcessRating, Organization, AverageRating, PAYGentry } from '../../../../models/models';
 
 @Injectable()
 export class GatewayProvider {

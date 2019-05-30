@@ -14,7 +14,7 @@
     "callable-types": true,
     "class-name": true,
     "comment-format": [
-      true,
+      false,
       "check-space"
     ],
     "eofline": true,
@@ -37,7 +37,7 @@
     "member-access": false,
     "no-arg": true,
     "no-console": [
-      true,
+      false,
       "debug",
       "log",
       "time",
