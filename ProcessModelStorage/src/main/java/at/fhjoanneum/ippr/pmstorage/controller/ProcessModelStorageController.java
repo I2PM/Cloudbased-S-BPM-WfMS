@@ -53,15 +53,6 @@ public class ProcessModelStorageController {
     };
   }
 
-  @RequestMapping(value = "processes/payasyougo", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
-      final HttpServletRequest request,
-      @RequestParam(value = "org_id") final int org_id) {
-    return () -> {
-      return processModelService.findPayAsYouGoByOrgId(org_id).get();
-    };
-  }
-
   @RequestMapping(value = "processes/toStart", method = RequestMethod.GET)
   public @ResponseBody Callable<List<ProcessModelDTO>> getProcessesToStart(
       final HttpServletRequest request,
@@ -96,4 +87,14 @@ public class ProcessModelStorageController {
     };
     runnable.run();
   }
+
+  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
+  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
+          final HttpServletRequest request,
+          @PathVariable("org_id") final int org_id) {
+    return () -> {
+      return processModelService.findPayAsYouGoByOrgId(org_id).get();
+    };
+  }
+
 }

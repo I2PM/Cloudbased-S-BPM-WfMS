@@ -111,9 +111,8 @@ export class ProcessesService {
      return this._authHttp.post(this.restApi + '/import', processModel);
    }
 
-   /*
    getPayAsYouGo(orgId: number) {
     return this._authHttp.get(this.restApi + '/processes/payasyougo/' + orgId)
    }
-   */
+
 }

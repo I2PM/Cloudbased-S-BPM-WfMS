@@ -119,6 +119,17 @@ public class ProcessModelServiceImpl implements ProcessModelService {
   public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
     final List<PayAsYouGoImpl> results = processModelRepository.findPayAsYouGoByOrgId(org_id);
     final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
+
+    // TODO: debug stuff only here
+    System.out.println(results);
+    for (PayAsYouGoImpl entry : results) {
+      System.out.println(entry);
+    }
+    System.out.println(paygList);
+    for (PayAsYouGoDTO entry : paygList) {
+      System.out.println(entry);
+    }
+
     return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
   }
 

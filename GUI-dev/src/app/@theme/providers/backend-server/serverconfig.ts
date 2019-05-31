@@ -27,7 +27,7 @@ export class ServerConfigProvider {
   private _getStoreProcessById = `${this._host}api/store/process`;
   private _postStoreProcessComment = `${this._host}api/store/process`;
   private _getAverageRating = `${this._host}api/store/processRating`;
-  private _getPayAsYouGo = `${this._host}api/processes/payasyougo`;
+  private _getPayAsYouGo = `${this._host}api/processes/payasyougo/`;
 
 
   public get checkIfMailTaken(): string {return this._checkIfMailTaken};

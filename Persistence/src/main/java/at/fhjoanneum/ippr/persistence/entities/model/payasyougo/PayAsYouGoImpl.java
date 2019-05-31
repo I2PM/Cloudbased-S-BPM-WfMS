@@ -46,8 +46,9 @@ public class PayAsYouGoImpl implements PayAsYouGo {
 
     PayAsYouGoImpl() {}
 
-    PayAsYouGoImpl(final int pi_id, final String process_name, final int org_id,
+    PayAsYouGoImpl(final int entry_id, final int pi_id, final String process_name, final int org_id,
                    final LocalDateTime datetime_start, final Float rate) {
+        this.entry_id = entry_id;
         this.pi_id = pi_id;
         this.process_name = process_name;
         this.org_id = org_id;
@@ -55,9 +56,10 @@ public class PayAsYouGoImpl implements PayAsYouGo {
         this.rate = rate;
     }
 
-    PayAsYouGoImpl(final int pi_id, final String process_name, final int org_id,
+    PayAsYouGoImpl(final int entry_id, final int pi_id, final String process_name, final int org_id,
                    final LocalDateTime datetime_start, final LocalDateTime datetime_end,
                    final String duration, final Float rate, final Float total_cost) {
+        this.entry_id = entry_id;
         this.pi_id = pi_id;
         this.process_name = process_name;
         this.org_id = org_id;

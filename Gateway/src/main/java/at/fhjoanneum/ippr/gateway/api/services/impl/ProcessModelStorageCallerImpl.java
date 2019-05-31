@@ -91,9 +91,11 @@ public class ProcessModelStorageCallerImpl implements Caller {
   }
 
   @Async
-  public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(final int org_id) throws URISyntaxException {
+  public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(final int org_id)
+          throws URISyntaxException {
     final URIBuilder uri =
-            new URIBuilder(gatewayConfig.getProcessModelStorageAddress()).setPath("/processes/payasyougo/" + org_id);
+            new URIBuilder(gatewayConfig.getProcessModelStorageAddress())
+                    .setPath("/processes/payasyougo/" + org_id);
 
     return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO[].class, null);
   }
