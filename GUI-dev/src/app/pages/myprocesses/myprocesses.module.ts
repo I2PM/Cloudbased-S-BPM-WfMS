@@ -24,7 +24,7 @@ import {BaThemeSpinner} from '../../theme/services/index';
     NgaModule,
     routing,
     ModalModule,
-    Pipes
+    Pipes.forRoot(),
   ],
   declarations: [
     MyProcesses,

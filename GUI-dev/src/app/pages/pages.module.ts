@@ -21,6 +21,7 @@ import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activePr
 import {FormsModule} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
+import {Pipes} from "../pipes/pipes.module";
 
 
 const PAGES_COMPONENTS = [
@@ -43,6 +44,7 @@ const PAGES_COMPONENTS = [
     CreateProcessModule,
     UserManagementModule,
     FormsModule,
+    Pipes.forRoot(),
   ],
   declarations: [
     ...PAGES_COMPONENTS,
