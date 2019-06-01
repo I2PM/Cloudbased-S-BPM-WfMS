@@ -47,7 +47,7 @@ export class PayAsYouGoComponent implements OnInit {
             });
 
 
-        } else console.log('The organization of the current user does either not exist or is not a correct org ID.');
+        } else console.log('The organization of the current user does either not exist or is not in correct org ID format.');
       })
       .catch(err => {
         console.log('inside getUser ERROR');

@@ -28,8 +28,7 @@ import at.fhjoanneum.ippr.gateway.api.services.impl.ProcessModelStorageCallerImp
 @RequestMapping(produces = "application/json; charset=UTF-8")
 public class ProcessModelStorageGatewayController {
 
-  private static final Logger LOG =
-      LoggerFactory.getLogger(ProcessModelStorageGatewayController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ProcessModelStorageGatewayController.class);
 
   @Autowired
   private ProcessModelStorageCallerImpl processModelStorageCaller;
