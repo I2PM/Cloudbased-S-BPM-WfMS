@@ -11,9 +11,9 @@ import at.fhjoanneum.ippr.persistence.entities.model.process.ProcessModelImpl;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldPermission;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldType;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.ProcessModelState;
-import at.fhjoanneum.ippr.persistence.objects.model.payasyougo.PayAsYouGo;
 import at.fhjoanneum.ippr.persistence.objects.model.process.ProcessModel;
 import at.fhjoanneum.ippr.persistence.objects.model.subject.SubjectModel;
+import at.fhjoanneum.ippr.pmstorage.repositories.PayAsYouGoRepository;
 import at.fhjoanneum.ippr.pmstorage.repositories.ProcessModelRepository;
 import at.fhjoanneum.ippr.pmstorage.services.ProcessModelService;
 import com.google.common.collect.Lists;
@@ -42,6 +42,9 @@ public class ProcessModelServiceImpl implements ProcessModelService {
 
   @Autowired
   private ProcessModelRepository processModelRepository;
+
+  @Autowired
+  private PayAsYouGoRepository payAsYouGoRepository;
 
   @Override
   @Async
@@ -117,18 +120,23 @@ public class ProcessModelServiceImpl implements ProcessModelService {
   @Async
   @Override
   public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
-    final List<PayAsYouGoImpl> results = processModelRepository.findPayAsYouGoByOrgId(org_id);
+    final List<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
     final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
 
     // TODO: debug stuff only here
-    System.out.println(results);
+    System.out.println("==========> Impl List");
     for (PayAsYouGoImpl entry : results) {
-      System.out.println(entry);
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
     }
-    System.out.println(paygList);
+    System.out.println("==========> DTO List");
     for (PayAsYouGoDTO entry : paygList) {
-      System.out.println(entry);
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
     }
+    System.out.println("<==========");
 
     return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
   }
