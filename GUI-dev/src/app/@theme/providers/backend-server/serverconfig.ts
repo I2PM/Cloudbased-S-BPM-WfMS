@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 export class ServerConfigProvider {
 
   private _host = 'http://localhost:10000/';
+
   private _checkIfMailTaken = `${this._host}user/register/checkIfMailTaken/`;
   private _getUser = `${this._host}api/me/`;
   private _getProcess = `${this._host}api/store/process/`;
@@ -33,6 +34,9 @@ export class ServerConfigProvider {
   private _getStoreProcessById = `${this._host}api/store/process`;
   private _postStoreProcessComment = `${this._host}api/store/process`;
   private _getAverageRating = `${this._host}api/store/processRating`;
+  private _getPayAsYouGo = `${this._host}api/processes/payasyougo/`;
+  private _addPayAsYouGo = `${this._host}api/processes/payasyougo/addEntry/`;
+  private _updatePayAsYouGoEntry = `${this._host}api/processes/payasyougo/updateEntry/`;
 
 
   public get checkIfMailTaken(): string {return this._checkIfMailTaken};
@@ -46,10 +50,10 @@ export class ServerConfigProvider {
   public get createProcess(): string {return this._createProcess};
   public get mapProcessModelIdToProcessStoreId(): string {return this._mapProcessModelIdToProcessStoreId};
 
+
   public get getUserProcesses(): string {return this._getUserProcesses};
   public get getProcessById(): string {return this._getProcessById};
   public get getApprovedProcessesByUser(): string {return this._getApprovedProcessesByUser};
-  public get getApprovedProcesses(): string {return this._getApprovedProcesses};
   public get getNotApprovedProcessesByUser(): string {return this._getNotApprovedProcessesByUser};
 
   public get createOrganization(): string {    return this._createOrganization  };
@@ -61,14 +65,19 @@ export class ServerConfigProvider {
   public get editOrganization(): string {
     return this._editOrganization
   };
-  public get getOrgaProcesses(): string {return this._getOrgaProcesses};
 
+  public get getApprovedProcesses(): string {return this._getApprovedProcesses};
+  public get createOrganizaion(): string {return this._createOrganization};
+  public get getOrgaProcesses(): string {return this._getOrgaProcesses};
   public get getUnapprovedStoreProcesses(): string {return this._getUnapprovedStoreProcesses};
   public get postStoreProcessApproved(): string {return this._postStoreProcessApproved};
   public get postStoreProcessUnapproved(): string {return this._postStoreProcessUnapproved};
   public get getStoreProcessById(): string {return this._getStoreProcessById};
   public get postStoreProcessComment(): string {return this._postStoreProcessComment}
   public get getAverageRating(): string {return this._getAverageRating};
+  public get getPayAsYouGo(): string {return this._getPayAsYouGo};
+  public get addPayAsYouGo(): string{return this._addPayAsYouGo};
+  public get updatePayAsYouGoEntry(): string{return this._updatePayAsYouGoEntry};
 
   public get getUsersOfMyOrg(): string {
     return this._getUsersOfMyOrg

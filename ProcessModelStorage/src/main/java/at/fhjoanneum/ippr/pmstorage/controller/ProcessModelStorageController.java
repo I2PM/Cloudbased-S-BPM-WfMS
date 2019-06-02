@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 
 import javax.servlet.http.HttpServletRequest;
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,8 +62,7 @@ public class ProcessModelStorageController {
       final GatewayUser gatewayUser = new GatewayUser(request);
       final PageRequest pageRequest =
           new PageRequest(page, size, new Sort(Sort.Direction.ASC, "name"));
-      return processModelService.findActiveProcessModelsToStart(gatewayUser.getRules(), pageRequest)
-          .get();
+      return processModelService.findActiveProcessModelsToStart(gatewayUser.getRules(), pageRequest).get();
     };
   }
 
@@ -87,4 +87,54 @@ public class ProcessModelStorageController {
     };
     runnable.run();
   }
+
+  /*
+  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
+  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
+          final HttpServletRequest request,
+          @PathVariable("org_id") final int org_id) {
+    return () -> {
+      return processModelService.findPayAsYouGoByOrgId(org_id).get();
+    };
+  }*/
+
+  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
+  public @ResponseBody Callable<Iterable<PayAsYouGoDTO>> getPayAsYouGo(
+          final HttpServletRequest request, @PathVariable("org_id") final Long org_id) {
+    return() -> processModelService.findPayAsYouGoByOrgId(org_id).get();
+  }
+
+  @RequestMapping(value = "processes/payasyougo/addEntry/{processInstanceId}/with/{processName}/from/{orgId}/startedAt/{startTime}/and/{rate}", method = RequestMethod.POST)
+  public void addPayAsYouGoEntry(@PathVariable("processInstanceId") final Long processInstanceId,
+                                 @PathVariable("processName") final String processName,
+                                 @PathVariable("orgId") final Long oId, @PathVariable("startTime") final Long startTime,
+                                 @PathVariable("rate") final Long rate) {
+
+    LOG.info("Serwus api/processes/payasyougo/addEntry/{processInstanceId}/with/{processName}/from/{orgId}/startedAt/{startTime} it is!");
+    LOG.info("processInstanceId: "+processInstanceId);
+    LOG.info("processName: "+processName);
+    LOG.info("orgId: "+oId);
+    LOG.info("startTime: "+startTime);
+    LOG.info("rate:"+rate);
+
+    final Runnable runnable = () -> {
+      processModelService.addPayAsYouGoEntry(processInstanceId, processName, oId, startTime, rate);
+    };
+    runnable.run();
+  }
+
+  @RequestMapping(value = "processes/payasyougo/updateEntry/{processInstanceId}/with/{endTime}", method = RequestMethod.POST)
+  public void addPayAsYouGoEntry(@PathVariable("processInstanceId") final Long processInstanceId,
+                                 @PathVariable("endTime") final Long endTime) {
+
+    LOG.info("Serwus api/processes/payasyougo/addEntry/{processInstanceId}/with/{processName}/from/{orgId}/startedAt/{startTime} it is!");
+    LOG.info("processInstanceId: " + processInstanceId);
+    LOG.info("endTime: " + endTime);
+
+    final Runnable runnable = () -> {
+      processModelService.updatePayAsYouGoEntry(processInstanceId, endTime);
+    };
+    runnable.run();
+  }
+
 }

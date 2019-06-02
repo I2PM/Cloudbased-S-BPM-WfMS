@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { ProcessesService} from '../../../../allProcesses.service';
+import { ProcessesService } from '../../../../allProcesses.service';
 
 @Component({
   selector: 'ngx-models',
