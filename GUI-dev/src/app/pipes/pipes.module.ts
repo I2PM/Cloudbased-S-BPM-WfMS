@@ -10,7 +10,7 @@ import { EngineDatePipe } from './engineDate.pipe';
   exports: [ CommaDatePipe, EngineDatePipe ],
 })
 
-export class Pipes{
+export class Pipes {
   static forRoot() {
     return {
       ngModule: Pipes,
