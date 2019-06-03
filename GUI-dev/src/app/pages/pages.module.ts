@@ -12,6 +12,7 @@ import {UserDetailsModule} from './user-details/user-details.module';
 import { ProcessRatingModule } from './includes/process-ratings/process-ratings.module';
 import { ProcessstoreDetailsModule } from './processstore-details/processstore-details.module';
 import {CreateProcessModule} from './create-process/create-process.module';
+import {Pipes} from "../pipes/pipes.module";
 
 
 const PAGES_COMPONENTS = [
@@ -32,6 +33,7 @@ const PAGES_COMPONENTS = [
     ProcessRatingModule,
     ProcessstoreDetailsModule,
     CreateProcessModule,
+    Pipes.forRoot(),
   ],
   declarations: [
     ...PAGES_COMPONENTS,

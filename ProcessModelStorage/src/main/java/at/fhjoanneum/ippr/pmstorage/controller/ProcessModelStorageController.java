@@ -89,12 +89,10 @@ public class ProcessModelStorageController {
   }
 
   @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
+  public @ResponseBody Callable<Iterable<PayAsYouGoDTO>> getPayAsYouGo(
           final HttpServletRequest request,
           @PathVariable("org_id") final int org_id) {
-    return () -> {
-      return processModelService.findPayAsYouGoByOrgId(org_id).get();
-    };
+    return () -> processModelService.findPayAsYouGoByOrgId(org_id).get();
   }
 
 }

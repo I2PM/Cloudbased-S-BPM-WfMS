@@ -121,7 +121,6 @@ public class ProcessStoreGatewayController {
             final HttpServletRequest request,
             @PathVariable(name = "processId") final Long processId) {
         return() -> processStoreCaller.findRatingByProcessId(processId).get();
-
     }
 
     @RequestMapping(value ="api/store/processRating/{processId}/getAverageAndCount", method = RequestMethod.GET)

@@ -117,10 +117,10 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
 
-  @Async
   @Override
-  public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
-    final List<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
+  @Async
+  public Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(int org_id) {
+    final Iterable<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
     final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
 
     // TODO: debug stuff only here
@@ -138,10 +138,11 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     }
     System.out.println("<==========");
 
-    return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
+
+    return new AsyncResult<>(paygList);
   }
 
-  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final List<PayAsYouGoImpl> results) {
+  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final Iterable<PayAsYouGoImpl> results) {
     final List<PayAsYouGoDTO> paygList = Lists.newArrayList();
 
     for(PayAsYouGoImpl PAYGentry : results) {

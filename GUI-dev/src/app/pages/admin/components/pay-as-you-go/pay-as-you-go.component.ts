@@ -32,22 +32,10 @@ export class PayAsYouGoComponent implements OnInit {
             .catch(err => {
               console.log('inside gateway ERROR');
               console.log(err);
-              /*
-              this.procServ.getPayAsYouGo(this.currentOrg)
-                .subscribe((payg: PAYGentry[]) => {
-                    console.log('inside PAYG sub');
-                    console.log(payg);
-                    this.PAYGentryList = payg;
-                  },
-                  err => {
-                    console.log('inside procServ ERROR');
-                    console.log(err);
-                  });
-              */
             });
 
 
-        } else console.log('The organization of the current user does either not exist or is not in correct org ID format.');
+        } else console.log('The organization of the current user does either not exist or is not in correct org ID format');
       })
       .catch(err => {
         console.log('inside getUser ERROR');

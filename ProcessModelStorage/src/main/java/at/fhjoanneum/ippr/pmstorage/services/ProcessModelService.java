@@ -25,6 +25,6 @@ public interface ProcessModelService {
 
   void disableProcessModel(Long pmId);
 
-  Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id);
+  Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id);
 
 }

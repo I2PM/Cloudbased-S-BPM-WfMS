@@ -15,6 +15,7 @@ import { GenerateOWLComponent } from './components/generateOWL/generateOWL.compo
 import { AuthGuard } from '../../auth-guard.service';
 import { ThemeModule } from '../../@theme/theme.module';
 import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.component';
+import { Pipes } from '../../pipes/pipes.module';
 
 
 
@@ -24,6 +25,7 @@ import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.co
     FormsModule,
     routing,
     ThemeModule,
+    Pipes.forRoot(),
   ],
   declarations: [
     AdminComponent,

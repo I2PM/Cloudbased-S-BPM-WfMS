@@ -95,10 +95,8 @@ public class ProcessModelStorageGatewayController {
   @RequestMapping(value = "api/processes/payasyougo/{org_id}", method = RequestMethod.GET)
   public @ResponseBody Callable<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
           final HttpServletRequest request,
-          @PathVariable("org_id") final int org_id) {
-    return () -> {
-      return processModelStorageCaller.findPayAsYouGo(org_id).get();
-    };
+          @PathVariable(name = "org_id") final int org_id) {
+    return() -> processModelStorageCaller.findPayAsYouGo(org_id).get();
   }
 
 }

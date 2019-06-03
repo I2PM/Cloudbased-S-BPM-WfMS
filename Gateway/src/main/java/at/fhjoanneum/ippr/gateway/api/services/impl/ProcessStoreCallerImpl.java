@@ -115,7 +115,6 @@ public class ProcessStoreCallerImpl implements Caller {
 
         final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessStoreAddress()).setPath("/processRating/"+processId);
         return createRequest(uri, HttpMethod.GET, null, ProcessRatingDTO[].class, null);
-
     }
 
     @Async
