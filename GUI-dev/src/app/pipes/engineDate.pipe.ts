@@ -5,7 +5,6 @@ export class EngineDatePipe implements PipeTransform {
   transform(values: string, args: string[]): string {
     const regex = /^(\d*),(\d*),(\d*),(\d*),(\d*),(\d*)/;
 
-
     // In some cases, no seconds are delivered
     if (regex.exec(values)[6])
     {
