@@ -50,9 +50,9 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
         email: {
           service: EbEmailPassAuthProvider,
           config: {
-            // baseEndpoint: 'http://localhost:10000',
+            // baseEndpoint: 'http://gateway:10000',
             login: {
-              endpoint: 'http://localhost:10000/user/login',
+              endpoint: 'http://gateway:10000/user/login',
               redirect: {
                 success: 'dashboard',
               },
@@ -61,7 +61,7 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
               endpoint: '',
             },
             register: {
-              endpoint: 'http://localhost:10000/user/register',
+              endpoint: 'http://gateway:10000/user/register',
               redirect: {
                 success: '/auth/login',
               },

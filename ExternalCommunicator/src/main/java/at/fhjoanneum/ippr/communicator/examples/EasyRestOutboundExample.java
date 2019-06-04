@@ -40,7 +40,7 @@ public class EasyRestOutboundExample extends AbstractExample {
 
     basicBuilder.composerClass("at.fhjoanneum.ippr.communicator.composer.XmlComposer");
     basicBuilder.sendPlugin("at.fhjoanneum.ippr.communicator.plugins.send.XmlSendPlugin");
-    basicBuilder.addConfigurationEntry(GlobalKey.ENDPOINT, "http://localhost:10000/ec/test");
+    basicBuilder.addConfigurationEntry(GlobalKey.ENDPOINT, "http://gateway:10000/ec/test");
     basicBuilder.addConfigurationEntry(GlobalKey.TYPE, "TYPE");
     basicBuilder.addConfigurationEntry(GlobalKey.TRANSFER_ID, "TRANSFER-ID");
 

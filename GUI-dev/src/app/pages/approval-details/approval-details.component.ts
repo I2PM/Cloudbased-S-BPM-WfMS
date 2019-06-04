@@ -65,7 +65,7 @@ export class ApprovalDetailsComponent implements OnInit {
   }
 
   loadSelectedProcessDetails() {
-    // GET localhost:10000/api/store/process/{processId} - returns process with {processid}
+    // GET gateway:10000/api/store/process/{processId} - returns process with {processid}
     this.gateway.getStoreProcessById(this.selectedProcessId)
       .then((process) => {
         this.process = process;
@@ -76,7 +76,7 @@ export class ApprovalDetailsComponent implements OnInit {
   }
 
   postComment() {
-    // add API calls for updating a comment of a process POST localhost:10000/api/store/process/{processId}/updateApprovalComment
+    // add API calls for updating a comment of a process POST gateway:10000/api/store/process/{processId}/updateApprovalComment
     // console.log(this.alteredProcess.processApproverComment + "  " + this.alteredProcess.processId);
 
     this.gateway.postStoreProcessComment(this.alteredProcess.processApproverComment, this.alteredProcess.processId.toString());
@@ -84,13 +84,13 @@ export class ApprovalDetailsComponent implements OnInit {
   }
 
   approveStoreProcess() {
-    // POST localhost:10000/api/store/process/{processId}/approve - approve process with {processid}
+    // POST gateway:10000/api/store/process/{processId}/approve - approve process with {processid}
     this.gateway.postStoreProcessApproved(this.selectedProcessId);
     this.router.navigate(['/approval']);
   }
 
   unapproveStoreProcess() {
-    // POST localhost:10000/api/store/process/{processId}/unapprove - unapprove process with {processid}
+    // POST gateway:10000/api/store/process/{processId}/unapprove - unapprove process with {processid}
     this.gateway.postStoreProcessUnapproved(this.selectedProcessId);
     this.router.navigate(['/approval']);
   }

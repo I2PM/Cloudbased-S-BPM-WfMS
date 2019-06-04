@@ -132,6 +132,6 @@ const routes: Routes = [
 ```
 <br>
 
-And that's it! Now your page is available by the following this url [http://localhost:3000/#/pages/new](http://localhost:3000/#/pages/new).
+And that's it! Now your page is available by the following this url [http://gui:3000/#/pages/new](http://gui:3000/#/pages/new).
 Plus, your page is registered inside the sidebar menu. If you don't want to have a link 
 in the menu - just remove the `menu` declaration from the `pages.menu.ts` file.

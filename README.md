@@ -135,16 +135,16 @@ In this section you will find Master's theses, which provide further information
  ```gradlew bootRun```  
  9. Go to GUI and run in cmd:   
  ```gradlew bootRun```  
- 10. Go to ```http://localhost:3000```  
+ 10. Go to ```http://gui:3000```  
   ### Modelling Platform ###  
  1. Go to ModellingPlatform and run in cmd:   
  ```gradlew bootRun```  
- 2. Go to ```http://localhost:4000```  
+ 2. Go to ```http://modelling-platform:4000```  
   #### Alternative ####  
 If you prefer to run the jar files, without using gradlew:  
  1. Go to [builds](builds)  
  2. run in cmd: ```java -jar ModellingPlatform-0.0.1-SNAPSHOT.jar```  
- 3. Go to ```http://localhost:4000```  
+ 3. Go to ```http://modelling-platform:4000```  
     
   
 ### GUI-Dev
@@ -152,14 +152,14 @@ Just for development purposes, not for production!
  1. run in cmd: ```npm install```  
  2. Go to GUI-Dev and run in cmd: ```npm start```  
  3. in case of any errors when starting the first time, please stick to the installation guide of [ng2-admin](https://github.com/akveo/ng2-admin/)  
- 4. Go to ```http://localhost:3000```  
+ 4. Go to ```http://gui:3000```  
   
 ### ModellingPlatform-Dev
 Just for development purposes, not for production!  
  1. Run ```npm install -g yo bower grunt-cli gulp && npm install && bower install``` to install required dependencies.  
  2. Go to ModellingPlatform-Dev and run in cmd: ```npm install && bower install```  
  3. Run in cmd: ```gulp serve```  
- 4. Go to ```http://localhost:3000```  
+ 4. Go to ```http://gui:3000```  
   ## Configuration ##  
   
 ### Ports

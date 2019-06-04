@@ -150,7 +150,7 @@ The format is partially based on [Keep a Changelog](http://keepachangelog.com/en
 ## Added
 - added new Service ProcessStore `at.fhjoanneum.ippr.processstore` running on port 12000
   - ProcessStore is registered at Eureka/DiscoveryClient
-  - available gateway endpoint atm `localhost:10000/api/store/processes`
+  - available gateway endpoint atm `gateway:10000/api/store/processes`
 ## Changed
 - added scripts for ProcessStore startup to /Setup/...
 

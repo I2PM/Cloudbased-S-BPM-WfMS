@@ -1913,7 +1913,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 var ServerConfigProvider = /** @class */ (function () {
     function ServerConfigProvider() {
-        this._host = 'http://localhost:10000/';
+        this._host = 'http://gateway:10000/';
         this._checkIfMailTaken = this._host + "user/register/checkIfMailTaken/";
         this._getUser = this._host + "api/me/";
         this._getProcess = this._host + "api/store/process/";
@@ -2696,9 +2696,9 @@ var AppModule = /** @class */ (function () {
                         email: {
                             service: __WEBPACK_IMPORTED_MODULE_15__theme_providers_auth_email_pass_auth_provider__["a" /* EbEmailPassAuthProvider */],
                             config: {
-                                // baseEndpoint: 'http://localhost:10000',
+                                // baseEndpoint: 'http://gateway:10000',
                                 login: {
-                                    endpoint: 'http://localhost:10000/user/login',
+                                    endpoint: 'http://gateway:10000/user/login',
                                     redirect: {
                                         success: 'dashboard',
                                     },
@@ -2707,7 +2707,7 @@ var AppModule = /** @class */ (function () {
                                     endpoint: '',
                                 },
                                 register: {
-                                    endpoint: 'http://localhost:10000/user/register',
+                                    endpoint: 'http://gateway:10000/user/register',
                                     redirect: {
                                         success: '/auth/login',
                                     },
