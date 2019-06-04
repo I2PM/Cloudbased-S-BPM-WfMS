@@ -1,23 +1,32 @@
 <nb-card>
   <nb-card-header>Pay As You Go</nb-card-header>
-  <nb-card-body *ngIf="PAYGentryList">
+  <nb-card-body style="text-align: center; font-weight: bold; font-size: 1.2em;" *ngIf="PAYGentryList == undefined || PAYGentryList == null || PAYGentryList.length == 0">
+    You are either not a member of an organization or your organization has not had any running processes yet.
+  </nb-card-body>
+  <nb-card-body *ngIf="PAYGentryList != undefined && PAYGentryList != null && PAYGentryList.length > 0">
     <table align="center" style="width: 90%;">
       <tr>
         <th style="width: 20%;">Process Name</th>
         <th style="width: 15%;">Start</th>
         <th style="width: 15%;">End</th>
-        <th style="width: 15%;">Duration (hh:mm:ss)</th>
+        <th style="width: 15%;">Duration</th>
         <th style="width: 10%;">EUR/Min.</th>
-        <th style="width: 15%;">Total Cost (EUR)</th>
+        <th style="width: 15%;">Cost (EUR)</th>
       </tr>
       <tr *ngFor="let entry of PAYGentryList">
         <td>{{entry.processName}}</td>
         <td>{{entry.dateTimeStart | commaDate | date:'dd.MM.yyyy HH:mm'}}</td>
-        <td>{{entry.dateTimeEnd | commaDate | date:'dd.MM.yyyy HH:mm'}}</td>
-        <td>{{entry.duration}}</td>
+        <td *ngIf="entry.dateTimeEnd != null">{{entry.dateTimeEnd | commaDate | date:'dd.MM.yyyy HH:mm'}}</td>
+        <td style="color: red;" *ngIf="entry.dateTimeEnd == null">{{getCurrentDateTime()}}</td>
+        <td *ngIf="entry.duration != null">{{entry.duration}}</td>
+        <td style="color: red;" *ngIf="entry.duration == null">{{getCurrentDuration(entry.dateTimeStart | commaDate | date:'yyyy.MM.dd HH:mm')}}</td>
         <td>{{entry.rate}}</td>
-        <td>{{entry.totalCost}}</td>
+        <td *ngIf="entry.totalCost != null">{{entry.totalCost}}</td>
+        <td style="color: red;" *ngIf="entry.totalCost == null">{{getCurrentTotalCost(getCurrentDuration(entry.dateTimeStart | commaDate | date:'yyyy.MM.dd HH:mm'), entry.rate)}}</td>
       </tr>
     </table>
+    <p style="margin: 1em; text-align: center; font-weight: bold;" *ngIf="PAYGentryList.length > 1">
+      Total Cost (EUR): {{this.totalProcessesCost.toFixed(2)}}
+    </p>
   </nb-card-body>
 </nb-card>

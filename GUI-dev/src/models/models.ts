@@ -95,7 +95,7 @@ export class PAYGentry {
   orgId: number;
   dateTimeStart: Date;
   dateTimeEnd?: Date;
-  duration?: String;
+  duration?: string;
   rate: number;
   totalCost?: number;
 }
