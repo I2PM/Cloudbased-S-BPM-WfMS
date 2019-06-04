@@ -40,7 +40,7 @@
         <h3>Process Approver</h3>
         <div class="form-group">
           <select class="form-control inputfields" (change)="selectedApprover($event.target.value)">
-            <option [value]="noApprover">Please select an approver</option>
+            <option>Please select an approver</option>
             <option name="processApprover" id="input-processApprover" *ngFor="let user of usersFromOrganization" [value]="user.uid" >
               {{user.email}}
             </option>

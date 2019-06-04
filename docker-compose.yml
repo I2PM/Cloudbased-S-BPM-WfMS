@@ -2,7 +2,7 @@ version: '3.4'
 services:
   mysql:
     container_name: ebusa-mysql
-    build: 
+    build:
       context: ./Setup/mysql_docker/
     ports:
      - "3306:3306"
@@ -11,7 +11,7 @@ services:
       - spring-cloud-network
   service-discovery:
     container_name: ebusa-service-discovery
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileServiceDiscovery
     ports:
@@ -23,7 +23,7 @@ services:
       - mysql
   configuration-service:
     container_name: ebusa-configuration-service
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileConfigurationServer
     ports:
@@ -35,7 +35,7 @@ services:
       - service-discovery
   gateway:
     container_name: ebusa-gateway
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileGateway
     ports:
@@ -45,9 +45,9 @@ services:
       - spring-cloud-network
     depends_on:
       - configuration-service
-#  gui: 
+#  gui:
  #   container_name: ebusa-gui
- #   build: 
+ #   build:
  #     context: ./builds/
  #     dockerfile: DockerfileGUI
  #   ports:
@@ -57,9 +57,9 @@ services:
  #     - spring-cloud-network
  #   depends_on:
  #     - gateway
-#  modelling-platform: 
+#  modelling-platform:
 #    container_name: ebusa-modelling-platform
-#    build: 
+#    build:
 #      context: ./builds/
 #      dockerfile: DockerfileModellingPlatform
 #    ports:
@@ -67,9 +67,9 @@ services:
 #    restart: always
 #    networks:
 #      - spring-cloud-network
-  process-model-storage: 
+  process-model-storage:
     container_name: ebusa-process-model-storage
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfilePmstorage
     ports:
@@ -77,9 +77,9 @@ services:
     restart: always
     networks:
       - spring-cloud-network
-  process-store: 
+  process-store:
     container_name: ebusa-process-store
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileProcessStore
     ports:
@@ -87,9 +87,9 @@ services:
     restart: always
     networks:
       - spring-cloud-network
-  process-engine: 
+  process-engine:
     container_name: ebusa-process-engine
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileProcessengine
     ports:
@@ -97,9 +97,9 @@ services:
     restart: always
     networks:
       - spring-cloud-network
-  external-communicator: 
+  external-communicator:
     container_name: external-communicator
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileExternalCommunicator
     ports:
@@ -107,9 +107,9 @@ services:
     restart: always
     networks:
       - spring-cloud-network
-  event-logger: 
+  event-logger:
     container_name: event-logger
-    build: 
+    build:
       context: ./builds/
       dockerfile: DockerfileEventLogger
     ports:

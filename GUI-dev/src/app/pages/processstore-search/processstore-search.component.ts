@@ -12,9 +12,10 @@ export class ProcessStoreSearchComponent implements OnInit {
   public processes: Array<StoreProcess>;
   private mockEnabled;
   // tslint:disable-next-line
-  private filterType = 'none'; // is used in html
+  public filterType = 'none'; // is used in html
   // tslint:disable-next-line
-  private filterInput; // is used in html
+  public filterInput; // is used in html
+  public processSearchString: String;
 
   constructor(private gateway: GatewayProvider) {}
 
