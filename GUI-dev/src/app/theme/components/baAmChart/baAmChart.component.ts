@@ -5,8 +5,10 @@ import {BaThemePreloader} from '../../../theme/services';
 import './baAmChart.loader.ts';
 import {BaAmChartThemeService} from './baAmChartTheme.service';
 import {AmChart} from '@amcharts/amcharts3-angular'
+import {NgModel} from "@angular/forms";
 
 @Component({
+  providers: [NgModel],
   selector: 'ba-am-chart',
   templateUrl: './baAmChart.html',
   encapsulation: ViewEncapsulation.None,

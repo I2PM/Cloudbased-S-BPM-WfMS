@@ -1,6 +1,8 @@
 import {Component, ViewChild, HostListener, Input, ElementRef} from '@angular/core';
+import {NgModel} from "@angular/forms";
 
 @Component({
+  providers: [NgModel],
   selector: 'ba-back-top',
   styles: [require('./baBackTop.scss')],
   template: `
