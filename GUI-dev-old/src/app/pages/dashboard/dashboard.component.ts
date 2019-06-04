@@ -5,7 +5,7 @@ import { ProcessesService } from '../../Processes.service';
   selector: 'dashboard',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./dashboard.scss')],
-  template: require('./dashboard.html')
+   templateUrl: ('./dashboard.html')
 })
 export class Dashboard {
 

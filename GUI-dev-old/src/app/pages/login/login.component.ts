@@ -6,7 +6,7 @@ import { AuthService } from '../../auth.service'
   selector: 'login',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./login.scss')],
-  template: require('./login.html'),
+   templateUrl: ('./login.html'),
 })
 export class Login {
 

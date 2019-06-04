@@ -22,11 +22,12 @@ import {FormsModule} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 import {Pipes} from "../pipes/pipes.module";
+import {BaAmChart} from "../theme/components/baAmChart/baAmChart.component";
+import {BaCard} from "../theme/components/baCard/baCard.component";
+import {NgFileSelectDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-select";
+import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-drop";
 
 
-const PAGES_COMPONENTS = [
-  PagesComponent,
-];
 
 @NgModule({
   imports: [
@@ -45,16 +46,22 @@ const PAGES_COMPONENTS = [
     UserManagementModule,
     FormsModule,
     Pipes.forRoot(),
+	PagesComponent,
+	NgFileSelectDirective,
+	NgFileDropDirective
   ],
   declarations: [
-    ...PAGES_COMPONENTS,
     MyProcesses,
     StartableProcesses,
     TerminatedProcesses,
     ActiveProcesses,
     ActiveProcessDetail,
+	TypeaheadContainerComponent,
+	BaAmChart,
+	BaCard,
+	PagesComponent,
+	NgFileSelectDirective,
+	NgFileDropDirective
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class PagesModule {
-}
