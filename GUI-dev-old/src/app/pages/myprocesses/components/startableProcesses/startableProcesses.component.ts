@@ -7,7 +7,7 @@ import { ProcessesService } from '../../../../Processes.service';
 @Component({
   selector: 'startableProcesses',
   styles: [require('./startableProcesses.scss')],
-  template: require('./startableProcesses.html')
+   templateUrl: ('./startableProcesses.html')
 })
 export class StartableProcesses implements OnInit {
    //@ViewChild('lgModal') public modal:ModalDirective;

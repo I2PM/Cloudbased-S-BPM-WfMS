@@ -7,7 +7,7 @@ import {NbAuthService} from '@nebular/auth';
 @Component({
   selector: 'ba-page-top',
   styles: [require('./baPageTop.scss')],
-  template: require('./baPageTop.html'),
+  templateUrl: './baPageTop.html',
   encapsulation: ViewEncapsulation.None,
 })
 export class BaPageTop {

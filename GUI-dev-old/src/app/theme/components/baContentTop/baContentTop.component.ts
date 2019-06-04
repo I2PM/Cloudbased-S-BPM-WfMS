@@ -5,7 +5,7 @@ import {GlobalState} from '../../../global.state';
 @Component({
   selector: 'ba-content-top',
   styles: [require('./baContentTop.scss')],
-  template: require('./baContentTop.html'),
+   templateUrl: ('./baContentTop.html'),
 })
 export class BaContentTop {
 

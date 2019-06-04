@@ -6,7 +6,7 @@ import {LineChartService} from './lineChart.service';
   selector: 'line-chart',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./lineChart.scss')],
-  template: require('./lineChart.html')
+   templateUrl: ('./lineChart.html')
 })
 export class LineChart {
 
