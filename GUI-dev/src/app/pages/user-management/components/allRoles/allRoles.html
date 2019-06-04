@@ -1,4 +1,4 @@
 <div class="row">
   <toaster-container [toasterconfig]="config"></toaster-container>
-  <h1>HALLO ALL ROLES</h1>
+  <h1 *nbIsGranted="['delete','process']">HALLO ALL ROLES</h1>
 </div>

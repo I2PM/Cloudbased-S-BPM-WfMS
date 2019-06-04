@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StoreProcess, User} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
 import {NbAccessChecker} from '@nebular/security';
 import {RoleProvider} from '../../role.provider';
-import {RuleProvider, RuleScope, RuleType} from '../../rule.provider';
-
+import {ProcessesService} from '../../allProcesses.service';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -43,20 +42,59 @@ export class DashboardComponent {
     },
   ];
 
-  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker,
-              private ruleProvider: RuleProvider) {
+  activeProcesses;
+  finishedProcesses;
+  activeProcesses24Hours;
+  finishedProcesses24Hours;
+
+  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker, private _processService:ProcessesService) {
 
     this.getFavoriteProcesses();
-
-   }
+    this.OnInit();
+  }
 
   OnInit() {
     this.gateway.getUser()
       .then((user) => {
         this.user = user;
-        this.ruleProvider.hasRuleWithMinScope(RuleType.APPROVE_PROCESS, RuleScope.MY_ORG)
-          .subscribe(canApprove => this.canApprove = canApprove);
-      })
+      });
+    var that = this;
+    this._processService.getProcessesInState("active")
+      .subscribe(
+        data => {
+          that.activeProcesses = data;
+        },
+        err =>{
+          console.log(err);
+        }
+      );
+    this._processService.getProcessesInState("finished")
+      .subscribe(
+        data => {
+          that.finishedProcesses = data;
+        },
+        err =>{
+          console.log(err);
+        }
+      );
+    this._processService.getProcessesThatStartedHoursAgo(24)
+      .subscribe(
+        data => {
+          that.activeProcesses24Hours = data;
+        },
+        err =>{
+          console.log(err);
+        }
+      );
+    this._processService.getProcessesThatFinishedHoursAgo(24)
+      .subscribe(
+        data => {
+          that.finishedProcesses24Hours = data;
+        },
+        err =>{
+          console.log(err);
+        }
+      );
 
   }
 
@@ -66,12 +104,12 @@ export class DashboardComponent {
       .then((user) => {
         this.user = user;
         if (user.organization !== null) {
-              this.gateway.getProcessesByOrgId('' + user.organization.oid)
-              // TODO: favouriteProcess automatisch 0 und bestRated 1?? dafuq
-                .then((processes) => {
-                  this.favoriteProcess = processes[0];
-                  processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
-                })
+          this.gateway.getProcessesByOrgId('' + user.organization.oid)
+          // TODO: favouriteProcess automatisch 0 und bestRated 1?? dafuq
+            .then((processes) => {
+              this.favoriteProcess = processes[0];
+              processes[1] !== undefined ? this.bestRatedProcess = processes[1] : this.bestRatedProcess = processes[0];
+            })
         }
       })
   }

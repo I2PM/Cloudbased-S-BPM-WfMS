@@ -13,6 +13,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.AsyncResult;
+import java.util.concurrent.Future;
+
 
 import com.google.common.collect.Lists;
 
@@ -106,6 +109,17 @@ public class RBACRepositoryImpl implements RBACRepository {
   }
 
   @Override
+  public List<User> getUsersByOrgId(final Long oId) {
+
+    LOG.info("reached function getUsersByOrgId, with id: "+oId);
+
+    List<User> users = Lists.newArrayList(userRepository.findUsersByOrgId(oId));
+
+    LOG.info("received users: "+users.size());
+    return users;
+  }
+
+  @Override
   public List<Resource> getRules() {
     return Lists.newArrayList(resourceRepository.findAll());
   }
@@ -150,12 +164,21 @@ public class RBACRepositoryImpl implements RBACRepository {
         nativeQuery = true)
     List<UserImpl> findByRoleName(@Param("roleName") String roleName);
 
-    @Query(
+    /*@Query(
         value = "select distinct(u.u_id), u.* from rule join role_rule_map rrm on rrm.rule_id = rule.rule_id "
             + "join user_role_map urm on urm.role_id = rrm.role_id "
             + "join user u on urm.u_id = u.u_id where rule.name in ( :ruleNames )",
-        nativeQuery = true)
+        nativeQuery = true)*/
+
+    @Query(
+    value = " select distinct(u.u_id), u.* from role" +
+            "    join user_role_map urm on urm.role_id = role.role_id" +
+            "    join user u on urm.u_id = u.u_id" +
+            "    where role.role_id in ( :ruleNames )", nativeQuery = true)
     List<UserImpl> findByRuleNames(@Param("ruleNames") List<String> ruleNames);
+
+    @Query(value = "select * from user where o_id = :orgId",nativeQuery = true)
+    List<UserImpl> findUsersByOrgId(@Param("orgId") Long oId);
   }
 
   @Repository
@@ -167,7 +190,7 @@ public class RBACRepositoryImpl implements RBACRepository {
     @Query(value = "SELECT * FROM role WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
     RoleImpl findByRoleName(@Param("roleName") String roleName);
 
-    @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId", nativeQuery = true)
+    @Query(value = "SELECT * FROM role WHERE o_id = :organizationId", nativeQuery = true)
     RoleImpl[] findRolesOfOrganization(@Param("organizationId") Long oId);
   }
 

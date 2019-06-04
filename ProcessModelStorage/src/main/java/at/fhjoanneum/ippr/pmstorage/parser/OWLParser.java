@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.pmstorage.parser;
 import at.fhjoanneum.ippr.commons.dto.owlimport.reader.*;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.StateEventType;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.StateFunctionType;
+import org.apache.commons.lang.NotImplementedException;
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.ontology.OntResource;
@@ -40,7 +41,49 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
       final String URI_FUNCTION_STATE;
       final String URI_HAS_EDGE;
       final String URI_NAME;
+      final String URI_REFERS_TO;
+      final String URI_STANDARD_TRANSITION;
+      System.out.println(version);
+	  switch (version)
+      {
+        case "0.7.5":
+          URI_STANDARD = "http://www.i2pm.net/standard-pass-ont#";
+          URI_ACTOR = URI_STANDARD + "FullySpecifiedSingleSubject";
+          URI_BEHAVIOR = URI_STANDARD + "containsBehavior";
+          URI_STATE = URI_STANDARD + "contains";
+          URI_FUNCTION_STATE = URI_STANDARD + "DoState";
+          URI_HAS_EDGE = URI_STANDARD + "contains";
+          URI_NAME = URI_STANDARD + "hasModelComponentLabel";
+          URI_REFERS_TO = URI_STANDARD + "refersTo";
+          URI_STANDARD_TRANSITION = URI_STANDARD + "StandardTransition";
+          break;
+        case "0.7.2":
 
+        URI_STANDARD = "http://www.imi.kit.edu/standard-pass-ont#";
+        URI_ACTOR = URI_STANDARD + "SingleActor";
+        URI_BEHAVIOR = URI_STANDARD + "hasBehavior";
+        URI_STATE = URI_STANDARD + "hasState";
+        URI_FUNCTION_STATE = URI_STANDARD + "FunctionState";
+        URI_HAS_EDGE = URI_STANDARD + "hasEdge";
+        URI_NAME = URI_STANDARD + "hasModelComponentLable";
+        URI_REFERS_TO = URI_STANDARD + "refersTo";
+        URI_STANDARD_TRANSITION = URI_STANDARD + "StandardTransition";
+          break;
+        case "0.8.0":
+          URI_STANDARD = "http://www.i2pm.net/standard-pass-ont#";
+          URI_ACTOR = URI_STANDARD + "FullySpecifiedSubject";
+          URI_BEHAVIOR = URI_STANDARD + "containsBehavior";
+          URI_STATE = URI_STANDARD + "contains";
+          URI_FUNCTION_STATE = URI_STANDARD + "DoState";
+          URI_HAS_EDGE = URI_STANDARD + "contains";
+          URI_NAME = URI_STANDARD + "hasModelComponentLabel";
+          URI_REFERS_TO = URI_STANDARD + "hasTransitionCondition";
+          URI_STANDARD_TRANSITION = URI_STANDARD + "DoTransition";
+          break;
+        default:
+          throw new NotImplementedException();
+      }/*
+          URI_REFERS_TO = URI_STANDARD + "requiresPerformedMessageExchange";
       if (version.equals("0.7.5")){
         URI_STANDARD = "http://www.i2pm.net/standard-pass-ont#";
         URI_ACTOR = URI_STANDARD + "FullySpecifiedSingleSubject";
@@ -58,7 +101,8 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
         URI_HAS_EDGE = URI_STANDARD + "hasEdge";
         URI_NAME = URI_STANDARD + "hasModelComponentLable";
       }
-
+*/
+      System.out.println("GetOtherElements");
       final String URI_PROCESS_MODEL = URI_STANDARD + "PASSProcessModel";
       final String URI_IDENTIFIER = URI_STANDARD + "hasModelComponentID";
       final String URI_SEND_STATE = URI_STANDARD + "SendState";
@@ -67,14 +111,15 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
       final String URI_END_STATE = URI_STANDARD + "EndState";
       final String URI_SOURCE_STATE = URI_STANDARD + "hasSourceState";
       final String URI_TARGET_STATE = URI_STANDARD + "hasTargetState";
-      final String URI_REFERS_TO = URI_STANDARD + "refersTo";
+
       final String URI_SENDER = URI_STANDARD + "hasSender";
       final String URI_RECEIVER = URI_STANDARD + "hasReceiver";
       final String URI_MESSAGE_TYPE = URI_STANDARD + "hasMessageType";
-      final String URI_STANDARD_TRANSITION = URI_STANDARD + "StandardTransition";
+
       final String URI_RECEIVE_TRANSITION = URI_STANDARD + "ReceiveTransition";
       final String URI_SEND_TRANSITION = URI_STANDARD + "SendTransition";
 
+      System.out.println("URI elements covered");
       stateDTOs = new ArrayList<>();
       transitionDTOs = new HashSet<>();
       bomDTOs = new HashSet<>();
@@ -85,9 +130,13 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
 
       final InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
 
+      System.out.println("Create Ontology Model");
       final OntModel model = ModelFactory.createOntologyModel();
       final OntDocumentManager dm = model.getDocumentManager();
+      System.out.println("Read OWL");
       model.read(is, "OWL/XML");
+
+      System.out.println("Write OWL");
       model.write(System.out);
       // Find Process Model
       final List<? extends OntResource> processModels =
@@ -114,7 +163,7 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
         final Property senderProperty = model.getProperty(URI_SENDER);
         final Property receiverProperty = model.getProperty(URI_RECEIVER);
         final Property messageTypeProperty = model.getProperty(URI_MESSAGE_TYPE);
-
+        System.out.println(refersToProperty.toString());
         // Get ProcessModelName
         final String processName = processModel.getProperty(labelProperty).getString();
 
@@ -177,14 +226,18 @@ public class OWLParser implements FileParser<String, OWLProcessModelDTO> {
 
               // Which type of transition?
               if (stateOrTransitionResource.hasProperty(refersToProperty)) {
-                final Resource refersTo =
-                        stateOrTransitionResource.getProperty(refersToProperty).getResource();
+                Resource refersTo = stateOrTransitionResource.getProperty(refersToProperty).getResource();
+
+                if(version.equals("0.8.0"))
+                {
+                  refersTo = refersTo.getProperty(model.getProperty(URI_STANDARD + "requiresPerformedMessageExchange"))
+                          .getResource();
+                }
                 final String messageFlowIdentifier =
                         stateOrTransitionResource.getProperty(identifierProperty).getString();
                 final Resource sender = refersTo.getProperty(senderProperty).getResource();
                 final Resource receiver = refersTo.getProperty(receiverProperty).getResource();
                 final String messageFlowLabel = refersTo.getProperty(labelProperty).getString();
-
                 final Resource messageType = refersTo.getProperty(messageTypeProperty).getResource();
                 final String messageTypeLabel = messageType.getProperty(labelProperty).getString();
                 final String bomIdentifier = messageType.getProperty(identifierProperty).getString();

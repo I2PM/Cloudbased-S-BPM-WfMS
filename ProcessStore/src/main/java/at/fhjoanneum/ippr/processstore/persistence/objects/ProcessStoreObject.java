@@ -14,4 +14,8 @@ public interface ProcessStoreObject {
 
     void setProcessApprover(String processApprover);
 
+    Long getProcessVersion();
+
+    void setProcessVersion(Long processVersion);
+
 }

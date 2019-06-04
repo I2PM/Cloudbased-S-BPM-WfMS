@@ -27,6 +27,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'ion-settings',
     link: '/user-management',
   },
+  {
+    title: 'Process execution',
+    icon: 'nb-lightbulb',
+    link: '/myprocesses/active',
+  },
   /*{
     title: 'FEATURES',
     group: true,

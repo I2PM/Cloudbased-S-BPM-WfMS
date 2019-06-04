@@ -12,9 +12,13 @@ import at.fhjoanneum.ippr.processengine.parser.db.DbParser;
 import at.fhjoanneum.ippr.processengine.parser.db.DbParserAllocation;
 import at.fhjoanneum.ippr.processengine.parser.json.JsonParser;
 import at.fhjoanneum.ippr.processengine.parser.json.JsonParserAllocation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class DbValueParser {
+
+  private static final Logger LOG = LoggerFactory.getLogger(DbValueParser.class);
 
   @Autowired
   private JsonParserAllocation jsonParserAllocation;
@@ -54,6 +58,13 @@ public class DbValueParser {
   }
 
   public boolean canParse(final String value, final FieldType fieldType) {
+
+    LOG.info("In Function canParse with type: "+fieldType+" and value: "+value);
+    LOG.info("getting parser for type: "+fieldType+"...");
+    Object parser = jsonParserAllocation.getParser(fieldType);
+
+    LOG.info("Parser: "+parser);
+
     return jsonParserAllocation.getParser(fieldType).canParse(value);
   }
 }

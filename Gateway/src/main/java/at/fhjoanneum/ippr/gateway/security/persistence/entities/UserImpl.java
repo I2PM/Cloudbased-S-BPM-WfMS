@@ -64,8 +64,9 @@ public class UserImpl implements User, Serializable {
   @NotBlank
   private String password;
 
+
   @ManyToOne
-  @JoinColumn(name = "o_id")
+  @JoinColumn(name = "oId")
   @JsonIgnoreProperties("employees")
   private OrganizationImpl organization;
 

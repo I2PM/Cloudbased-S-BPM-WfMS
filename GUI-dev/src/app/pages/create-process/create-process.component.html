@@ -27,6 +27,10 @@
                autofocus
                [required]="true">
       </div>
+        <label class="control-label">Standard-Pass-Ont Version: </label><br />
+        <label class="radio-inline"><input name="version" type="radio" [value]="2"  [(ngModel)]="process.processVersion"> 0.7.2</label>
+        <label class="radio-inline"><input name="version" type="radio" [value]="5"  [(ngModel)]="process.processVersion"> 0.7.5</label>
+        <label class="radio-inline"><input name="version" type="radio" [value]="0"  [(ngModel)]="process.processVersion"> 0.8.0</label>
         <form #owlModelForm="ngForm" enctype="multipart/form-data">
           <label class="control-label">OWL-File: </label>
             <input type="file" name="fileUpload" id="fileUpload" class="form-control inputfields" accept=".owl," (change)="onFileChange($event)">

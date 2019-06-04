@@ -63,7 +63,7 @@ public class ProcessModelServiceImpl implements ProcessModelService {
   private static List<ProcessModelDTO> createProcessModelDTO(final List<ProcessModelImpl> results) {
     final List<ProcessModelDTO> processModels = Lists.newArrayList();
     List<SubjectModelDTO> subjectModels;
-
+    SubjectModelDTO starterSubject;
 
     for(ProcessModelImpl process : results ){
       subjectModels = Lists.newArrayList();
@@ -71,10 +71,12 @@ public class ProcessModelServiceImpl implements ProcessModelService {
                 subjectModels.add(
                         new SubjectModelDTO(subject.getSmId(), subject.getName(), subject.getAssignedRoles()));
       }
-
+      starterSubject = new SubjectModelDTO(process.getStarterSubjectModel().getSmId(),process.getStarterSubjectModel().getName(),
+              process.getStarterSubjectModel().getAssignedRoles());
       final ProcessModelDTO dto =
               new ProcessModelDTO(process.getPmId(), process.getName(), process.getDescription(),
-                      process.createdAt(), subjectModels, process.getState().name(), process.getVersion());
+                      process.createdAt(), subjectModels, process.getState().name(), process.getVersion(),
+                      starterSubject);
       processModels.add(dto);
     }
 

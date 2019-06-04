@@ -6,6 +6,8 @@ import './importModelFormBuilder.loader.ts';
 import {GatewayProvider} from "../../../../@theme/providers/backend-server/gateway";
 import {User} from "../../../../../models/models";
 import {isNullOrUndefined} from "util";
+import {NbSpinnerService} from "@nebular/theme";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -29,14 +31,20 @@ export class ImportProcessModel implements OnInit {
   version = 5;
   processfile;
 
-  constructor(protected service: ProcessesService, private gateway: GatewayProvider) {
+
+  constructor(protected service: ProcessesService, private gateway: GatewayProvider, protected spinner: NbSpinnerService,
+              protected router: Router, protected route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.spinner.load();
     this.processModel = this.service.getCurrentProcessModel();
     console.log(this.processModel);
+    console.log("ONINIT");
     this._getProcessFile();
+    this.initRoles();
   }
+
 
   onFileChange(event) {
     const that = this;
@@ -81,7 +89,10 @@ export class ImportProcessModel implements OnInit {
     //const reader = new FileReader();
     //if (this.owlFile) {
       //reader.onload = function (e) {
-        const body = {owlContent: this.processfile, version: '0.7.2'}
+    console.log(this.gateway.getUser());
+      console.log(this.processModel.processVersion);
+        const body = {owlContent: this.processfile, version: ((this.processModel.processVersion == '0') ? '0.8.0' : '0.7.' + this.processModel.processVersion)}
+        console.log(body);
         that.service.uploadOWLModel(body)
           .subscribe(
             data => {
@@ -106,14 +117,18 @@ export class ImportProcessModel implements OnInit {
 
   initRoles(): void {
     const that = this;
+    console.log("INIT ROLES");
     this.gateway.getUser().then( (user) =>
     {
+      console.log(user);
         this.gateway.getRolesOfOrganization(user.organization).then( (roles) =>
         {
+          console.log(roles);
           console.log(roles[0])
           this.roles = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
+          this.spinner.clear();
         }).catch( (err) =>
         {
           console.log(err);
@@ -193,6 +208,7 @@ export class ImportProcessModel implements OnInit {
     this.service.importProcessModel(processModelResult)
       .subscribe(
         processModelId => {
+          console.log(processModelResult);
 
           console.log('Received data from import Model: '+processModelId);
 
@@ -219,6 +235,7 @@ export class ImportProcessModel implements OnInit {
             that.error = 'Das Prozessmodell konnte nicht importiert werden!';
             window.scrollTo(0, 0);
           }
+          this.router.navigate(['../../dashboard/myProcesses'], { relativeTo: this.route });
         },
         err => that.error = 'Das Prozessmodell konnte nicht importiert werden!',
         () => console.log('Request Complete'),

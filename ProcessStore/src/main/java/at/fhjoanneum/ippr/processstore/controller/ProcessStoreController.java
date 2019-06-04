@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+
 @RestController
 @RequestMapping(produces = "application/json; charset=UTF-8")
 public class ProcessStoreController {
@@ -131,7 +132,7 @@ public class ProcessStoreController {
     public @ResponseBody Callable<ProcessStoreDTO> saveProcess(@RequestHeader HttpHeaders headers, @RequestBody final ProcessStoreDTO process) {
 
         return() -> processStoreService.saveProcessStoreObject(process.getProcessName(),process.getProcessDescription(),
-                process.getProcessCreator(),process.getProcessPrice(), process.getProcessApprover()).get();
+                process.getProcessCreator(),process.getProcessPrice(), process.getProcessApprover(), process.getProcessVersion()).get();
 
     }
 

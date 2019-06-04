@@ -71,12 +71,14 @@ export class ProcessStoreDetailsComponent implements OnInit {
   _setProcessApprover() {
     this.gateway.getUsersOfMyOrg()
       .then((users) => {
-        for (let i = 0; i <= users.length; i++) {
+        for (let i = 0; i < users.length; i++) {
           if (this.process.processApprover === '' + users[i].uid) {
             this.process.processApprover = users[i].firstname + ' ' + users[i].lastname;
           }
         }
-      });
+      }).catch( (err) =>{
+        console.log(err);
+    });
   }
   // activates a modal for approval of payment
   // method for buy can be found in the modal
@@ -103,9 +105,7 @@ export class ProcessStoreDetailsComponent implements OnInit {
   }
 
   // configuring the process
-  // TODO: implement configure process
   configureProcess() {
-    // TODO Call ImportProcessModel with bought process
     console.log('configure process');
     this.processService.setCurrentProcessModel(this.process);
     this.router.navigateByUrl('/admin/import').then((msg) => {

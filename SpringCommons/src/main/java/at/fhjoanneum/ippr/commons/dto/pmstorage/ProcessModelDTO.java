@@ -14,6 +14,7 @@ public class ProcessModelDTO {
   private String description;
   private LocalDateTime createdAt;
   private List<SubjectModelDTO> subjectModels;
+  private SubjectModelDTO starterSubject;
   private String state;
   private Float version;
 
@@ -36,6 +37,13 @@ public class ProcessModelDTO {
     this.version = version;
   }
 
+  public ProcessModelDTO(final Long pmId, final String name, final String description,
+                         final LocalDateTime createdAt, final List<SubjectModelDTO> subjectModels, final String state,
+                         final Float version, SubjectModelDTO starterSubject) {
+    this(pmId, name, description, createdAt, subjectModels, state, version);
+    this.starterSubject = starterSubject;
+  }
+
   public Long getPmId() {
     return pmId;
   }
@@ -55,6 +63,8 @@ public class ProcessModelDTO {
   public List<SubjectModelDTO> getSubjectModels() {
     return subjectModels;
   }
+
+  public SubjectModelDTO getStarterSubject() {return starterSubject;}
 
   public String getState() {
     return state;

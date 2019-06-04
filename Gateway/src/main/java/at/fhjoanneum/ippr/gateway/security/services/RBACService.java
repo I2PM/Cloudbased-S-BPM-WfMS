@@ -10,9 +10,12 @@ import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 
+
 public interface RBACService {
 
   public User getUserByUserId(Long uId);
+
+  public Future<List<User>> getUsersByOrgId(final Long orgId);
 
   public Future<List<UserDTO>> getUsersOfRule(List<String> ruleNames);
 

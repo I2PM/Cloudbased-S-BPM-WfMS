@@ -8,6 +8,7 @@ import at.fhjoanneum.ippr.gateway.security.persistence.DTOFactory;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.UserImpl;
 import at.fhjoanneum.ippr.gateway.security.registration.RegistrationService;
 import at.fhjoanneum.ippr.gateway.security.services.RBACService;
 import io.jsonwebtoken.Claims;
@@ -27,9 +28,18 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.concurrent.Future;
+import com.google.common.collect.Lists;
+import org.springframework.scheduling.annotation.AsyncResult;
+
+
 @RestController
 @RequestMapping(produces = "application/json; charset=UTF-8")
 public class UserController {
+
+  private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
   private OrganizationService organizationService;
@@ -123,14 +133,35 @@ public class UserController {
   }
 
   @RequestMapping(value = "api/user/myOrg", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<UserDTO>> getUsersFromOrg(final HttpServletRequest request){
-    return () -> {
+  public @ResponseBody Future<List<User>> getUsersFromOrg(final HttpServletRequest request)
+  {
+    Future<List<User>>employees=new AsyncResult<List<User>>(Lists.newArrayList());
+
+    try {
       Organization orgMine = getLoggedInUser(request).getOrganization();
-      if (orgMine == null){
-        return new ArrayList<>();
+      if (orgMine != null) {
+
+        LOG.info("serwus do bin i! getUsersFromOrg it is!");
+        employees = new AsyncResult<List<User>>(Lists.newArrayList(orgMine.getEmployees()));
+
+        //employees = rbacService.getUsersByOrgId(oId);
+
+        //LOG.info("employee count: "+employees.size());
+
+        //Future<List<UserDTO>>users= rbacService.getUsersByOrgId(oId);
+        //.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList());
+        //LOG.info("users count: "+users.size());
+
+        //return users;
       }
-      return orgMine.getEmployees().stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList());
-    };
+    }
+    catch(ServletException ex)
+    {
+      LOG.error(ex.getMessage());
+    }
+      return employees;
+              //orgMine.getEmployees().stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList());
+
   }
 
   //all Orgs

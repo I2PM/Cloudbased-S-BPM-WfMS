@@ -23,10 +23,15 @@ import com.google.common.collect.Lists;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity(name = "role")
 @XmlRootElement
 public class RoleImpl implements Role, Serializable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(RoleImpl.class);
 
     private static final long serialVersionUID = -3752242631499306265L;
 
@@ -42,13 +47,22 @@ public class RoleImpl implements Role, Serializable {
     @NotBlank
     private String systemId;
 
+    @Column
+    private Long o_id;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_rule_map", joinColumns = {@JoinColumn(name = "role_id")},
             inverseJoinColumns = {@JoinColumn(name = "rule_id")})
     private List<RuleImpl> rules = Lists.newArrayList();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    /*
+    @JoinTable(name = "organization", joinColumns = {@JoinColumn(name  = "organization_o_id")},
+            inverseJoinColumns = {@JoinColumn(name  = "oId")})
+    @ManyToOne(fetch = FetchType.EAGER)*/
+    @Transient
     private OrganizationImpl organization;
+
 
     @Column
     @NotNull
@@ -59,15 +73,18 @@ public class RoleImpl implements Role, Serializable {
 
 
     RoleImpl() {
+
+        LOG.info("in std constructor!");
+        LOG.info("ID: "+roleId);
     }
 
     public RoleImpl(String name, String systemId, List<RuleImpl> rules, OrganizationImpl organization, Boolean subjectRole, RoleImpl parent) {
         this.name = name;
         this.systemId = systemId;
         this.rules = rules;
-        this.organization = organization;
         this.subjectRole = subjectRole;
         this.parent = parent;
+        this.organization = organization;
     }
 
     @Override
@@ -155,5 +172,11 @@ public class RoleImpl implements Role, Serializable {
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append("roleId", roleId)
                 .append("name", name).toString();
+    }
+
+    @Override
+    public Long getOrgId()
+    {
+        return o_id;
     }
 }

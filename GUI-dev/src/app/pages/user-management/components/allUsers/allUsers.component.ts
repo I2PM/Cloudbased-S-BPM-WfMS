@@ -2,8 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {ProcessesService} from '../../../../allProcesses.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
-import {User} from '../../../../../models/models';
+import {Role, User} from '../../../../../models/models';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
+import {forEach} from '@angular/router/src/utils/collection';
 
 
 @Component({

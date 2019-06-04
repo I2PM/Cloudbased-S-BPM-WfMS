@@ -18,6 +18,7 @@ export class CreateProcessComponent implements OnInit {
   file: File;
   processApprover: string;
   usersFromOrganization: User[];
+  owlVersion: string;
 
   constructor(private gateway: GatewayProvider, private router: Router) {
   }
@@ -58,6 +59,7 @@ export class CreateProcessComponent implements OnInit {
     }
     this.gateway.createProcess(this.process)
       .then(data => {
+        console.log(data);
         this.gateway.addProcessToOrganization('' + data.processId, this.orgId, this.userId);
         this.gateway.uploadOWLModel(data.processId, this.owlFile); })
       .then(() => {

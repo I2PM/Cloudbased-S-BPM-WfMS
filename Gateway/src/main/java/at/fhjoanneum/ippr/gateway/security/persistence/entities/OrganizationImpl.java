@@ -34,23 +34,24 @@ public class OrganizationImpl implements Organization {
     @NotBlank
     private String organizationDescription;
 
+
     @OneToMany(mappedBy = "organization")
     private List<UserImpl> employees = Lists.newArrayList();
 
+/*
     @ManyToMany
     @JoinTable(name = "orga_process_map", joinColumns = {@JoinColumn(name = "o_id")},
-            inverseJoinColumns = {@JoinColumn(name = "process_store_id")})
-    private List<ProcessStoreImpl> processes = Lists.newArrayList();
+            inverseJoinColumns = {@JoinColumn(name = "process_id")})
+    private List<ProcessStoreImpl> processes = Lists.newArrayList();*/
 
 
     OrganizationImpl() {}
 
-    OrganizationImpl(String systemId, String organizationName, String organizationDescription,
-                     List<ProcessStoreImpl> processes, List<UserImpl> employees) {
+    OrganizationImpl(String systemId, String organizationName, String organizationDescription, List<UserImpl> employees) {
         this.organizationName = organizationName;
         this.organizationDescription = organizationDescription;
         this.systemId = systemId;
-        this.processes = processes;
+        //this.processes = processes;
         this.employees = employees;
     }
 
@@ -90,12 +91,13 @@ public class OrganizationImpl implements Organization {
     }
 
     @Override
-    public List<UserImpl> getEmployees() { return employees; }
+    public List<UserImpl> getEmployees() {return employees; }
 
     @Override
     public void setEmployees(final List<UserImpl> employees) {
         this.employees.clear();
+
         this.employees = employees.stream().filter(UserImpl.class::isInstance)
-                .map(employee -> (UserImpl) employee).collect(Collectors.toList());
+                .map(employee -> employee).collect(Collectors.toList());
     }
 }
