@@ -13,11 +13,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/processstore-search',
   },
   {
-    title: 'Approval Page',
-    icon: 'nb-checkmark',
-    link: '/approval',
-  },
-  {
     title: 'Create Process',
     icon: 'nb-paper-plane',
     link: '/createProcess',
@@ -31,6 +26,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Process execution',
     icon: 'nb-lightbulb',
     link: '/myprocesses/active',
+  },
+  {
+    title: 'Help',
+    icon: 'ion-help',
+    link: '/help',
   },
   /*{
     title: 'FEATURES',
