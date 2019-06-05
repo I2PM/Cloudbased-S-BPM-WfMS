@@ -1,6 +1,6 @@
 <div class="row" style="margin-top:50px; margin-left: 35px">
   <toaster-container [toasterconfig]="config"></toaster-container>
-  <h1>ALL USERS</h1><button (click)="openAddUserToOrgPopup()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add User</button>
+  <h1>ALL USERS</h1><button *ngIf='this.inOrganization' (click)="openAddUserToOrgPopup()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add User</button>
 </div>
 <div class="user-list">
   <table class="table table-striped" style="width: 95%">
@@ -12,7 +12,7 @@
         <th>E-Mail</th>
         <th>Process-Roles</th>
         <th>GUI-Roles</th>
-        <th>Add role to user</th>
+        <th>Add/edit role</th>
       </tr>
     </thead>
     <tbody>
@@ -23,7 +23,7 @@
         <td>{{user.email}}</td>
         <td><a *ngFor="let role of user.roles"><a *ngIf="role.subjectRole">{{role.name}}    </a></a></td>
         <td><a *ngFor="let role of user.roles"><a *ngIf="!role.subjectRole">{{role.name}}    </a></a></td>
-        <td><button (click)="openAddRoleToUserPopup()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i></button></td>
+        <td><button *ngIf='this.inOrganization' (click)="openAddRoleToUserPopup(user.uid)" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i></button></td>
       </tr>
     </tbody>
   </table>

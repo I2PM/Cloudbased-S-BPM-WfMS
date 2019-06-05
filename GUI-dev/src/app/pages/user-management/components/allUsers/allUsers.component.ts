@@ -81,9 +81,10 @@ export class AllUsersComponent implements OnInit {
       }
     })
   }
-  public openAddRoleToUserPopup() {
+  public openAddRoleToUserPopup(userId) {
     const addRoleToUser = this.modalService.open(AddRoleToUserComponent,
       {size: 'lg', container: 'nb-layout'});
+    addRoleToUser.componentInstance.user = userId;
     addRoleToUser.componentInstance.saved.subscribe(() => {
       this.createToast();
       if (this.navigationSubscription) {

@@ -6,6 +6,7 @@ import java.util.Optional;
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.*;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+
+import javax.transaction.Transactional;
 
 @Repository
 public class RBACRepositoryImpl implements RBACRepository {
@@ -43,6 +46,37 @@ public class RBACRepositoryImpl implements RBACRepository {
   @Override
   public Role saveRole(final Role group) {
     return roleRepository.save((RoleImpl) group);
+  }
+
+  @Override
+  public String deleteAllRolesFromRoleToRuleMap(final Long roleId) {
+    roleRepository.deleteAllRolesFromRoleToRuleMap(roleId);
+    return "Roles mapped to Rules";
+  }
+
+@Override
+  public String mapRoleToRule(final Long roleId, final Long ruleId) {
+    roleRepository.mapRoleToRule(roleId, ruleId);
+    return "Roles mapped to Rules";
+  }
+
+
+  @Override
+  public String editRole(final Long roleId, final String newName, final Boolean newSubjectRole, final Long newParentId) {
+    if (newSubjectRole == false) {
+      System.out.println("add rules in role rule map");
+    }
+
+    roleRepository.editRole(roleId, newName, newSubjectRole, newParentId);
+    return "Edited";
+  }
+
+
+  @Override
+  public Role addRoleToUser(final Long userId, final Long roleId) {
+    roleRepository.removeRolesFromUserRoleMap(userId);
+    roleRepository.addRoleToUser(userId, roleId);
+    return roleRepository.findOne(roleId);
   }
 
   @Override
@@ -91,6 +125,12 @@ public class RBACRepositoryImpl implements RBACRepository {
   }
 
   @Override
+  public Optional<Role> getRoleById(final Long roleId) {
+    return Optional.ofNullable(roleRepository.findOne(roleId));
+  }
+
+
+  @Override
   public Optional<Role> getRoleBySystemId(final String systemId) {
     return Optional.ofNullable(roleRepository.findBySystemId(systemId));
   }
@@ -106,17 +146,20 @@ public class RBACRepositoryImpl implements RBACRepository {
   }
 
   @Override
-  public List<Resource> getRules() {
-    return Lists.newArrayList(resourceRepository.findAll());
+  public List<Rule> getRules() {
+    return Lists.newArrayList(ruleRepository.findAll());
   }
 
   @Override
   public List<Role> getRoles() { return Lists.newArrayList(roleRepository.findAll()); }
 
   @Override
-  public List<Role> getRolesOfOrganization(Long oId) {
+  public List<Role> getPublicAndOwnRoles(Long oId) {
+    return Lists.newArrayList(roleRepository.findPublicAndOwnRoles(oId));
+  }
 
-    LOG.info("Entered function getRolesOfOrganization, with id: "+oId);
+  @Override
+  public List<Role> getRolesOfOrganization(Long oId) {
 
     return Lists.newArrayList(roleRepository.findRolesOfOrganization(oId));
   }
@@ -129,6 +172,14 @@ public class RBACRepositoryImpl implements RBACRepository {
   @Override
   public Optional<Resource> getRescourceBySystemId(String systemId) {
     return Optional.ofNullable(resourceRepository.findBySystemId(systemId));
+  }
+
+  @Override
+  public String deleteRole(final Long roleId) {
+    roleRepository.deleteRoleFromUserRoleMap(roleId);
+    roleRepository.deleteRoleFromRoleRuleMap(roleId);
+    roleRepository.deleteRoleFromRole(roleId);
+    return "Deleted";
   }
 
 
@@ -169,6 +220,49 @@ public class RBACRepositoryImpl implements RBACRepository {
 
     @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId", nativeQuery = true)
     RoleImpl[] findRolesOfOrganization(@Param("organizationId") Long oId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM user_role_map WHERE role_id = :roleId", nativeQuery = true)
+    void deleteRoleFromUserRoleMap(@Param("roleId") Long roleId);
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM role_rule_map WHERE role_id = :roleId", nativeQuery = true)
+    void deleteRoleFromRoleRuleMap(@Param("roleId") Long roleId);
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM role WHERE role_id = :roleId", nativeQuery = true)
+    void deleteRoleFromRole(@Param("roleId") Long roleId);
+
+    @Modifying
+    @Query(value = "DELETE FROM role_rule_map WHERE role_Id = :roleId", nativeQuery = true)
+    @Transactional
+    void deleteAllRolesFromRoleToRuleMap(@Param("roleId") Long role_Id);
+
+    @Modifying
+    @Query(value = "INSERT INTO role_rule_map VALUES (:roleId, :ruleId)", nativeQuery = true)
+    @Transactional
+    void mapRoleToRule(@Param("roleId") Long role_Id, @Param("roleId") Long rule_Id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE role SET name = :newName , subject_role = :newSubjectRole , parent_role_id = :newParentId WHERE role_id = :roleId", nativeQuery = true)
+    void editRole(@Param("roleId") Long roleId, @Param("newName") String newName,  @Param("newSubjectRole") Boolean newSubjectRole,  @Param("newParentId") Long newParentId);
+
+
+    @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId || organization_o_id IS null ", nativeQuery = true)
+    RoleImpl[] findPublicAndOwnRoles(@Param("organizationId") Long oId);
+
+
+    @Modifying
+    @Query(value = "DELETE FROM user_role_map WHERE u_id = :userId", nativeQuery = true)
+    @Transactional
+    void removeRolesFromUserRoleMap(@Param("userId") Long u_id);
+
+    @Modifying
+    @Query(value = "INSERT INTO user_role_map VALUES (:userId, :roleId)", nativeQuery = true)
+    @Transactional
+    void addRoleToUser(@Param("userId") Long u_id, @Param("roleId") Long roleId);
   }
 
   @Repository

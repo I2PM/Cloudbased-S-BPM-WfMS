@@ -5,8 +5,6 @@ import {GatewayProvider} from '../../../../@theme/providers/backend-server/gatew
 import {User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
-import {CreateOrgaModalComponent} from '../../../dashboard/components/createOrgaModal/createOrgaModal.component';
-import {RuleProvider, RuleScope, RuleType} from '../../../../rule.provider';
 import {EditOrgaModalComponent} from '../editOrgaModal/editOrgaModal.component';
 import {CreateOrgaModalComponent} from '../createOrgaModal/createOrgaModal.component';
 

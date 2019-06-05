@@ -14,6 +14,7 @@ import {AllUsersComponent} from './components/allUsers';
 import {AddUserToOrgComponent} from './components/addUserToOrg/addUserToOrg.component';
 import {AddRoleToUserComponent} from './components/addRoleToUser/addRoleToUser.component';
 import {AddRoleToOrganizationComponent} from './components/addRoleToOrganization/addRoleToOrganization.component';
+import {EditRoleComponent} from './components/editRole/editRole.component';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {AddRoleToOrganizationComponent} from './components/addRoleToOrganization
     AddUserToOrgComponent,
     AddRoleToUserComponent,
     AddRoleToOrganizationComponent,
+    EditRoleComponent,
   ],
 })
 export class UserManagementModule {

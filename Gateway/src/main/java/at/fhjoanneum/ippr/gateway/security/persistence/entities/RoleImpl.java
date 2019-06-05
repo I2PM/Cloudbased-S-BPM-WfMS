@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -48,17 +49,18 @@ public class RoleImpl implements Role, Serializable {
     private List<RuleImpl> rules = Lists.newArrayList();
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "organization_o_id")
     private OrganizationImpl organization;
 
     @Column
-    @NotNull
+    // @NotNull
     private Boolean subjectRole;
 
     @ManyToOne
     private RoleImpl parent;
 
 
-    RoleImpl() {
+    public RoleImpl() {
     }
 
     public RoleImpl(String name, String systemId, List<RuleImpl> rules, OrganizationImpl organization, Boolean subjectRole, RoleImpl parent) {
@@ -76,8 +78,18 @@ public class RoleImpl implements Role, Serializable {
     }
 
     @Override
+    public void setRoleId(final Long roleId) {
+        this.roleId = roleId;
+    }
+
+    @Override
     public String getSystemId() {
         return systemId;
+    }
+
+    @Override
+    public void setSystemId(final String systemId) {
+        this.systemId = systemId;
     }
 
     @Override

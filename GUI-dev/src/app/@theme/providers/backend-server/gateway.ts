@@ -1,8 +1,7 @@
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
-import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role} from '../../../../models/models';
-import {toPromise} from "rxjs/operator/toPromise";
+import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role, Rule} from '../../../../models/models';
 
 @Injectable()
 export class GatewayProvider {
@@ -30,12 +29,47 @@ export class GatewayProvider {
       .toPromise();
   }
 
+  createRole(role: Role): Promise<Role> {
+    return this.http.post<Role>(this.serverConfig.createRole,
+      {
+        'name': role.name,
+        'systemId': role.systemId,
+        'rules': role.rules,
+        'organizationId': role.organization.oid,
+        'subjectRole': role.subjectRole,
+        'parentName': role.parent.name,
+      })
+      .toPromise();
+  }
+
+  editRole(role: Role): Promise<Role> {
+    return this.http.put<Role>(this.serverConfig.editRole,
+      {
+        'roleId': role.roleId,
+        'name': role.name,
+        'subjectRole': role.subjectRole,
+        'parentId': role.parent.roleId,
+        'rules': role.rules,
+      })
+      .toPromise();
+  }
+
+  addRoleToUser(user: number, role: Role): Promise<Role> {
+    return this.http.post<Role>(this.serverConfig.addRoleToUser + '/addRoleToUser/' + user + '/' + role.roleId,
+      {})
+      .toPromise();
+  }
+  deleteRole(roleId: number): Promise<any> {
+    return this.http.delete<any>(this.serverConfig.deleteRole + '/' + roleId,
+      {})
+      .toPromise();
+  }
+
   createProcess(process: StoreProcess): Promise<StoreProcess> {
     return this.http.post<StoreProcess>(this.serverConfig.createProcess, process).toPromise()
   }
 
-  mapProcessModelToProcess(processStoreId: number, processModelId, orgaId: number)
-  {
+  mapProcessModelToProcess(processStoreId: number, processModelId, orgaId: number) {
     return this.http.post<any>(this.serverConfig.mapProcessModelIdToProcessStoreId + '/' + processStoreId
       + '/with/' + processModelId + '/of/' + orgaId, undefined).toPromise();
   }
@@ -76,6 +110,21 @@ export class GatewayProvider {
       .toPromise()
   }
 
+  getAllRules(): Promise<Rule[]> {
+    return this.http.get<Rule[]>(this.serverConfig.getRules)
+      .toPromise()
+  }
+
+  getAllRoles(): Promise<Role[]> {
+    return this.http.get<Role[]>(this.serverConfig.getRoles)
+      .toPromise()
+  }
+
+  getPublicAndOwnRoles(organization: Organization): Promise<Role[]> {
+    return this.http.get<Role[]>(this.serverConfig.getPublicAndOwnRoles + '/' + organization.oid)
+      .toPromise()
+  }
+
   getUsersOfMyOrg(): Promise<User[]> {
     return this.http.get<User[]>(this.serverConfig.getUsersOfMyOrg).toPromise();
   }
@@ -104,8 +153,6 @@ export class GatewayProvider {
     return this.http.get<StoreProcess[]>(this.serverConfig.getUnapprovedStoreProcesses)
       .toPromise()
   }
-
-
 
   getApprovedStoreProcesses(): Promise<StoreProcess[]> {
     return this.http.get<StoreProcess[]>(this.serverConfig.getApprovedProcesses)
@@ -140,9 +187,8 @@ export class GatewayProvider {
   }
 
   // gets the processfile by its processId
-  getProcessFileById (processId: string): Promise<Blob>{
-
-    let promise = this.http.get(this.serverConfig.getProcessFile + processId + '/getProcessFile',  { responseType: 'blob' }).toPromise();
+  getProcessFileById (processId: string): Promise<Blob> {
+    const promise = this.http.get(this.serverConfig.getProcessFile + processId + '/getProcessFile',  { responseType: 'blob' }).toPromise();
     return promise;
   }
 

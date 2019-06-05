@@ -22,9 +22,9 @@ import {ValidatedProcessesComponent} from './dashboard/components/validatedProce
 import {CreateOrgaModalComponent} from './user-management/components/createOrgaModal/createOrgaModal.component';
 
 import {ApprovalAuthGuard} from '../approval-auth-guard.service';
-import {AdminComponent} from "./admin";
-import {adminrouting} from "./admin/admin.routing";
-import {ImportProcessModel} from "./admin/components/importProcessModel";
+import {AdminComponent} from './admin';
+import {adminrouting} from './admin/admin.routing';
+import {ImportProcessModel} from './admin/components/importProcessModel';
 import {UserManagementComponent} from './user-management/user-management.component';
 import {OrganizationsComponent} from './user-management/components/organizations';
 import {AllUsersComponent} from './user-management/components/allUsers';
@@ -33,6 +33,7 @@ import {EditOrgaModalComponent} from './user-management/components/editOrgaModal
 import {AddUserToOrgComponent} from './user-management/components/addUserToOrg/addUserToOrg.component';
 import {AddRoleToUserComponent} from './user-management/components/addRoleToUser/addRoleToUser.component';
 import {AddRoleToOrganizationComponent} from './user-management/components/addRoleToOrganization/addRoleToOrganization.component';
+import {EditRoleComponent} from './user-management/components/editRole/editRole.component';
 
 
 const routes: Routes = [{
@@ -99,6 +100,9 @@ const routes: Routes = [{
       }, {
         path: 'addRoleToOrganizationComponent',
         component: AddRoleToOrganizationComponent,
+      }, {
+        path: 'editRoleComponent',
+        component: EditRoleComponent,
       },
       ],
     },
@@ -112,8 +116,8 @@ const routes: Routes = [{
     component: AdminComponent,
       children: [{
       path: 'import',
-        component: ImportProcessModel
-      }]
+        component: ImportProcessModel,
+      }],
     },
     {
       path: 'processstore-search',

@@ -1,17 +1,17 @@
-import {Component, EventEmitter} from '@angular/core';
+import {Component, EventEmitter, Input} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {GatewayProvider} from '../../../../@theme/providers/backend-server/gateway';
 import {ToasterService} from 'angular2-toaster';
 import {Organization, Rule, Role, User} from '../../../../../models/models';
 
 @Component({
-  selector: 'ngx-add-role-to-organization',
+  selector: 'ngx-edit-role',
   providers: [ToasterService],
-  styleUrls: ['addRoleToOrganization.component.scss'],
+  styleUrls: ['editRole.component.scss'],
   template: `
     <div class="modal-header">
       <!-- <toaster-container></toaster-container> -->
-      <span>Add new role to this organization</span>
+      <span>Edit Role</span>
       <button class="close" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
       </button>
@@ -31,7 +31,8 @@ import {Organization, Rule, Role, User} from '../../../../../models/models';
         /> Process Role
       </div>
     </div>
-    <div *ngIf="roles.length>1" style="margin-top: 35px;">
+    <!--
+    <div  *ngIf="roles.length>1" style="margin-top: 35px;">
       <h6>Parent Role</h6>
       <br>
       <div *ngFor="let role of roles">
@@ -59,19 +60,20 @@ import {Organization, Rule, Role, User} from '../../../../../models/models';
         </div>
       </div>
     </div>
+    -->
     <div class="modal-footer" style="margin-top:35px;">
       <button class="btn btn-md btn-primary" (click)="closeModal()">Cancel</button>
-      <button class="btn btn-md btn-primary" (click)="addRoleToOrganization()">Add</button>
+      <button class="btn btn-md btn-primary" (click)="editRole()">Edit</button>
     </div>
   `,
 })
-export class AddRoleToOrganizationComponent {
+export class EditRoleComponent {
+  @Input() public role: Role;
   allRulesSelected = false;
   displayGUIElements = true;
   selectedRules = '';
   rules: Rule[] = new Array<Rule>();
   roles: Role[] = new Array<Role>();
-  role = '';
   user: User = new User();
   organization: Organization = new Organization;
   saved: EventEmitter<any> = new EventEmitter();
@@ -87,7 +89,7 @@ export class AddRoleToOrganizationComponent {
           this.organization.organizationName = user.organization.organizationName;
           this.organization.description = user.organization.description;
         }
-      })
+      }).then(() => this.newRole = this.role)
     this.getAllRulesAndRoles();
   }
 
@@ -101,7 +103,7 @@ export class AddRoleToOrganizationComponent {
     this.activeModal.close();
   }
 
-  addRoleToOrganization = () => {
+  editRole = () => {
     // TODO
     // Select all, select role checkbox refresh
     for (const eachRule of this.allSelectedRules){
@@ -111,7 +113,7 @@ export class AddRoleToOrganizationComponent {
       this.organization.organizationName + '_' +
       this.newRole.name;
     this.newRole.organization = this.organization;
-    this.gateway.createRole(this.newRole).then(() => {
+    this.gateway.editRole(this.newRole).then(() => {
       this.saved.emit('openPopup');
       this.activeModal.close();
     }).catch(err => console.log(err));
