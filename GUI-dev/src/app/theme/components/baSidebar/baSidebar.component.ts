@@ -18,6 +18,8 @@ export class BaSidebar {
   public menuHeight:number;
   public isMenuCollapsed:boolean = false;
   public isMenuShouldCollapsed:boolean = false;
+  hoverElemTop;
+  outOfArea;
 
 
   constructor(private _elementRef:ElementRef, private _state:GlobalState) {

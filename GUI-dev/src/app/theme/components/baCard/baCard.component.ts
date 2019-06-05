@@ -11,4 +11,5 @@ import {NgModel} from "@angular/forms";
 export class BaCard {
   @Input() title:String;
   @Input() baCardClass:String;
+  @Input() cardType;
 }

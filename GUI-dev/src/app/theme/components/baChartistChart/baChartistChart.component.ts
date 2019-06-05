@@ -19,8 +19,7 @@ import {NgModel} from "@angular/forms";
   selector: 'ba-chartist-chart',
   encapsulation: ViewEncapsulation.None,
   styles: [require('chartist/dist/chartist.css'), require('./baChartistChart.scss')],
-  templateUrl: './baChartistChart.html',
-  providers: [],
+  templateUrl: './baChartistChart.html'
 })
 export class BaChartistChart {
 

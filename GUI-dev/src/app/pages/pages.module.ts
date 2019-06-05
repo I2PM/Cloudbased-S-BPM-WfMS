@@ -27,8 +27,8 @@ import {BaCard} from "../theme/components/baCard/baCard.component";
 import {NgFileSelectDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-select";
 import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-drop";
 import {BaCheckbox} from "../theme/components/baCheckbox";
-import {TypeaheadContainerComponent} from "ngx-bootstrap";
-
+import { TypeaheadContainerComponent} from "ngx-bootstrap";
+import {ModalModule} from 'ngb-modal';
 
 
 @NgModule({
@@ -40,6 +40,7 @@ import {TypeaheadContainerComponent} from "ngx-bootstrap";
     ApprovalModule,
     ApprovalDetailsModule,
     AdminModule,
+    ModalModule,
     UserDetailsModule,
     ProcessStoreSearchModule,
     ProcessRatingModule,
@@ -50,18 +51,16 @@ import {TypeaheadContainerComponent} from "ngx-bootstrap";
     Pipes.forRoot(),
   ],
   declarations: [
-    MyProcesses,
-    StartableProcesses,
-    TerminatedProcesses,
-    ActiveProcesses,
-    ActiveProcessDetail,
-	  TypeaheadContainerComponent,
-	  BaAmChart,
-	  BaCard,
-    BaCheckbox,
+    //StartableProcesses,
+    //TerminatedProcesses,
+    //ActiveProcesses,
+    //ActiveProcessDetail,
+	  //TypeaheadContainerComponent,
 	  PagesComponent,
 	  NgFileSelectDirective,
 	  NgFileDropDirective,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })
+export class PagesModule {
+}

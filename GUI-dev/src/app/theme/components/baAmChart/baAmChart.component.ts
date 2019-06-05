@@ -8,11 +8,10 @@ import {AmChart} from '@amcharts/amcharts3-angular'
 import {NgModel} from "@angular/forms";
 
 @Component({
-  providers: [NgModel],
+  providers: [NgModel, BaAmChartThemeService],
   selector: 'ba-am-chart',
   templateUrl: './baAmChart.html',
-  encapsulation: ViewEncapsulation.None,
-  providers: [BaAmChartThemeService],
+  encapsulation: ViewEncapsulation.None
 })
 export class BaAmChart {
 
