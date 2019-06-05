@@ -1,2 +1,4 @@
 username;firstname;lastname;password;email;systemId;roles
-admin;Admin;Admin;Pa$$w0rd;admin@ebusa.com;ADMIN_EBUSA_COM;PROCESS_ROLEZWEI,SYS_ADMIN,PROCESS_ROLE
+admin;Admin;Admin;Pa$$w0rd;admin@ebusa.com;ADMIN_EBUSA_COM;SYS_ADMIN,PROCESS_ROLE
+boss;Boss;Boss;Pa$$w0rd;boss@ebusa.com;BOSS_COM;BUYER,BOSS
+mitarbeiter;Cooler;Mitarbeiter;Pa$$w0rd;mitarbeiter@ebusa.com;MITARBEITER_COM;USER,MITARBEITER

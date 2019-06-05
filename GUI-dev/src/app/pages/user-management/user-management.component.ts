@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StoreProcess, User} from '../../../models/models';
 import {GatewayProvider} from '../../@theme/providers/backend-server/gateway';
-import {NbAccessChecker} from '@nebular/security';
+import {NbAccessChecker, NbAclService} from '@nebular/security';
 import {RoleProvider} from '../../role.provider';
 
 @Component({
@@ -45,70 +45,14 @@ export class UserManagementComponent implements OnInit {
     },
   ];
 
-  constructor(private gateway: GatewayProvider, public accessChecker: NbAccessChecker) {
+  constructor() {
   }
 
-  /*
-  OnInit() {
-    this.gateway.getUser()
-      .then((user) => {
-        this.user = user;
-        */
-  /*this.ruleProvider.getRules().subscribe(rules => {
-    this.showAllOrganizations = rules.indexOf(RuleProvider.RULES.EDIT_ALL_ORGS) >= 0;
-    this.showMyOrganizations = rules.indexOf(RuleProvider.RULES.EDIT_MY_ORG) >= 0;
-    this.showAllUsers = rules.indexOf(RuleProvider.RULES.EDIT_ALL_USER_ROLES) >= 0;
-    this.showMyEmps = rules.indexOf(RuleProvider.RULES.EDIT_ORG_USER_ROLES) >= 0;
-    this.showRoles = rules.indexOf(RuleProvider.RULES.EDIT_ROLES) >= 0;
-  })*/
 
-  /*
-        this.ruleInfo = this.ruleProvider.getRuleInfo()
-      })
-
-  }
-  */
   ngOnInit() {
-    this.gateway.getUser()
-      .then((user) => {
-        this.user = user;
-      })
-
   }
 
-  /*
-  initializeTabs(ruleInfo: RuleInfo) {
 
-    RuleScope[ruleInfo.edit_organisations] = [
-
-      {
-        title: 'Organizations',
-        route: '/user-management/organizations'
-      }
-    ,
-      {
-        title: 'User Management',
-        route: '/user-management/allUsers'
-      }
-    ,
-      {
-        title: 'Role Management',
-        route: '/user-management/allRoles'
-      }
-    ];
-
-    tabs: any[] = [
-      {
-        title: 'My Organization',
-        route: '/user-management/myOrganization',
-      },
-      {
-        title: 'User Management',
-        route: '/user-management/myUsers',
-      }
-    ]
-  }
-  */
 
 
 }
