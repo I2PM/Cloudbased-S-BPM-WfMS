@@ -5,12 +5,17 @@ import at.fhjoanneum.ippr.commons.dto.user.UserDTO;
 import at.fhjoanneum.ippr.gateway.api.services.OrganizationService;
 import at.fhjoanneum.ippr.gateway.security.authentication.AuthenticationService;
 import at.fhjoanneum.ippr.gateway.security.persistence.DTOFactory;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.OrganizationImpl;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.RoleImpl;
+import at.fhjoanneum.ippr.gateway.security.persistence.entities.RuleImpl;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Organization;
-import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Role;
+import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.User;
 import at.fhjoanneum.ippr.gateway.security.persistence.entities.UserImpl;
 import at.fhjoanneum.ippr.gateway.security.registration.RegistrationService;
 import at.fhjoanneum.ippr.gateway.security.services.RBACService;
+import at.fhjoanneum.ippr.gateway.security.services.RBACServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.concurrent.Future;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -118,17 +124,37 @@ public class UserController {
     return rbacService.getUserByUserId(userId);
   }
 
-  @RequestMapping(value = "api/user/{userId}", method = RequestMethod.PUT)
-  public ResponseEntity<UpdateResponse> updateUser(@RequestBody final UserUpdate user,
-                         @PathVariable(name = "userId", required = true) final Long userId) throws ExecutionException, InterruptedException {
+  @RequestMapping(value = "api/user/getUserByEmail/{email}/getUserData", method = RequestMethod.GET)
+  public User getUserByEmail(final HttpServletRequest request,
+                             @PathVariable(name = "email", required = true) final String email) {
+    return rbacService.getUserByEmail(email);
+
+  }
+
+
+  @RequestMapping(value = "api/user/{userId}/addUserToOrg/{orgId}", method = RequestMethod.PUT)
+  public ResponseEntity<UpdateResponse> updateUser(@PathVariable(name = "userId", required = true) final Long userId,
+                                                   @PathVariable(name="orgId", required = true) final Long orgId) throws ExecutionException, InterruptedException {
 
     final Optional<User> updatedUser =
-            rbacService.updateUser(userId, user.username, user.firstname, user.lastname, user.email, user.password,
-                    user.organizationId);
+            rbacService.addUserToOrg(userId, orgId);
 
     return updatedUser.map(user1 -> new ResponseEntity<>(new UpdateResponse("Ok", user1), HttpStatus.OK))
             .orElseGet(() -> new ResponseEntity<>(new UpdateResponse(String.format("Updating User with id %s failed.", userId), null),
-            HttpStatus.INTERNAL_SERVER_ERROR));
+                    HttpStatus.INTERNAL_SERVER_ERROR));
+
+  }
+
+  @RequestMapping(value = "api/user/addRoleToUser/{userId}/{roleId}", method = RequestMethod.POST)
+  public ResponseEntity<UpdateResponse> addRoleToUser(@PathVariable(name = "userId", required = true) final Long userId,
+                                                   @PathVariable(name="roleId", required = true) final Long roleId) throws ExecutionException, InterruptedException {
+
+    final Optional<User> addRoleToUser =
+            rbacService.addRoleToUser(userId, roleId);
+
+    return addRoleToUser.map(user1 -> new ResponseEntity<>(new UpdateResponse("Ok", user1), HttpStatus.OK))
+            .orElseGet(() -> new ResponseEntity<>(new UpdateResponse(String.format("Adding role with id %s failed.", roleId), null),
+                    HttpStatus.INTERNAL_SERVER_ERROR));
 
   }
 
@@ -178,18 +204,79 @@ public class UserController {
   }
 
   @RequestMapping(value = "api/rules", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<Resource>> getRules() {
+  public @ResponseBody Callable<List<Rule>> getRules() {
     return () -> {
       return rbacService.getRules().get();
     };
   }
 
-//  @RequestMapping(value = "api/roles", method = RequestMethod.GET)
- // public @ResponseBody Callable<List<Role>> getRoles() {
-  //  return () -> {
-    //  return rbacService.getRoles().get();
-    //};
- // }
+  @RequestMapping(value = "api/roles", method = RequestMethod.GET)
+  public @ResponseBody Callable<List<Role>> getRoles() {
+    return () -> {
+      return rbacService.getRoles().get();
+    };
+  }
+
+  @RequestMapping(value = "api/roles/{roleId}", method = RequestMethod.DELETE)
+  public @ResponseBody String deleteRole(final HttpServletRequest request,
+                                                       @PathVariable(name = "roleId", required = true) final Long roleId) {
+    rbacService.deleteRole(roleId);
+    return "Role deleted";
+  }
+
+
+  @RequestMapping(value = "api/roles/publicAndOwn/{oId}", method = RequestMethod.GET)
+  public @ResponseBody Future<List<Role>> getRolesOfOrganization(final HttpServletRequest request,
+                                                                 @PathVariable(name = "oId", required = true) final Long oId) {
+
+
+    return rbacService.getPublicAndOwnRoles(oId);
+  }
+
+  @RequestMapping(value = "api/roles", method = RequestMethod.POST)
+  public @ResponseBody
+  ResponseEntity<RoleResponse> saveRole(@RequestBody CreateRole role)
+          throws ExecutionException, InterruptedException {
+
+    final List<Rule> newRules = new ArrayList<>(role.rules);
+
+    final Role parent = getParent(role.parentName).get().get();
+    final OrganizationImpl organization = (OrganizationImpl) getOrganization(role.organizationId);
+
+    final Optional<Role> roleOpt = rbacService.createRole(role.name, role.systemId,
+            newRules, organization, role.subjectRole, parent);
+
+    if (!roleOpt.isPresent()) {
+      return new ResponseEntity<>(new RoleResponse("Could not save role."),
+              HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    return new ResponseEntity<>(new RoleResponse("Ok"), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "api/roles", method = RequestMethod.PUT)
+  public @ResponseBody
+  ResponseEntity<RoleResponse> editRole(@RequestBody EditRole role)
+          throws ExecutionException, InterruptedException {
+
+    final List<Rule> newRules = new ArrayList<>(role.rules);
+
+    final Optional<Role> roleOpt = rbacService.editRole(role.roleId, role.name, role.subjectRole, role.parentId, newRules);
+
+    if (!roleOpt.isPresent()) {
+      return new ResponseEntity<>(new RoleResponse("Could not edit role."),
+              HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    return new ResponseEntity<>(new RoleResponse("Ok"), HttpStatus.OK);
+  }
+
+  private Future<Optional<Role>> getParent(String parentName){
+    return rbacService.getRoleByRoleName(parentName);
+  }
+
+  private Organization getOrganization(Long organizationId){
+    return organizationService.getOrganizationByOrganizationId(organizationId);
+  }
 
   private static class UserLogin implements Serializable {
     private static final long serialVersionUID = -431110191246364184L;
@@ -258,5 +345,40 @@ public class UserController {
     public final User user;
 
     public UpdateResponse(final String message, final User user) { this.message = message; this.user = user; }
+
+  }
+
+  private class RoleResponse implements Serializable {
+
+    private static final long serialVersionUID = 6026741969342925476L;
+
+    public final String message;
+
+
+    public RoleResponse(final String message) { this.message = message;}
+  }
+
+  private static class CreateRole implements Serializable {
+
+    private static final long serialVersionUID = 2292527772037714199L;
+    public String name;
+    public String systemId;
+    public ArrayList<RuleImpl> rules;
+    public Long organizationId;
+    public Boolean subjectRole;
+    public String parentName;
+
+  }
+
+  private static class EditRole implements Serializable {
+
+    private static final long serialVersionUID = -845756161933655466L;
+
+    public Long roleId;
+    public String name;
+    public Boolean subjectRole;
+    public Long parentId;
+    public ArrayList<RuleImpl> rules;
+
   }
 }

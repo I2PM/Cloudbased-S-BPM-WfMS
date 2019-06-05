@@ -5,8 +5,8 @@ import {GatewayProvider} from '../../../../@theme/providers/backend-server/gatew
 import {User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
-import {CreateOrgaModalComponent} from '../../../dashboard/components/createOrgaModal/createOrgaModal.component';
 import {EditOrgaModalComponent} from '../editOrgaModal/editOrgaModal.component';
+import {CreateOrgaModalComponent} from '../createOrgaModal/createOrgaModal.component';
 
 
 @Component({
@@ -62,7 +62,7 @@ export class OrganizationsComponent implements OnInit {
 
   openCreateOrganization() {
     const createOrgaModal = this.modalService.open(CreateOrgaModalComponent,
-      {size: 'lg', container: 'nb-layout'});
+      { size: 'lg', container: 'nb-layout' });
     createOrgaModal.componentInstance.saved.subscribe(() => {
       this.createToast();
       if (this.navigationSubscription) {
@@ -72,16 +72,24 @@ export class OrganizationsComponent implements OnInit {
   }
 
   changeOrganization() {
-    const createOrgaModal = this.modalService.open(EditOrgaModalComponent,
+    const editOrgaModal = this.modalService.open(EditOrgaModalComponent,
       {size: 'lg', container: 'nb-layout'});
-    createOrgaModal.componentInstance.saved.subscribe(() => {
-      this.createToast();
+    editOrgaModal.componentInstance.saved.subscribe(() => {
+      this.editToast();
       if (this.navigationSubscription) {
         this.navigationSubscription.unsubscribe();
       }
     })
   }
 
+  public editToast() {
+    const toast: Toast = {
+      type: 'success',
+      title: 'Success',
+      body: 'Ihre Organisation wurde erfolgreich geändert!',
+    };
+    this.toasterService.popAsync(toast)
+  }
 
   public createToast() {
     const toast: Toast = {

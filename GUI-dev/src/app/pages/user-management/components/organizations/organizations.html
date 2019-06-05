@@ -1,19 +1,19 @@
-<div class='row'>
-  <toaster-container [toasterconfig]='config'></toaster-container>
-</div>
-<div *ngIf='this.inOrganization === false'>
-  <h5>You are currently not a member of an organization.</h5>
-  <button *ngIf='this.canCreateOrg' class='btn btn-primary btn-sm' (click)='openCreateOrganization()'>Create
-    new Organization
-  </button>
+<div class="row" style="margin-top:50px; margin-left: 35px">
+  <toaster-container [toasterconfig]="config"></toaster-container>
+  <div *ngIf='this.inOrganization === false'>
+    <h1>You are currently not a member of an organization.</h1>
+    <button *ngIf="this.inOrganization === false" class='btn btn-primary btn-sm' (click)="openCreateOrganization()">Create new organization</button>
+    <button *ngIf='this.canCreateOrg' class='btn btn-primary btn-sm' (click)='openCreateOrganization()'>Create new Organization</button>
+  </div>
+  <div *ngIf='this.inOrganization'>
+    <button class='btn btn-primary btn-sm' (click)='changeOrganization()'>Edit Organization</button>
+    <h1>Your Organization: {{organizationName}}</h1>
+    <h4>Description: {{organizationDescription}}</h4>
+
+  </div>
+
 </div>
 
-<div *ngIf='this.inOrganization'>
-  <button *ngIf='this.canEditOrg' class='btn btn-primary btn-sm' (click)='changeOrganization()'>Change
-    Organization
-  </button>
-  <br/><br>
-  <h1>Your Organization: {{organizationName}}</h1>
-  <h4>Description: </h4>
-  <p>{{organizationDescription}}</p>
-</div>
+
+
+

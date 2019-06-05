@@ -12,7 +12,17 @@ public interface RBACRepository {
 
   Role saveRole(final Role group);
 
+  String editRole(final Long roleId, final String newName, final Boolean newSubjectRole, final Long newParentId);
+
+  String deleteAllRolesFromRoleToRuleMap(final Long roleId);
+
+  String mapRoleToRule(final Long roleId, final Long ruleId);
+
   Resource saveResource(final Resource resource);
+
+  Role addRoleToUser(final Long userId, final Long roleId);
+
+  String deleteRole(final Long roleId);
 
   Rule saveRule(final Rule rule);
 
@@ -32,13 +42,15 @@ public interface RBACRepository {
 
   Optional<Role> getRoleByRoleName(final String roleName);
 
+  Optional<Role> getRoleById(final Long roleId);
+
   List<User> getUsersByRoleName(final String roleName);
 
   List<User> getUsersByRuleNames(final List<String> ruleNames);
 
   List<User> getUsersByOrgId(final Long oId);
 
-  List<Resource> getRules();
+  List<Rule> getRules();
 
   List<Role> getRoles();
 
@@ -47,4 +59,6 @@ public interface RBACRepository {
   Optional<Resource> getRescourceBySystemId(final String systemId);
 
   List<Role> getRolesOfOrganization(final Long oId);
+
+  List<Role> getPublicAndOwnRoles(final Long oId);
 }

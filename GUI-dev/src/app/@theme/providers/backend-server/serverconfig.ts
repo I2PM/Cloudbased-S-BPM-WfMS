@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
-
 @Injectable()
 export class ServerConfigProvider {
-
   private _host = 'http://localhost:10000/';
   private _checkIfMailTaken = `${this._host}user/register/checkIfMailTaken/`;
   private _getUser = `${this._host}api/me/`;
@@ -19,13 +17,19 @@ export class ServerConfigProvider {
   private _getApprovedProcessesByUser = `${this._host}api/store/processes/approved`;
   private _getNotApprovedProcessesByUser = `${this._host}api/store/processes/notApproved`;
   private _getApprovedProcesses = `${this._host}api/store/processes/approved`;
+  private _addRoleToUser = `${this._host}api/user`;
+  private _deleteRole = `${this._host}api/roles`;
   private _createOrganization = `${this._host}api/organization`;
   private _editOrganization = `${this._host}api/organization`;
   private _getRolesOfOrganization = `${this._host}api/organization`;
+  private _getRules = `${this._host}api/rules`;
+  private _getRoles = `${this._host}api/roles`;
+  private _createRole = `${this._host}api/roles`;
+  private _editRole = `${this._host}api/roles`;
+  private _getPublicAndOwnRoles = `${this._host}api/roles/publicAndOwn`;
   private _getOrgaProcesses = `${this._host}api/store/processes/byOrga`;
   private _getUsersOfMyOrg = `${this._host}api/user/myOrg`;
   private _getProcessFile = `${this._host}api/store/process/`;
-
 
   private _getUnapprovedStoreProcesses = `${this._host}api/store/processes/notApproved`;
   private _postStoreProcessApproved = `${this._host}api/store/process`;
@@ -33,8 +37,8 @@ export class ServerConfigProvider {
   private _getStoreProcessById = `${this._host}api/store/process`;
   private _postStoreProcessComment = `${this._host}api/store/process`;
   private _getAverageRating = `${this._host}api/store/processRating`;
-
-
+  private _addUserToOrg = `${this._host}api/user`;
+  private _getUserByEmail = `${this._host}api/user/getUserByEmail`;
   public get checkIfMailTaken(): string {return this._checkIfMailTaken};
   public get getUser(): string {return this._getUser};
   public get getProcess(): string {return this._getProcess};
@@ -44,6 +48,8 @@ export class ServerConfigProvider {
   public get postStoreProcessRating(): string {return this._getOrPostStoreProcessRatings};
   public get uploadOWL(): string {return this._uploadOWL};
   public get createProcess(): string {return this._createProcess};
+  public get createRole(): string {return this._createRole};
+  public get editRole(): string {return this._editRole};
   public get mapProcessModelIdToProcessStoreId(): string {return this._mapProcessModelIdToProcessStoreId};
 
   public get getUserProcesses(): string {return this._getUserProcesses};
@@ -53,7 +59,8 @@ export class ServerConfigProvider {
   public get getNotApprovedProcessesByUser(): string {return this._getNotApprovedProcessesByUser};
 
   public get createOrganization(): string {    return this._createOrganization  };
-  public get getRolesOfOrganization(): string {    return this._getRolesOfOrganization  };
+  public get addRoleToUser(): string {    return this._addRoleToUser  };
+  public get deleteRole(): string {    return this._deleteRole  };
 
   public get getProcessFile(): string {return this._getProcessFile};
 
@@ -73,5 +80,11 @@ export class ServerConfigProvider {
   public get getUsersOfMyOrg(): string {
     return this._getUsersOfMyOrg
   };
+  public get getUserByEmail(): string {return this._getUserByEmail};
+  public get getRolesOfOrganization(): string {return this._getRolesOfOrganization};
+  public get getRules(): string {return this._getRules};
+  public get getRoles(): string {return this._getRoles};
+  public get getPublicAndOwnRoles(): string {return this._getPublicAndOwnRoles};
+  public get addUserToOrg(): string {return this._addUserToOrg};
 
 }

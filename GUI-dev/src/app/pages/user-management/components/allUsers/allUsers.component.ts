@@ -5,6 +5,8 @@ import {GatewayProvider} from '../../../../@theme/providers/backend-server/gatew
 import {Role, User} from '../../../../../models/models';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Toast, ToasterConfig, ToasterService} from 'angular2-toaster';
+import {AddUserToOrgComponent} from '../addUserToOrg/addUserToOrg.component';
+import {AddRoleToUserComponent} from '../addRoleToUser/addRoleToUser.component';
 import {forEach} from '@angular/router/src/utils/collection';
 
 
@@ -16,7 +18,7 @@ import {forEach} from '@angular/router/src/utils/collection';
 })
 export class AllUsersComponent implements OnInit {
 
-
+  navigationSubscription;
   myProcesses;
   user: User;
   inOrganization: boolean = false;
@@ -25,7 +27,7 @@ export class AllUsersComponent implements OnInit {
   users: User[];
 
   constructor(protected service: ProcessesService, protected route: ActivatedRoute, protected router: Router,
-              private gateway: GatewayProvider,
+              private gateway: GatewayProvider, private modalService: NgbModal,
               private toasterService: ToasterService) {
 
     this.config = new ToasterConfig({
@@ -68,6 +70,30 @@ export class AllUsersComponent implements OnInit {
     };
     this.toasterService.popAsync(toast)
   }
+
+  public openAddUserToOrgPopup() {
+    const addUserToOrg = this.modalService.open(AddUserToOrgComponent,
+      {size: 'lg', container: 'nb-layout'});
+    addUserToOrg.componentInstance.saved.subscribe(() => {
+      this.createToast();
+      if (this.navigationSubscription) {
+        this.navigationSubscription.unsubscribe();
+      }
+    })
+  }
+  public openAddRoleToUserPopup(userId) {
+    const addRoleToUser = this.modalService.open(AddRoleToUserComponent,
+      {size: 'lg', container: 'nb-layout'});
+    addRoleToUser.componentInstance.user = userId;
+    addRoleToUser.componentInstance.saved.subscribe(() => {
+      this.createToast();
+      if (this.navigationSubscription) {
+        this.navigationSubscription.unsubscribe();
+      }
+    })
+
+  }
+
 
 
 }

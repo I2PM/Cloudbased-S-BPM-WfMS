@@ -41,16 +41,10 @@ public class OrganizationController {
         return organizationService.getOrganizationByOrganizationId(oId);
     }
 
-
     @RequestMapping(value = "api/organization/{oId}/roles", method = RequestMethod.GET)
     public @ResponseBody
     Future<List<Role>> getRolesOfOrganization(final HttpServletRequest request,
                                      @PathVariable(name = "oId", required = true) final Long oId) {
-
-
-        LOG.info("blablab");
-        LOG.info("Entered controller function: api/organization/{oId}/roles! with oId: "+oId);
-
         return organizationService.getRolesOfOrganization(oId);
     }
 

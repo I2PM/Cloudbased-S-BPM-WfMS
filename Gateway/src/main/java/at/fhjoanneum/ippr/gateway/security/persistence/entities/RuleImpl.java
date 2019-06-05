@@ -3,6 +3,7 @@ package at.fhjoanneum.ippr.gateway.security.persistence.entities;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.CrudType;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Resource;
 import at.fhjoanneum.ippr.gateway.security.persistence.objects.Rule;
+import at.fhjoanneum.ippr.gateway.security.services.RBACService;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;

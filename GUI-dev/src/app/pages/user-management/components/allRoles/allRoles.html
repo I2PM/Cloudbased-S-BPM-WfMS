@@ -1,4 +1,26 @@
-<div class="row">
+<div class="row" style="margin-top:50px; margin-left: 35px">
   <toaster-container [toasterconfig]="config"></toaster-container>
-  <h1 *nbIsGranted="['delete','process']">HALLO ALL ROLES</h1>
+  <h1>ALL Roles</h1><button (click)="addRolesToOrg()" class='btn btn-primary btn-sm'><i class="fa fa-plus"></i> Add Role</button>
+</div>
+<div *ngIf="roles && roles.length != 0" class="user-list">
+  <table class="table table-striped" style="width: 95%">
+    <thead>
+    <tr>
+      <th>Role name</th>
+      <th>Process Role</th>
+      <th>Rules</th>
+      <!-- <th>Edit Role</th> -->
+      <th>Delete Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let role of roles">
+      <td>{{role.name}}</td>
+      <td>{{role.subjectRole}}</td>
+      <td>{{role.rules}}</td>
+      <!-- <td><button (click)="editRole(role)" class='btn btn-primary btn-sm'><i class="fa fa-edit"></i></button></td> -->
+      <td><button (click)="deleteRoleFromOrg(role.roleId)" class='btn btn-primary btn-sm'><i class="fa fa-trash"></i></button></td>
+    </tr>
+    </tbody>
+  </table>
 </div>
