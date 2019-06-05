@@ -34,7 +34,7 @@ public interface Role {
 
     RoleImpl getParent();
 
-    Long getOrgId();
+    //Long getOrgId();
 
     void setParent(Role parent);
 }

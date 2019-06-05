@@ -241,7 +241,7 @@ public class RBACRepositoryImpl implements RBACRepository {
     @Query(value = "SELECT * FROM role WHERE lower(NAME) = lower(:roleName)", nativeQuery = true)
     RoleImpl findByRoleName(@Param("roleName") String roleName);
 
-    @Query(value = "SELECT * FROM role WHERE o_id = :organizationId", nativeQuery = true)
+    @Query(value = "SELECT * FROM role WHERE organization_o_id = :organizationId", nativeQuery = true)
     RoleImpl[] findRolesOfOrganization(@Param("organizationId") Long oId);
 
     @Modifying

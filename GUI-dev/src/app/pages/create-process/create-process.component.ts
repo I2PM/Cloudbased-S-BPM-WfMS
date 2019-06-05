@@ -61,8 +61,18 @@ export class CreateProcessComponent implements OnInit {
       .then(data => {
         console.log(data);
         this.gateway.addProcessToOrganization('' + data.processId, this.orgId, this.userId);
+
+        this.gateway.getProcessById('' +data.processId).then( (p)=>{
+          console.log(p);
+          if(p.processApprover!==undefined)
+          {
+            this.gateway.postStoreProcessApproved(''+data.processId);
+          }
+        });
+
         this.gateway.uploadOWLModel(data.processId, this.owlFile); })
       .then(() => {
+
         // _addProcessToOrganisation();
         this.router.navigateByUrl('/dashboard')})
       .catch(err => console.warn(err));

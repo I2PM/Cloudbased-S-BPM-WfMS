@@ -48,8 +48,10 @@ public class RoleImpl implements Role, Serializable {
     @NotBlank
     private String systemId;
 
+
+    /*
     @Column
-    private Long o_id;
+    private Long o_id;*/
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_rule_map", joinColumns = {@JoinColumn(name = "role_id")},
@@ -58,7 +60,6 @@ public class RoleImpl implements Role, Serializable {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "organization_o_id")
     private OrganizationImpl organization;
 
 
@@ -180,9 +181,10 @@ public class RoleImpl implements Role, Serializable {
                 .append("name", name).toString();
     }
 
+    /*
     @Override
     public Long getOrgId()
     {
         return o_id;
-    }
+    }*/
 }
