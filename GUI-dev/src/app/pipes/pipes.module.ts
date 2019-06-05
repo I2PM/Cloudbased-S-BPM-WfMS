@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import {CommaDatePipe} from './commaDate.pipe';
 import {CommonModule} from '@angular/common';
 import {EngineDatePipe} from "./engineDate.pipe";
@@ -12,6 +11,7 @@ import {EngineDatePipe} from "./engineDate.pipe";
 })
 
 export class Pipes{
+
   static forRoot() {
     return {
       ngModule: Pipes,

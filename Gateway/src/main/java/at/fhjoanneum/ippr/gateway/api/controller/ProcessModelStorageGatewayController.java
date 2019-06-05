@@ -95,34 +95,6 @@ public class ProcessModelStorageGatewayController {
     };
   }
 
-  /*
-  @RequestMapping(value = "api/processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
-          final HttpServletRequest request,
-          @PathVariable("org_id") final int org_id) {
-    return () -> {
-      return processModelStorageCaller.findPayAsYouGo(org_id).get();
-    };
-  }*/
-
-  /*
-  @RequestMapping(value ="api/processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
-          final HttpServletRequest request, @PathVariable(name = "org_id") final Long orgId) {
-    return() -> processModelStorageCaller.findPayAsYouGo(org_id).get();
-
-  }
-
-   */
-
-  @RequestMapping(value ="api/processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
-          final HttpServletRequest request,
-          @PathVariable(name = "org_id") final Long orgId) {
-    return() -> processModelStorageCaller.findPayAsYouGo(orgId).get();
-
-  }
-
   @RequestMapping(value = "api/processes/payasyougo/addEntry/{processInstanceId}/with/{processName}/from/{orgId}/startedAt/{startTime}/and/{rate}", method = RequestMethod.POST)
   public void addPayAsYouGoEntry(@PathVariable("processInstanceId") final Long processInstanceId,
                                  @PathVariable("processName") final String processName,
@@ -163,6 +135,13 @@ public class ProcessModelStorageGatewayController {
       }
     };
     runnable.run();
+  }
+	
+  @RequestMapping(value = "api/processes/payasyougo/{org_id}", method = RequestMethod.GET)
+  public @ResponseBody Callable<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
+          final HttpServletRequest request,
+          @PathVariable(name = "org_id") final int org_id) {
+    return() -> processModelStorageCaller.findPayAsYouGo(org_id).get();
   }
 
 }

@@ -48,6 +48,7 @@ public class PayAsYouGoImpl implements PayAsYouGo {
 
     public PayAsYouGoImpl(final int pi_id, final String process_name, final int org_id,
                    final LocalDateTime datetime_start, final Float rate) {
+
         this.pi_id = pi_id;
         this.process_name = process_name;
         this.org_id = org_id;

@@ -58,7 +58,6 @@ export class ServerConfigProvider {
   public get editRole(): string {return this._editRole};
   public get mapProcessModelIdToProcessStoreId(): string {return this._mapProcessModelIdToProcessStoreId};
 
-
   public get getUserProcesses(): string {return this._getUserProcesses};
   public get getProcessById(): string {return this._getProcessById};
   public get getApprovedProcessesByUser(): string {return this._getApprovedProcessesByUser};

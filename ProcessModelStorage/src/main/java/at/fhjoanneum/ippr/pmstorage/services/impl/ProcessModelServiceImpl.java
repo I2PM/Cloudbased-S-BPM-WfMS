@@ -125,29 +125,11 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
 
-
   @Override
   @Async
-  public Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(Long org_id) {
+  public Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(int org_id) {
     final Iterable<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
-    LOG.debug("*******");
-    LOG.debug(String.valueOf(results));
     final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
-
-    // TODO: debug stuff only here
-    System.out.println("==========> Impl List");
-    for (PayAsYouGoImpl entry : results) {
-      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
-              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
-              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
-    }
-    System.out.println("==========> DTO List");
-    for (PayAsYouGoDTO entry : paygList) {
-      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
-              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
-              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
-    }
-    System.out.println("<==========");
 
     return new AsyncResult<>(paygList);
   }
@@ -187,48 +169,6 @@ public class ProcessModelServiceImpl implements ProcessModelService {
 
     payAsYouGoRepository.updatePayAsYouGoByPiId(endDateTime,processInstanceId);
   }
-
-/*
-  @Async
-  @Override
-  public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
-    final List<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
-    final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
-
-    // TODO: debug stuff only here
-    System.out.println("==========> Impl List");
-    for (PayAsYouGoImpl entry : results) {
-      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
-              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
-              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
-    }
-    System.out.println("==========> DTO List");
-    for (PayAsYouGoDTO entry : paygList) {
-      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
-              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
-              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
-    }
-    System.out.println("<==========");
-
-    return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
-  }*/
-
-/*
-  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final List<PayAsYouGoImpl> results) {
-    final List<PayAsYouGoDTO> paygList = Lists.newArrayList();
-
-    for(PayAsYouGoImpl PAYGentry : results) {
-
-      final PayAsYouGoDTO dto = new PayAsYouGoDTO(
-              PAYGentry.getEntryId(), PAYGentry.getPiId(), PAYGentry.getProcessName(), PAYGentry.getOrgId(),
-              PAYGentry.getDateTimeStart(), PAYGentry.getDateTimeEnd(), PAYGentry.getDuration(),
-              PAYGentry.getRate(), PAYGentry.getTotalCost()
-      );
-      paygList.add(dto);
-    }
-
-    return paygList;
-  }*/
 
   private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final Iterable<PayAsYouGoImpl> results) {
     final List<PayAsYouGoDTO> paygList = Lists.newArrayList();

@@ -90,33 +90,16 @@ public class ProcessModelStorageCallerImpl implements Caller {
     return createRequest(uri, HttpMethod.GET, null, ProcessModelDTO[].class, null);
   }
 
-  /*
-  @Async
-  public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(final int org_id)
-          throws URISyntaxException {
-    final URIBuilder uri =
-            new URIBuilder(gatewayConfig.getProcessModelStorageAddress())
-                    .setPath("/processes/payasyougo/" + org_id);
 
-    return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO[].class, null);
-  }*/
-    /*
-    @Async
-    public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(final Long org_id) throws URISyntaxException {
-        final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessModelStorageAddress()).setPath("/processes/payasyougo/" + org_id);
-        return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO.class, null);
-    }*/
+	@Async
+	public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
+			final int org_id
+	) throws URISyntaxException {
 
-    @Async
-    public Future<ResponseEntity<PayAsYouGoDTO[]>> findPayAsYouGo(
-            final Long org_id
-    ) throws URISyntaxException {
+		final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessModelStorageAddress()).setPath("/processes/payasyougo/" + org_id);
+		return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO[].class, null);
 
-        final URIBuilder uri = new URIBuilder(gatewayConfig.getProcessModelStorageAddress()).setPath("/processes/payasyougo/" + org_id);
-        return createRequest(uri, HttpMethod.GET, null, PayAsYouGoDTO[].class, null);
-
-    }
-
+	}
 
   @Async
   public void addPayAsYouGoEntry(final Long processInstanceId,final String processName,final Long oId, final Long startTime,final Long rate) throws URISyntaxException {
@@ -132,8 +115,4 @@ public class ProcessModelStorageCallerImpl implements Caller {
             .setPath("/processes/payasyougo/updateEntry/" + processInstanceId + "/with/" + endTime);
     createRequest(uri, HttpMethod.POST, null, null, null);
   }
-
-
-
-
 }

@@ -31,7 +31,7 @@
     "interface-over-type-literal": true,
     "label-position": true,
     "max-line-length": [
-      true,
+      false,
       140
     ],
     "member-access": false,
@@ -59,7 +59,7 @@
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-use-before-declare": true,
-    "no-var-keyword": true,
+    "no-var-keyword": false,
     "object-literal-sort-keys": false,
     "one-line": [
       true,
@@ -73,7 +73,7 @@
       true,
       "single"
     ],
-    "radix": true,
+    "radix": false,
     "semicolon": [
       "always"
     ],

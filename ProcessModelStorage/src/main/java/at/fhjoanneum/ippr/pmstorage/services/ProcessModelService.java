@@ -25,7 +25,7 @@ public interface ProcessModelService {
 
   void disableProcessModel(Long pmId);
 
-  Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(Long org_id);
+  Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(int org_id);
 
   void addPayAsYouGoEntry(final Long processInstanceId, final String processName,final Long oId,final Long startTime,final Long rate);
 

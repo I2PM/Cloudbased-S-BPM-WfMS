@@ -88,22 +88,6 @@ public class ProcessModelStorageController {
     runnable.run();
   }
 
-  /*
-  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<List<PayAsYouGoDTO>> getPayAsYouGo(
-          final HttpServletRequest request,
-          @PathVariable("org_id") final int org_id) {
-    return () -> {
-      return processModelService.findPayAsYouGoByOrgId(org_id).get();
-    };
-  }*/
-
-  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
-  public @ResponseBody Callable<Iterable<PayAsYouGoDTO>> getPayAsYouGo(
-          final HttpServletRequest request, @PathVariable("org_id") final Long org_id) {
-    return() -> processModelService.findPayAsYouGoByOrgId(org_id).get();
-  }
-
   @RequestMapping(value = "processes/payasyougo/addEntry/{processInstanceId}/with/{processName}/from/{orgId}/startedAt/{startTime}/and/{rate}", method = RequestMethod.POST)
   public void addPayAsYouGoEntry(@PathVariable("processInstanceId") final Long processInstanceId,
                                  @PathVariable("processName") final String processName,
@@ -135,6 +119,14 @@ public class ProcessModelStorageController {
       processModelService.updatePayAsYouGoEntry(processInstanceId, endTime);
     };
     runnable.run();
+  }
+
+  @RequestMapping(value = "processes/payasyougo/{org_id}", method = RequestMethod.GET)
+  public @ResponseBody Callable<Iterable<PayAsYouGoDTO>> getPayAsYouGo(
+          final HttpServletRequest request,
+          @PathVariable("org_id") final int org_id) {
+    return () -> processModelService.findPayAsYouGoByOrgId(org_id).get();
+
   }
 
 }

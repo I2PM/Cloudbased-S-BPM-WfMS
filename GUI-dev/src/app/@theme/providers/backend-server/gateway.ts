@@ -10,10 +10,12 @@ export class GatewayProvider {
 
   constructor(public http: HttpClient, public serverConfig: ServerConfigProvider) {
   }
+
   /**
    * EXAMPLE: Here we can define all methods which are connecting the frontend to the backend
    * i.e. => getAllProcesses or saveNewProcess or searchForProcess etc...
    */
+
   /*getAllProcesses = (): Promise<Array<any>> =>
     this.http.get<Array<any>>(null, {})
       .toPromise()
@@ -212,7 +214,6 @@ export class GatewayProvider {
     return this.http.get<AverageRating>(url).toPromise()
   }
 
-
   getPayAsYouGo(orgId: number): Promise<any[]>
   {
     const url = this.serverConfig.getPayAsYouGo + orgId;
@@ -226,7 +227,7 @@ export class GatewayProvider {
     var d = new Date(startTime);
     var startTimeMilliseconds = d.getTime();
 
-    console.log('date: ' + d);m
+    console.log('date: ' + d);
     console.log('milliseconds: ' + startTimeMilliseconds);
 
     const processName = process.processName;

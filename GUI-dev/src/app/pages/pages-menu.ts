@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Process Store',
-    icon: 'ion-cash',
+    icon: 'ion-ios-cart',
     link: '/processstore-search',
   },
   {
@@ -17,7 +17,6 @@ export const MENU_ITEMS: NbMenuItem[] = [
     link: '/createProcess',
   },
   {
-
     title: 'User management',
     icon: 'ion-settings',
     link: '/user-management',
