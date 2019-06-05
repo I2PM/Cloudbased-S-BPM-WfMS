@@ -213,10 +213,10 @@ export class GatewayProvider {
   }
 
 
-  getPayAsYouGo(orgId: number): Promise<PAYGentry[]>
+  getPayAsYouGo(orgId: number): Promise<any[]>
   {
     const url = this.serverConfig.getPayAsYouGo + orgId;
-    return this.http.get<PAYGentry[]>(url).toPromise()
+    return this.http.get<any[]>(url).toPromise()
   }
 
   addPayAsYouGoEntryForProcessInstance(processInstanceId:number, process, organisation: Organization) {
@@ -226,7 +226,7 @@ export class GatewayProvider {
     var d = new Date(startTime);
     var startTimeMilliseconds = d.getTime();
 
-    console.log('date: ' + d);
+    console.log('date: ' + d);m
     console.log('milliseconds: ' + startTimeMilliseconds);
 
     const processName = process.processName;
