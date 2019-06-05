@@ -115,6 +115,10 @@ export class ImportProcessModel implements OnInit {
    // }
   }
 
+  roleIsSubjectRole(value){
+    return value.subjectRole===true;
+  }
+
   initRoles(): void {
     const that = this;
     console.log("INIT ROLES");
@@ -124,7 +128,10 @@ export class ImportProcessModel implements OnInit {
         this.gateway.getRolesOfOrganization(user.organization).then( (roles) =>
         {
           console.log(roles);
-          console.log(roles[0])
+          console.log(roles[0]);
+
+          roles = roles.filter(this.roleIsSubjectRole);
+
           this.roles = roles;
           that.currentSelectedBusinessObject = that.processModel.boms[0];
           that.initFormBuilder(that.currentSelectedBusinessObject);
