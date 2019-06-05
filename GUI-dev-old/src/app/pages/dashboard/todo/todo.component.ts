@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   selector: 'todo',
   encapsulation: ViewEncapsulation.None,
   styles: [require('./todo.scss')],
-  template: require('./todo.html')
+   templateUrl: ('./todo.html')
 })
 export class Todo {
 

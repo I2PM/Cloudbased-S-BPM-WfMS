@@ -26,7 +26,7 @@ type businessObject = {
 @Component({
   selector: 'activeProcessDetail',
     styles: [require('./activeProcessDetail.scss')],
-  template:  require('./activeProcessDetail.html'),
+  templateUrl:  './activeProcessDetail.html',
   providers: [User]
 })
 export class ActiveProcessDetail implements OnInit {

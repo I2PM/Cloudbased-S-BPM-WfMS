@@ -7,7 +7,7 @@ import {GatewayProvider} from "../../../../@theme/providers/backend-server/gatew
 @Component({
   selector: 'activeProcesses',
   styles: [],
-  template:  require('./activeProcesses.html')
+  templateUrl: './activeProcesses.html'
 })
 export class ActiveProcesses implements OnInit  {
 

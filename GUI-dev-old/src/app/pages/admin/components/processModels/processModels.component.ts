@@ -5,7 +5,7 @@ import { ProcessesService } from '../../../../Processes.service';
 @Component({
   selector: 'models',
   styles: [],
-  template: require('./processModels.html')
+   templateUrl: ('./processModels.html')
 })
 export class ProcessModels implements OnInit {
    processModels = [];

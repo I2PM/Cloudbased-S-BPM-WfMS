@@ -10,7 +10,8 @@ import {AmChart} from '@amcharts/amcharts3-angular'
   providers: [NgModel, BaAmChartThemeService],
   selector: 'ba-am-chart',
   templateUrl: './baAmChart.html',
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
+  providers: [BaAmChartThemeService],
 })
 export class BaAmChart {
 
