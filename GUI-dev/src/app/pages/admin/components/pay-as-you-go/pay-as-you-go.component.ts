@@ -12,11 +12,13 @@ export class PayAsYouGoComponent implements OnInit {
   currentUser: User;
   currentOrg: number;
   PAYGentryList: PAYGentry[];
+  filteredPAYGentryList: PAYGentry[];
   totalProcessesCost: number = 0;
   currentDateTime;
   currentDuration;
   currentCost: number = 0;
   isStopSenselessCounting = false;
+  distinctYearMonthCombos = new Set<string>();
 
   constructor(private gateway: GatewayProvider) { }
 
@@ -31,7 +33,14 @@ export class PayAsYouGoComponent implements OnInit {
               //console.log('inside PAYG then');
               //console.log(payg);
               this.PAYGentryList = payg;
-              this.PAYGentryList.forEach(entry => this.totalProcessesCost += entry.totalCost);
+              this.filteredPAYGentryList = payg;
+              this.PAYGentryList.forEach(entry => {
+                this.totalProcessesCost += entry.totalCost;
+                this.distinctYearMonthCombos.add(entry.dateTimeStart[0] + '-' + entry.dateTimeStart[1]);
+              });
+              //console.log(this.filteredPAYGentryList);
+              //this.PAYGentryList.forEach(entry => );
+              //console.log(this.distinctYearMonthCombos);
             })
             .catch(err => {
               //console.log('inside gateway ERROR');
@@ -57,7 +66,7 @@ export class PayAsYouGoComponent implements OnInit {
     return this.currentDateTime;
   }
 
-  getCurrentDuration(dateTimeStart: Date) {
+  getCurrentDuration(dateTimeStart: any) {
     const startDayMilliSeconds = new Date(dateTimeStart).getTime();
     const currentDayMilliSeconds = new Date(Date.now()).getTime();
     const differenceSeconds = (currentDayMilliSeconds - startDayMilliSeconds) / 1000;
@@ -75,7 +84,7 @@ export class PayAsYouGoComponent implements OnInit {
     return this.currentDuration;
   }
 
-  getCurrentTotalCost(duration: string, rate: number) {
+  getCurrentTotalCost(duration: any, rate: number) {
     const pattern: RegExp = /(\d{2}):(\d{2}):(\d{2})/g;
     const regMatch = pattern.exec(duration);
     const hourMatch = parseInt(regMatch[1]);
@@ -89,6 +98,39 @@ export class PayAsYouGoComponent implements OnInit {
     }
 
     return this.currentCost.toFixed(2);
+  }
+
+  showPAYGperMonth(yearMonth: string) {
+    const pattern: RegExp = /(\d{4})-(\d{1,2})/g;
+    const regMatch = pattern.exec(yearMonth);
+    const yearMatch = parseInt(regMatch[1]);
+    const monthMatch = parseInt(regMatch[2]);
+
+    this.filteredPAYGentryList = this.PAYGentryList.filter(x => x.dateTimeStart[0] == yearMatch && x.dateTimeStart[1] == monthMatch);
+    //console.log(this.filteredPAYGentryList);
+    this.totalProcessesCost = 0;
+    this.filteredPAYGentryList.forEach(entry => {
+      this.totalProcessesCost += entry.totalCost;
+      if (!entry.totalCost) this.calcTempTotalCost(entry);
+    });
+  }
+
+  showAllPAYG() {
+    this.filteredPAYGentryList = this.PAYGentryList;
+    this.totalProcessesCost = 0;
+    this.PAYGentryList.forEach(entry => {
+      this.totalProcessesCost += entry.totalCost;
+      if (!entry.totalCost) this.calcTempTotalCost(entry);
+    });
+  }
+
+  calcTempTotalCost(entry: PAYGentry) {
+    let fixStupidDateTimeFormat = entry.dateTimeStart[0] + '.' + entry.dateTimeStart[1] + '.' + entry.dateTimeStart[2] + ' ' + entry.dateTimeStart[3] + ':' + entry.dateTimeStart[4];
+    let dur = this.getCurrentDuration(fixStupidDateTimeFormat);
+    //console.log(dur);
+    let cost: number = parseFloat(this.getCurrentTotalCost(dur, entry.rate));
+    //console.log(cost);
+    this.totalProcessesCost = this.totalProcessesCost + cost;
   }
 
 }
