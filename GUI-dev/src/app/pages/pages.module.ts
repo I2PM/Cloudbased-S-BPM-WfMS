@@ -22,6 +22,7 @@ import {FormsModule} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 import {Pipes} from "../pipes/pipes.module";
+import {HelpComponent} from "./help/help.component";
 
 
 const PAGES_COMPONENTS = [
@@ -53,6 +54,7 @@ const PAGES_COMPONENTS = [
     TerminatedProcesses,
     ActiveProcesses,
     ActiveProcessDetail,
+    HelpComponent,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

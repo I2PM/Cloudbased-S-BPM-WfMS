@@ -35,6 +35,7 @@ import {StartableProcesses} from "./myprocesses/components/startableProcesses";
 import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
 import {TerminatedProcesses} from './myprocesses/components/terminatedProcesses/terminatedProcesses.component';
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
+import {HelpComponent} from "./help/help.component";
 
 
 const routes: Routes = [{
@@ -200,6 +201,11 @@ const routes: Routes = [{
     {
       path: 'user-details',
       component: UserDetailsComponent,
+      canActivate: [AuthGuard],
+    },
+    {
+      path: 'help',
+      component: HelpComponent,
       canActivate: [AuthGuard],
     },
   ],

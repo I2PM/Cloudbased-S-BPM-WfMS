@@ -32,6 +32,11 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'nb-lightbulb',
     link: '/myprocesses/active',
   },
+  {
+    title: 'Help',
+    icon: 'ion-help',
+    link: '/help',
+  },
   /*{
     title: 'FEATURES',
     group: true,
