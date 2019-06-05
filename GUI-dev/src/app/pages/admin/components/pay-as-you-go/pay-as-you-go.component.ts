@@ -106,7 +106,7 @@ export class PayAsYouGoComponent implements OnInit {
     const yearMatch = parseInt(regMatch[1]);
     const monthMatch = parseInt(regMatch[2]);
 
-    this.filteredPAYGentryList = this.PAYGentryList.filter(x => x.dateTimeStart[0] == yearMatch && x.dateTimeStart[1] == monthMatch);
+    this.filteredPAYGentryList = this.PAYGentryList.filter(x => x.dateTimeStart[0] === yearMatch && x.dateTimeStart[1] === monthMatch);
     //console.log(this.filteredPAYGentryList);
     this.totalProcessesCost = 0;
     this.filteredPAYGentryList.forEach(entry => {
@@ -125,10 +125,10 @@ export class PayAsYouGoComponent implements OnInit {
   }
 
   calcTempTotalCost(entry: PAYGentry) {
-    let fixStupidDateTimeFormat = entry.dateTimeStart[0] + '.' + entry.dateTimeStart[1] + '.' + entry.dateTimeStart[2] + ' ' + entry.dateTimeStart[3] + ':' + entry.dateTimeStart[4];
-    let dur = this.getCurrentDuration(fixStupidDateTimeFormat);
+    const fixStupidDateTimeFormat = entry.dateTimeStart[0] + '.' + entry.dateTimeStart[1] + '.' + entry.dateTimeStart[2] + ' ' + entry.dateTimeStart[3] + ':' + entry.dateTimeStart[4];
+    const dur = this.getCurrentDuration(fixStupidDateTimeFormat);
     //console.log(dur);
-    let cost: number = parseFloat(this.getCurrentTotalCost(dur, entry.rate));
+    const cost: number = parseFloat(this.getCurrentTotalCost(dur, entry.rate));
     //console.log(cost);
     this.totalProcessesCost = this.totalProcessesCost + cost;
   }
