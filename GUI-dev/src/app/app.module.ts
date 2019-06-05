@@ -32,12 +32,10 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
 import {PagesComponent} from "./pages/pages.component";
 import {NgFileSelectDirective} from "ng2-uploader/src/directives/ng-file-select";
 import {NgFileDropDirective} from "ng2-uploader/src/directives/ng-file-drop";
+import {ModalModule} from 'ngb-modal';
 
 @NgModule({
-  declarations: [AppComponent,
-    PagesComponent,
-    NgFileSelectDirective,
-    NgFileDropDirective
+  declarations: [AppComponent
   ],
   imports: [
     BrowserModule,
