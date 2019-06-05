@@ -12,8 +12,10 @@ import {
 } from '@angular/core';
 
 import {Chartist} from './baChartistChart.loader';
+import {NgModel} from "@angular/forms";
 
 @Component({
+  providers: [NgModel],
   selector: 'ba-chartist-chart',
   encapsulation: ViewEncapsulation.None,
   styles: [require('chartist/dist/chartist.css'), require('./baChartistChart.scss')],

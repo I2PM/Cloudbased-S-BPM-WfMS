@@ -2,6 +2,7 @@ import {Component, Input, Self} from '@angular/core';
 import {ControlValueAccessor, NgModel} from '@angular/forms';
 
 @Component({
+  providers: [NgModel],
   selector: 'ba-multi-checkbox[ngModel]',
   templateUrl: './baMultiCheckbox.html',
 })

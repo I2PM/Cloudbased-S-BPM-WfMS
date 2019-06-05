@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import { PagesComponent } from './pages.component';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { PagesRoutingModule } from './pages-routing.module';
@@ -18,7 +18,7 @@ import {MyProcesses} from "./myprocesses";
 import {StartableProcesses} from "./myprocesses/components/startableProcesses";
 import {TerminatedProcesses} from "./myprocesses/components/terminatedProcesses";
 import {ActiveProcesses} from "./myprocesses/components/activeProcesses/activeProcesses.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, NgModel} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 import {Pipes} from "../pipes/pipes.module";
@@ -26,6 +26,8 @@ import {BaAmChart} from "../theme/components/baAmChart/baAmChart.component";
 import {BaCard} from "../theme/components/baCard/baCard.component";
 import {NgFileSelectDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-select";
 import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-drop";
+import {BaCheckbox} from "../theme/components/baCheckbox";
+import {TypeaheadContainerComponent} from "ngx-bootstrap";
 
 
 
@@ -47,9 +49,6 @@ import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/direct
     UserManagementModule,
     FormsModule,
     Pipes.forRoot(),
-	PagesComponent,
-	NgFileSelectDirective,
-	NgFileDropDirective
   ],
   declarations: [
     MyProcesses,
@@ -57,12 +56,13 @@ import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/direct
     TerminatedProcesses,
     ActiveProcesses,
     ActiveProcessDetail,
-	TypeaheadContainerComponent,
-	BaAmChart,
-	BaCard,
-	PagesComponent,
-	NgFileSelectDirective,
-	NgFileDropDirective
+	  TypeaheadContainerComponent,
+	  BaAmChart,
+	  BaCard,
+    BaCheckbox,
+	  PagesComponent,
+	  NgFileSelectDirective,
+	  NgFileDropDirective,
   ],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ]
 })
