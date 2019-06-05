@@ -29,19 +29,19 @@ export class PayAsYouGoComponent implements OnInit {
           this.gateway.getPayAsYouGo(this.currentOrg)
             .then(payg => {
               //console.log('inside PAYG then');
-              console.log(payg);
+              //console.log(payg);
               this.PAYGentryList = payg;
               this.PAYGentryList.forEach(entry => this.totalProcessesCost += entry.totalCost);
             })
             .catch(err => {
-              console.log('inside gateway ERROR');
-              console.log(err);
+              //console.log('inside gateway ERROR');
+              //console.log(err);
             });
-        } else console.log('The organization of the current user does either not exist or is not in correct org ID format');
+        } //else console.log('The organization of the current user does either not exist or is not in correct org ID format');
       })
       .catch(err => {
-        console.log('inside getUser ERROR');
-        console.log(err);
+        //console.log('inside getUser ERROR');
+        //console.log(err);
       });
   }
 

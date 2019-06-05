@@ -123,7 +123,7 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     final Iterable<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
     final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
 
-    // TODO: debug stuff only here
+    /*
     System.out.println("==========> Impl List");
     for (PayAsYouGoImpl entry : results) {
       System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
@@ -137,7 +137,7 @@ public class ProcessModelServiceImpl implements ProcessModelService {
               " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
     }
     System.out.println("<==========");
-
+  */
 
     return new AsyncResult<>(paygList);
   }
