@@ -2,6 +2,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {ServerConfigProvider} from './serverconfig';
 import {User, StoreProcess, StoreProcessRating, Organization, AverageRating, Role, Rule} from '../../../../models/models';
+import {toPromise} from "rxjs/operator/toPromise";
+import {start} from "repl";
 
 @Injectable()
 export class GatewayProvider {
@@ -208,6 +210,59 @@ export class GatewayProvider {
   getAverageRating(processId: number): Promise<AverageRating> {
     const url = this.serverConfig.getAverageRating + '/' + processId + '/getAverageAndCount';
     return this.http.get<AverageRating>(url).toPromise()
+  }
+
+
+  getPayAsYouGo(orgId: number): Promise<PAYGentry[]>
+  {
+    const url = this.serverConfig.getPayAsYouGo + orgId;
+    return this.http.get<PAYGentry[]>(url).toPromise()
+  }
+
+  addPayAsYouGoEntryForProcessInstance(processInstanceId:number, process, organisation: Organization) {
+    const startTime = process.startTime[0] + '-' + process.startTime[1] + '-' + process.startTime[2] + ' ' +
+      process.startTime[3] + ':' + process.startTime[4] + ':' + process.startTime[5];
+
+    var d = new Date(startTime);
+    var startTimeMilliseconds = d.getTime();
+
+    console.log('date: ' + d);
+    console.log('milliseconds: ' + startTimeMilliseconds);
+
+    const processName = process.processName;
+    const oId = organisation.oid;
+    const rate = 0.1*10000;
+
+    const url = this.serverConfig.addPayAsYouGo + processInstanceId + '/with/' + processName + '/from/' + oId +
+      '/startedAt/' + startTimeMilliseconds + '/and/' + rate;
+
+    console.log('startTime: ' + startTime);
+    console.log('processName: ' + processName);
+    console.log('oId: ' + oId);
+    console.log('rate: ' + rate);
+    console.log('processInstanceId: ' + processInstanceId);
+    console.log(url);
+
+    return this.http.post<any>(url, undefined).toPromise();
+  }
+
+  updateEndTimeOfPayEntry(processInstanceId:number, process) {
+    const endtime = process.endTime[0] + '-' + process.endTime[1] + '-' + process.endTime[2] + ' ' +
+      process.endTime[3] + ':' + process.endTime[4] + ':' + process.endTime[5];
+
+    var d = new Date(endtime);
+    var endTimeMilliseconds = d.getTime();
+
+    console.log('date: ' + d);
+    console.log('milliseconds: ' + endTimeMilliseconds);
+
+    const url = this.serverConfig.updatePayAsYouGoEntry + processInstanceId + '/with/' + endTimeMilliseconds;
+
+    console.log('endtime: ' + endTimeMilliseconds);
+    console.log('processInstanceId: ' + processInstanceId);
+    console.log(url);
+
+    return this.http.post<any>(url, undefined).toPromise();
   }
 
 }

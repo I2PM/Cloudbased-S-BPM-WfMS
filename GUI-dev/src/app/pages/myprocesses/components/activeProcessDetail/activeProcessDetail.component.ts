@@ -88,6 +88,7 @@ export class ActiveProcessDetail implements OnInit {
       this.service.getProcessState(this.piId)
       .subscribe(
           data => {
+            console.log("process state: "+JSON.stringify(data));
             that.subjectsState = (<any>data);
             that.myCurrentState = that.subjectsState.subjects.filter(s => s.userId === that._userId)[0].stateName;
             //that.spinner.hide();
@@ -168,7 +169,25 @@ export class ActiveProcessDetail implements OnInit {
           );
       });
       } else {
-        this.isFinished = true;
+
+      this.service.getTerminatedProcesses().subscribe( (data)=> {
+        let terminatedProcessesList = <any[]>data;
+        let currentTerminatedProcess;
+        for (let i = 0; i < terminatedProcessesList.length; i++) {
+          if (terminatedProcessesList[i].piId === this.piId) {
+            currentTerminatedProcess = terminatedProcessesList[i];
+            break;
+          }
+        }
+
+        if (currentTerminatedProcess !== undefined)
+          this.gateway.updateEndTimeOfPayEntry(this.piId, currentTerminatedProcess);
+
+      });
+      console.log("THIS SHIT IS FINISHED!");
+      this.isFinished = true;
+
+
         //this.spinner.hide();
       }
   }
@@ -233,6 +252,9 @@ export class ActiveProcessDetail implements OnInit {
     var businessObjectsValues = [];
     var userAssignments = [];
     that.nextIsEndState = that.nextStates.filter(ns => ns.nextStateId === form.nextStateId)[0].endState;
+
+    console.log("next is endstate: "+that.nextIsEndState);
+
     if(this.isSendState()){
       var keys = Object.keys(form.value).forEach(k => {
         var kSplit = k.split("User-Assignment_:-");
@@ -278,6 +300,7 @@ export class ActiveProcessDetail implements OnInit {
 
   private submitStateChange(businessObjectsAndNextStateAndUserAssignments) {
     var that = this;
+    console.log('businessObjectsAndNextStateAndUserAssignments: ' + JSON.stringify(businessObjectsAndNextStateAndUserAssignments));
     this.gateway.getUser().then( (user)=> {
       that.service.submitBusinessObjectsAndNextStateAndUserAssignments(this.piId,user.uid, businessObjectsAndNextStateAndUserAssignments)
         .subscribe(

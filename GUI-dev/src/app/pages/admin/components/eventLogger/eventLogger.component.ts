@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import {ProcessesService} from '../../../../allProcesses.service';
-import { EventLoggerService} from '../../../../evntLogger.service';
+import { ProcessesService } from '../../../../allProcesses.service';
+import { EventLoggerService } from '../../../../eventLogger.service';
 
 @Component({
   selector: 'ngx-event-logger',

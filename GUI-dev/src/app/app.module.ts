@@ -23,7 +23,6 @@ import { AuthGuard } from './auth-guard.service';
 import { EbEmailPassAuthProvider } from './@theme/providers/auth/email-pass-auth.provider';
 import { AsyncEmailValidatorProvider } from './@theme/providers/async-email-validator/async-email-validator';
 import { ServerConfigProvider } from './@theme/providers/backend-server/serverconfig';
-import {EventLoggerService} from './evntLogger.service';
 import {ProcessesService} from './allProcesses.service';
 import {ApprovalAuthGuard} from './approval-auth-guard.service';
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
@@ -89,7 +88,6 @@ import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
     ServerConfigProvider,
     AuthGuard,
     ApprovalAuthGuard,
-    EventLoggerService,
     ProcessesService,
     RoleProvider,
     { provide: APP_BASE_HREF, useValue: '/' },

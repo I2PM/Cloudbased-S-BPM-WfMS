@@ -1,16 +1,19 @@
 package at.fhjoanneum.ippr.pmstorage.services.impl;
 
 
+import at.fhjoanneum.ippr.commons.dto.payasyougo.PayAsYouGoDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.FieldPermissionDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.FieldTypeDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.ProcessModelDTO;
 import at.fhjoanneum.ippr.commons.dto.pmstorage.SubjectModelDTO;
+import at.fhjoanneum.ippr.persistence.entities.model.payasyougo.PayAsYouGoImpl;
 import at.fhjoanneum.ippr.persistence.entities.model.process.ProcessModelImpl;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldPermission;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.FieldType;
 import at.fhjoanneum.ippr.persistence.objects.model.enums.ProcessModelState;
 import at.fhjoanneum.ippr.persistence.objects.model.process.ProcessModel;
 import at.fhjoanneum.ippr.persistence.objects.model.subject.SubjectModel;
+import at.fhjoanneum.ippr.pmstorage.repositories.PayAsYouGoRepository;
 import at.fhjoanneum.ippr.pmstorage.repositories.ProcessModelRepository;
 import at.fhjoanneum.ippr.pmstorage.services.ProcessModelService;
 import com.google.common.collect.Lists;
@@ -29,6 +32,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.Instant;
+import java.lang.Float;
 
 
 @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -40,22 +47,21 @@ public class ProcessModelServiceImpl implements ProcessModelService {
   @Autowired
   private ProcessModelRepository processModelRepository;
 
+  @Autowired
+  private PayAsYouGoRepository payAsYouGoRepository;
+
   @Override
   @Async
   public Future<List<ProcessModelDTO>> findActiveProcessModels(final Pageable pageable) {
     final List<ProcessModelImpl> results = processModelRepository.findActiveProcesses();
-
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
-
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
 
   @Override
   @Async
-  public Future<List<ProcessModelDTO>> findActiveProcessModelsToStart(final List<String> rules,
-      final Pageable pageable) {
+  public Future<List<ProcessModelDTO>> findActiveProcessModelsToStart(final List<String> rules, final Pageable pageable) {
     final List<ProcessModelImpl> results = processModelRepository.findActiveProcessesToStart(rules);
-
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
@@ -77,6 +83,7 @@ public class ProcessModelServiceImpl implements ProcessModelService {
               new ProcessModelDTO(process.getPmId(), process.getName(), process.getDescription(),
                       process.createdAt(), subjectModels, process.getState().name(), process.getVersion(),
                       starterSubject);
+					  
       processModels.add(dto);
     }
 
@@ -117,4 +124,122 @@ public class ProcessModelServiceImpl implements ProcessModelService {
     final List<ProcessModelDTO> processModels = createProcessModelDTO(results);
     return new AsyncResult<List<ProcessModelDTO>>(processModels);
   }
+
+
+  @Override
+  @Async
+  public Future<Iterable<PayAsYouGoDTO>> findPayAsYouGoByOrgId(Long org_id) {
+    final Iterable<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
+    LOG.debug("*******");
+    LOG.debug(String.valueOf(results));
+    final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
+
+    // TODO: debug stuff only here
+    System.out.println("==========> Impl List");
+    for (PayAsYouGoImpl entry : results) {
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
+    }
+    System.out.println("==========> DTO List");
+    for (PayAsYouGoDTO entry : paygList) {
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
+    }
+    System.out.println("<==========");
+
+    return new AsyncResult<>(paygList);
+  }
+
+  @Async
+  @Override
+  public void addPayAsYouGoEntry(final Long processInstanceId, final String processName,final Long oId,final Long startTime,final Long rate) {
+
+    //LocalDate startDate = parser.parse(startTime);
+    LocalDateTime startDateTime= Instant.ofEpochMilli(startTime).atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
+
+    LOG.info("startDate: "+startDateTime);
+
+    //String rate2 = rate.replace("$",".");
+    Float rateFloat = rate/10000f;
+    LOG.info("rateFloat: "+rateFloat);
+
+    int processInstanceIdInt = processInstanceId.intValue();
+
+    PayAsYouGoImpl paygEntry = new PayAsYouGoImpl(processInstanceId.intValue(), processName, oId.intValue(), startDateTime, rateFloat);
+    payAsYouGoRepository.save(paygEntry);
+
+
+    //payAsYouGoRepository.insertNewPayAsYouGoEntry(processInstanceId, processName, oId, startDateTime, rate);
+  }
+
+  @Async
+  @Override
+  public void updatePayAsYouGoEntry(final Long processInstanceId, final Long endTime) {
+
+    //LocalDate startDate = parser.parse(startTime);
+    LocalDateTime endDateTime= Instant.ofEpochMilli(endTime).atZone(ZoneId.systemDefault())
+            .toLocalDateTime();
+
+    LOG.info("endDateTime: "+endDateTime);
+
+    payAsYouGoRepository.updatePayAsYouGoByPiId(endDateTime,processInstanceId);
+  }
+
+/*
+  @Async
+  @Override
+  public Future<List<PayAsYouGoDTO>> findPayAsYouGoByOrgId(final int org_id) {
+    final List<PayAsYouGoImpl> results = payAsYouGoRepository.findPayAsYouGoByOrgId(org_id);
+    final List<PayAsYouGoDTO> paygList = createPayAsYouGoDTO(results);
+
+    // TODO: debug stuff only here
+    System.out.println("==========> Impl List");
+    for (PayAsYouGoImpl entry : results) {
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
+    }
+    System.out.println("==========> DTO List");
+    for (PayAsYouGoDTO entry : paygList) {
+      System.out.println(entry.getEntryId() + " / " + entry.getPiId() + " / " + entry.getProcessName() +
+              " / " + entry.getOrgId() + " / " + entry.getDateTimeStart() + " / " + entry.getDateTimeEnd() +
+              " / " + entry.getDuration() + " / " + entry.getRate() + " / " + entry.getTotalCost());
+    }
+    System.out.println("<==========");
+
+    return new AsyncResult<List<PayAsYouGoDTO>>(paygList);
+  }*/
+
+/*
+  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final List<PayAsYouGoImpl> results) {
+    final List<PayAsYouGoDTO> paygList = Lists.newArrayList();
+
+    for(PayAsYouGoImpl PAYGentry : results) {
+
+      final PayAsYouGoDTO dto = new PayAsYouGoDTO(
+              PAYGentry.getEntryId(), PAYGentry.getPiId(), PAYGentry.getProcessName(), PAYGentry.getOrgId(),
+              PAYGentry.getDateTimeStart(), PAYGentry.getDateTimeEnd(), PAYGentry.getDuration(),
+              PAYGentry.getRate(), PAYGentry.getTotalCost()
+      );
+      paygList.add(dto);
+    }
+
+    return paygList;
+  }*/
+
+  private static List<PayAsYouGoDTO> createPayAsYouGoDTO(final Iterable<PayAsYouGoImpl> results) {
+    final List<PayAsYouGoDTO> paygList = Lists.newArrayList();
+    for(PayAsYouGoImpl PAYGentry : results) {
+      final PayAsYouGoDTO dto = new PayAsYouGoDTO(
+              PAYGentry.getEntryId(), PAYGentry.getPiId(), PAYGentry.getProcessName(), PAYGentry.getOrgId(),
+              PAYGentry.getDateTimeStart(), PAYGentry.getDateTimeEnd(), PAYGentry.getDuration(),
+              PAYGentry.getRate(), PAYGentry.getTotalCost());
+      paygList.add(dto);
+    }
+    return paygList;
+  }
+
 }

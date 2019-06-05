@@ -14,6 +14,8 @@ import { GenerateOWLComponent } from './components/generateOWL/generateOWL.compo
 import {AuthGuard} from '../../auth-guard.service';
 import {ThemeModule} from '../../@theme/theme.module';
 import {ImportProcessModel} from './components/importProcessModel/importProcessModel.component';
+import { PayAsYouGoComponent } from './components/pay-as-you-go/pay-as-you-go.component';
+import {Pipes} from "../../pipes/pipes.module";
 
 
 
@@ -23,6 +25,7 @@ import {ImportProcessModel} from './components/importProcessModel/importProcessM
     FormsModule,
     adminrouting,
     ThemeModule,
+    Pipes,
   ],
   declarations: [
     AdminComponent,
@@ -33,6 +36,7 @@ import {ImportProcessModel} from './components/importProcessModel/importProcessM
     ImportProcessModel,
     ManipulatePNMLComponent,
     GenerateOWLComponent,
+    PayAsYouGoComponent,
   ],
   providers: [
     AuthGuard,

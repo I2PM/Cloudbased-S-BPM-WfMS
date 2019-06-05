@@ -65,6 +65,49 @@ export class StartableProcesses implements OnInit {
           that.msg = {text: "Process started", type: 'success'};
           //this.modal.hide();
           var piId = (<any>data).piId;
+
+          this.service.getActiveProcesses()
+            .subscribe(
+              activeProcesses=> {
+
+                const activeProcessesList = <any[]>activeProcesses;
+                let activeProcessInstance;
+                for(let i=0; i<activeProcessesList.length; i++)
+                {
+                  if (activeProcessesList[i].piId === (<any>data).piId) {
+                    activeProcessInstance = activeProcessesList[i];
+                    break;
+                  }
+                }
+
+                if(activeProcessInstance!==undefined)
+                {
+                  this.gateway.addPayAsYouGoEntryForProcessInstance(piId,activeProcessInstance,user.organization);
+                }
+                console.log(activeProcessInstance);
+              },
+              err => {
+                that.msg = {text: err, type: 'error'}
+                // console.log(err);
+              },
+            );
+
+          /*
+          let processModelInstance;
+          for (let i = 0; i < that.userSpecificProcessModels.length; i++) {
+            if (that.userSpecificProcessModels[i].pmId === pmId)
+            {
+              processModelInstance = that.userSpecificProcessModels[i];
+              break;
+
+            }
+          }
+
+          if(processModelInstance!==undefined)
+          {
+            this.gateway.addPayAsYouGoEntryForProcessInstance(piId,processModelInstance,user.organization);
+          }*/
+
           that.router.navigate(['../active', piId], { relativeTo: that.route });
         },
         err =>{
