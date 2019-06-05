@@ -22,11 +22,14 @@ import {FormsModule} from "@angular/forms";
 import {NgaModule} from "../theme/nga.module";
 import {ActiveProcessDetail} from "./myprocesses/components/activeProcessDetail/activeProcessDetail.component";
 import {Pipes} from "../pipes/pipes.module";
+import {BaAmChart} from "../theme/components/baAmChart/baAmChart.component";
+import {BaCard} from "../theme/components/baCard/baCard.component";
+import {NgFileSelectDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-select";
+import {NgFileDropDirective} from "../../../node_modules/ng2-uploader/src/directives/ng-file-drop";
+import {BaCheckbox} from "../theme/components/baCheckbox";
+import { TypeaheadContainerComponent} from "ngx-bootstrap";
+import {ModalModule} from 'ngb-modal';
 
-
-const PAGES_COMPONENTS = [
-  PagesComponent,
-];
 
 @NgModule({
   imports: [
@@ -37,6 +40,7 @@ const PAGES_COMPONENTS = [
     ApprovalModule,
     ApprovalDetailsModule,
     AdminModule,
+    ModalModule,
     UserDetailsModule,
     ProcessStoreSearchModule,
     ProcessRatingModule,
@@ -47,12 +51,14 @@ const PAGES_COMPONENTS = [
     Pipes.forRoot(),
   ],
   declarations: [
-    ...PAGES_COMPONENTS,
-    MyProcesses,
-    StartableProcesses,
-    TerminatedProcesses,
-    ActiveProcesses,
-    ActiveProcessDetail,
+    //StartableProcesses,
+    //TerminatedProcesses,
+    //ActiveProcesses,
+    //ActiveProcessDetail,
+	  //TypeaheadContainerComponent,
+	  PagesComponent,
+	  NgFileSelectDirective,
+	  NgFileDropDirective,
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

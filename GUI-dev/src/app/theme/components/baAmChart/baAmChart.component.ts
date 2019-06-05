@@ -7,10 +7,10 @@ import {BaAmChartThemeService} from './baAmChartTheme.service';
 import {AmChart} from '@amcharts/amcharts3-angular'
 
 @Component({
+  providers: [NgModel, BaAmChartThemeService],
   selector: 'ba-am-chart',
-  template: require('./baAmChart.html'),
-  encapsulation: ViewEncapsulation.None,
-  providers: [BaAmChartThemeService],
+  templateUrl: './baAmChart.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class BaAmChart {
 

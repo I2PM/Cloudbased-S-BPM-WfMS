@@ -15,6 +15,7 @@ import { StartableProcesses } from './components/startableProcesses/startablePro
 import { BusinessObjects } from './components/activeProcessDetail/businessObjects.component';
 import {AuthGuard} from '../../auth-guard.service';
 import {BaThemeSpinner} from '../../theme/services/index';
+import {ModalModule} from 'ngb-modal';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {BaThemeSpinner} from '../../theme/services/index';
     CommonModule,
     FormsModule,
     NgaModule,
+    ModalModule,
     routing,
     ModalModule,
     Pipes.forRoot(),

@@ -29,9 +29,14 @@ import {ApprovalAuthGuard} from './approval-auth-guard.service';
 import { AmChartsModule } from '@amcharts/amcharts3-angular';
 import {User} from './user';
 import {BaThemeSpinner} from "./theme/services/baThemeSpinner";
+import {PagesComponent} from "./pages/pages.component";
+import {NgFileSelectDirective} from "ng2-uploader/src/directives/ng-file-select";
+import {NgFileDropDirective} from "ng2-uploader/src/directives/ng-file-drop";
+import {ModalModule} from 'ngb-modal';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
