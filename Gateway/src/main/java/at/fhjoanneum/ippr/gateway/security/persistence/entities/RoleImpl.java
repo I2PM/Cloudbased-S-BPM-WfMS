@@ -60,6 +60,7 @@ public class RoleImpl implements Role, Serializable {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("employees")
     private OrganizationImpl organization;
 
 

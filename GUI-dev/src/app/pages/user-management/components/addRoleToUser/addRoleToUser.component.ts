@@ -115,7 +115,7 @@ export class AddRoleToUserComponent {
     console.log(e.target.checked);
     console.log(role);
     // this.displayAddButton = false;
-    // this.roleToBeAdded = role;
+     this.roleToBeAdded = role;
   }
 
   addRole() {

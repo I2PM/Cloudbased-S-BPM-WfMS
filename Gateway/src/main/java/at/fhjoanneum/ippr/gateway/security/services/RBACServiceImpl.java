@@ -54,9 +54,11 @@ public class RBACServiceImpl implements RBACService {
 
     @Async
     @Override
-    public Future<List<User>> getUsersByOrgId(final Long orgId) {
-        //final List<User> users = rbacRepository.getUsersByOrgId(orgId);
-        return new AsyncResult<List<User>>(rbacRepository.getUsersByOrgId(orgId));
+    public Future<List<UserDTO>> getUsersByOrgId(final Long orgId) {
+        final List<User> users = rbacRepository.getUsersByOrgId(orgId);
+        return new AsyncResult<>(users.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList()));
+
+        //return new AsyncResult<List<User>>(rbacRepository.getUsersByOrgId(orgId));
 
        // return new AsyncResult<>(users.stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList()));
     }

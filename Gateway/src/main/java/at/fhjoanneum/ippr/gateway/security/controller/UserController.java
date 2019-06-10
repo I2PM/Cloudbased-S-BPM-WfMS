@@ -159,19 +159,25 @@ public class UserController {
   }
 
   @RequestMapping(value = "api/user/myOrg", method = RequestMethod.GET)
-  public @ResponseBody Future<List<User>> getUsersFromOrg(final HttpServletRequest request)
+  public @ResponseBody Callable<List<UserDTO>> getUsersFromOrg(final HttpServletRequest request)
   {
-    Future<List<User>>employees=new AsyncResult<List<User>>(Lists.newArrayList());
+    //Future<List<User>>employees=new AsyncResult<List<User>>(Lists.newArrayList());
 
+    return () -> {
+      Organization orgMine = getLoggedInUser(request).getOrganization();
+      return rbacService.getUsersByOrgId(orgMine.getOId()).get();
+    };
+
+    /*
     try {
       Organization orgMine = getLoggedInUser(request).getOrganization();
       if (orgMine != null) {
 
         LOG.info("serwus do bin i! getUsersFromOrg it is!");
-        employees = new AsyncResult<List<User>>(Lists.newArrayList(orgMine.getEmployees()));
+        //employees = new AsyncResult<List<User>>(Lists.newArrayList(orgMine.getEmployees()));
 
-        //employees = rbacService.getUsersByOrgId(oId);
-
+        Future<List<UserDTO>> employees = rbacService.getUsersByOrgId(orgMine.getOId());
+        return rbacService.getUsersByOrgId(orgMine.getOId());
         //LOG.info("employee count: "+employees.size());
 
         //Future<List<UserDTO>>users= rbacService.getUsersByOrgId(oId);
@@ -185,9 +191,9 @@ public class UserController {
     {
       LOG.error(ex.getMessage());
     }
-      return employees;
+      //return employees;
               //orgMine.getEmployees().stream().map(user -> DTOFactory.toDTO(user)).collect(Collectors.toList());
-
+*/
   }
 
   //all Orgs

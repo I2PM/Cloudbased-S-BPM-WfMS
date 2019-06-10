@@ -16,7 +16,7 @@ public interface RBACService {
 
   public User getUserByUserId(Long uId);
 
-  public Future<List<User>> getUsersByOrgId(final Long orgId);
+  public Future<List<UserDTO>> getUsersByOrgId(final Long orgId);
 
   public User getUserByEmail(String email);
 

@@ -129,8 +129,8 @@ export class GatewayProvider {
       .toPromise()
   }
 
-  getUsersOfMyOrg(): Promise<User[]> {
-    return this.http.get<User[]>(this.serverConfig.getUsersOfMyOrg).toPromise();
+  getUsersOfMyOrg(): Promise<any[]> {
+    return this.http.get<any[]>(this.serverConfig.getUsersOfMyOrg).toPromise();
   }
 
   getStoreProcesses(): Promise<StoreProcess[]> {

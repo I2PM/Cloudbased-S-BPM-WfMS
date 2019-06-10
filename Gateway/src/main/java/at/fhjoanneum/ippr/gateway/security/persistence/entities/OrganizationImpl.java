@@ -13,6 +13,8 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity(name = "organization")
 @XmlRootElement
@@ -34,8 +36,8 @@ public class OrganizationImpl implements Organization {
     @NotBlank
     private String organizationDescription;
 
-
     @OneToMany(mappedBy = "organization")
+    @JsonIgnoreProperties("employees")
     private List<UserImpl> employees = Lists.newArrayList();
 
 /*
