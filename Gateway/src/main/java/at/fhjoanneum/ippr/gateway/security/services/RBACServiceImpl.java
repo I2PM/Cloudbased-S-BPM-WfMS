@@ -156,7 +156,7 @@ public class RBACServiceImpl implements RBACService {
 
         roleToAdd.setName(name);
         roleToAdd.setSystemId(systemId);
-        roleToAdd.setOrganization(organization);
+        roleToAdd.setOrganizationId(organization.getOId());
         if(subjectRole == null) {
             roleToAdd.setSubjectRole(false);
             roleToAdd.setRules(rules);
@@ -167,7 +167,7 @@ public class RBACServiceImpl implements RBACService {
             roleToAdd.setSubjectRole(true);
         }
 
-        organizationRepository.saveOrganization(organization);
+        //organizationRepository.saveOrganization(organization);
         rbacRepository.saveRole(roleToAdd);
         Optional<Role> newRole = rbacRepository.getRoleByRoleName(name);
         return newRole;

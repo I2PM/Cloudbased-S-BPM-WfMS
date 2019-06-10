@@ -90,7 +90,7 @@ public class RBACMappingServiceImpl implements RBACMappingService {
         Role role = roleOpt.orElseGet(() -> new RoleImpl(null, cacheRole.getSystemId(), null, null, null, null));
 
         role.setName(cacheRole.getName());
-        role.setOrganization(null); // TODO: Save org if necessary
+        //role.setOrganizationId(0); // TODO: Save org if necessary
         final List<Rule> newRules = cacheRole.getRules().stream()
                 .map(rule -> ruleCache.get(rule.getSystemId())).collect(Collectors.toList());
         role.setRules(newRules);

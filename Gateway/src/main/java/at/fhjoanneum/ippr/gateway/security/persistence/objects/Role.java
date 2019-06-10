@@ -20,9 +20,9 @@ public interface Role {
 
     void setName(String name);
 
-    OrganizationImpl getOrganization();
+    Long getOrganizationId();
 
-    void setOrganization(OrganizationImpl organization);
+    void setOrganizationId(Long organizationId);
 
     boolean getSubjectRole();
 

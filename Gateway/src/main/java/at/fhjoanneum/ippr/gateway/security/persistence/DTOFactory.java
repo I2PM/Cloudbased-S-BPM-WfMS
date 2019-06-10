@@ -24,10 +24,10 @@ public class DTOFactory {
         if (role.getParent() != null) {
             roleParent = toDTO(role.getParent());
         }
-        if (role.getOrganization() != null) {
-            roleOrg = toDTO(role.getOrganization());
-        }
-        return new RoleDTO(role.getName(), role.getRoleId(), toDTOs(role.getRules()), roleParent, role.getSubjectRole(), roleOrg);
+        /*if (role.getOrganizationId() != null) {
+            roleOrg = toDTO(role.getOrganizationId());
+        }*/
+        return new RoleDTO(role.getName(), role.getRoleId(), toDTOs(role.getRules()), roleParent, role.getSubjectRole(), role.getOrganizationId());
     }
 
     public static List<RuleDTO> toDTOs(List<? extends Rule> rules) {
@@ -38,9 +38,10 @@ public class DTOFactory {
         return new RuleDTO(rule.getRuleId(), rule.getSystemId(), rule.getCrudType().getSystemId(), rule.getResource().getSystemId());
     }
 
+    /*
     public static OrganizationDTO toDTO(Organization organization) {
         return new OrganizationDTO(organization.getOId(), organization.getOrganizationName(), organization.getDescription());
-    }
+    }*/
 
 }
 

@@ -10,7 +10,7 @@ public class RoleDTO {
     private List<RuleDTO> rules;
     private RoleDTO parent;
     private boolean subjectRole;
-    private OrganizationDTO organisation;
+    private Long organisation_o_id;
 
 
     public RoleDTO() {
@@ -21,14 +21,14 @@ public class RoleDTO {
                    List<RuleDTO> rules,
                    RoleDTO parent,
                    boolean subjectRole,
-                   OrganizationDTO organisation){
+                   Long organisationId){
 
         this.name = name;
         this.roleId = roleId;
         this.rules = rules;
         this.parent = parent;
         this.subjectRole = subjectRole;
-        this.organisation = organisation;
+        this.organisation_o_id = organisationId;
     }
 
     public Long getRoleId() {
@@ -51,8 +51,8 @@ public class RoleDTO {
         return subjectRole;
     }
 
-    public OrganizationDTO getOrganisation() {
-        return organisation;
+    public Long getOrganisationId() {
+        return organisation_o_id;
     }
 
 }

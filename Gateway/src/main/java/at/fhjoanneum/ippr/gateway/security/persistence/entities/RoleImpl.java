@@ -49,9 +49,9 @@ public class RoleImpl implements Role, Serializable {
     private String systemId;
 
 
-    /*
+
     @Column
-    private Long o_id;*/
+    private Long organization_o_id;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "role_rule_map", joinColumns = {@JoinColumn(name = "role_id")},
@@ -59,9 +59,10 @@ public class RoleImpl implements Role, Serializable {
     private List<RuleImpl> rules = Lists.newArrayList();
 
 
+    /*
     @ManyToOne(fetch = FetchType.EAGER)
     private OrganizationImpl organization;
-
+*/
 
     @Column
     // @NotNull
@@ -75,13 +76,13 @@ public class RoleImpl implements Role, Serializable {
     public RoleImpl() {
     }
 
-    public RoleImpl(String name, String systemId, List<RuleImpl> rules, OrganizationImpl organization, Boolean subjectRole, RoleImpl parent) {
+    public RoleImpl(String name, String systemId, List<RuleImpl> rules, Long organizationId, Boolean subjectRole, RoleImpl parent) {
         this.name = name;
         this.systemId = systemId;
         this.rules = rules;
         this.subjectRole = subjectRole;
         this.parent = parent;
-        this.organization = organization;
+        this.organization_o_id = organizationId;
     }
 
     @Override
@@ -110,13 +111,13 @@ public class RoleImpl implements Role, Serializable {
     }
 
     @Override
-    public OrganizationImpl getOrganization() {
-        return organization;
+    public Long getOrganizationId() {
+        return organization_o_id;
     }
 
     @Override
-    public void setOrganization(OrganizationImpl organization) {
-        this.organization = organization;
+    public void setOrganizationId(Long organizationId) {
+        this.organization_o_id = organizationId;
     }
 
     @Override

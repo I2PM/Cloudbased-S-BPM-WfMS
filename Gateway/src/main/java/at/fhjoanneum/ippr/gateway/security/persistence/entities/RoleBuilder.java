@@ -19,7 +19,7 @@ public class RoleBuilder implements Builder<Role> {
 
     private String systemId;
     private String name;
-    private OrganizationImpl organization;
+    private Long organization_o_id;
     private RoleImpl parent;
     private Boolean subjectRole;
     private final List<RuleImpl> rules = Lists.newArrayList();
@@ -55,17 +55,18 @@ public class RoleBuilder implements Builder<Role> {
         return this;
     }
 
+    /*
     public RoleBuilder organization(final Organization organization) {
         checkArgument(organization instanceof OrganizationImpl || organization == null);
         this.organization = (OrganizationImpl) organization;
         return this;
-    }
+    }*/
 
     @Override
 
     public Role build() {
         checkArgument(StringUtils.isNotBlank(systemId));
         checkArgument(StringUtils.isNotBlank(name));
-        return new RoleImpl(name, systemId, rules, organization, subjectRole, parent);
+        return new RoleImpl(name, systemId, rules, organization_o_id, subjectRole, parent);
     }
 }
