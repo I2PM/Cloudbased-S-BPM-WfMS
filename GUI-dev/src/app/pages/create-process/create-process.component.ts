@@ -53,21 +53,33 @@ export class CreateProcessComponent implements OnInit {
   }
 
   createProcess(): void {
+
     this.process.processCreator = this.creator;
     if (!this.process.processApprover || this.process.processApprover === 'noApprover') {
       return;
     }
     this.gateway.createProcess(this.process)
       .then(data => {
+        const that = this;
+
         console.log(data);
         this.gateway.addProcessToOrganization('' + data.processId, this.orgId, this.userId);
 
         this.gateway.getProcessById('' +data.processId).then( (p)=>{
           console.log(p);
-          if(p.processApprover!==undefined)
+
+          this.gateway.getUser().then( (user)=>
+          {
+            //let approverUser;
+            if(user.uid.toString() === that.process.processApprover)
+            {
+              that.gateway.postStoreProcessApproved(''+data.processId);
+            }
+          })
+          /*if(p.processApprover!==undefined)
           {
             this.gateway.postStoreProcessApproved(''+data.processId);
-          }
+          }*/
         });
 
         this.gateway.uploadOWLModel(data.processId, this.owlFile); })
