@@ -1,0 +1,6 @@
+FROM openjdk:8-jre-alpine
+MAINTAINER Florian Reinprecht (florian.reinprecht@edu.fh-joanneum.at)
+COPY ConfigurationServer-0.0.1-SNAPSHOT.jar /docker/
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/docker/ConfigurationServer-0.0.1-SNAPSHOT.jar"]
+EXPOSE 8888

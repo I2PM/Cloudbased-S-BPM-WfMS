@@ -1,0 +1,10 @@
+FROM openjdk:8-jre-alpine
+MAINTAINER Florian Reinprecht (florian.reinprecht@edu.fh-joanneum.at)
+COPY processengine-0.0.1-SNAPSHOT.jar /docker/
+COPY config-entrypoint.sh /docker/config-entrypoint.sh
+RUN chmod 755 "/docker/config-entrypoint.sh"
+ENTRYPOINT ["/docker/config-entrypoint.sh"]
+CMD ["processengine-0.0.1-SNAPSHOT.jar"]
+EXPOSE 7361
+
+

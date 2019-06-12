@@ -17,7 +17,7 @@
     <tr *ngFor="let role of roles">
       <td>{{role.name}}</td>
       <td>{{role.subjectRole}}</td>
-      <td>{{role.rules}}</td>
+      <td><a *ngFor="let rule of role.rules">{{rule.systemId}}; </a></td>
       <!-- <td><button (click)="editRole(role)" class='btn btn-primary btn-sm'><i class="fa fa-edit"></i></button></td> -->
       <td><button (click)="deleteRoleFromOrg(role.roleId)" class='btn btn-primary btn-sm'><i class="fa fa-trash"></i></button></td>
     </tr>
