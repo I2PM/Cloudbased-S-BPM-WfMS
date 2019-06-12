@@ -2,18 +2,16 @@ version: '3.4'
 services:
   mysql:
     container_name: ebusa-mysql
-    build: 
-      context: ./Setup/mysql_docker/
+    hostname: mysql
     ports:
      - "3306:3306"
     restart: always
     networks:
       - spring-cloud-network
+    image: freinprecht/easybiz:mysql
   service-discovery:
     container_name: ebusa-service-discovery
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileServiceDiscovery
+    hostname: service-discovery
     ports:
      - "8761:8761"
     restart: always
@@ -21,11 +19,12 @@ services:
       - spring-cloud-network
     depends_on:
       - mysql
+    image: freinprecht/easybiz:servicediscovery
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-discovery:8761/eureka
   configuration-service:
     container_name: ebusa-configuration-service
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileConfigurationServer
+    hostname: configuration-service
     ports:
      - "8888:8888"
     restart: always
@@ -33,11 +32,10 @@ services:
       - spring-cloud-network
     depends_on:
       - service-discovery
+    image: freinprecht/easybiz:configurationservice
   gateway:
     container_name: ebusa-gateway
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileGateway
+    hostname: gateway
     ports:
      - "10000:10000"
     restart: always
@@ -45,78 +43,58 @@ services:
       - spring-cloud-network
     depends_on:
       - configuration-service
-#  gui: 
- #   container_name: ebusa-gui
- #   build: 
- #     context: ./builds/
- #     dockerfile: DockerfileGUI
- #   ports:
- #    - "3000:3000"
- #   restart: always
- #   networks:
- #     - spring-cloud-network
- #   depends_on:
- #     - gateway
-#  modelling-platform: 
-#    container_name: ebusa-modelling-platform
-#    build: 
-#      context: ./builds/
-#      dockerfile: DockerfileModellingPlatform
-#    ports:
-#     - "4000:4000"
-#    restart: always
-#    networks:
-#      - spring-cloud-network
+    image: freinprecht/easybiz:gateway
+    volumes:
+     - /tmp:/tmp
+  gui: 
+    container_name: ebusa-gui
+    hostname: gui
+    ports:
+     - "3000:3000"
+    restart: always
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - gateway
+    image: freinprecht/easybiz:gui
+  modelling-platform: 
+    container_name: ebusa-modelling-platform
+    hostname: modelling-platform
+    ports:
+     - "4000:4000"
+    restart: always
+    networks:
+      - spring-cloud-network
+    image: freinprecht/easybiz:modellingplatform
   process-model-storage: 
     container_name: ebusa-process-model-storage
-    build: 
-      context: ./builds/
-      dockerfile: DockerfilePmstorage
+    hostname: process-model-storage
     ports:
      - "7360:7360"
     restart: always
     networks:
       - spring-cloud-network
+    image: freinprecht/easybiz:pmstore
   process-store: 
     container_name: ebusa-process-store
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileProcessStore
+    hostname: process-store
     ports:
      - "12000:12000"
     restart: always
     networks:
       - spring-cloud-network
+    image: freinprecht/easybiz:processstore
+    volumes:
+      - /tmp:/tmp
   process-engine: 
     container_name: ebusa-process-engine
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileProcessengine
+    hostname: process-engine
     ports:
      - "7361:7361"
     restart: always
     networks:
       - spring-cloud-network
-  external-communicator: 
-    container_name: external-communicator
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileExternalCommunicator
-    ports:
-     - "7362:7362"
-    restart: always
-    networks:
-      - spring-cloud-network
-  event-logger: 
-    container_name: event-logger
-    build: 
-      context: ./builds/
-      dockerfile: DockerfileEventLogger
-    ports:
-     - "7363:7363"
-    restart: always
-    networks:
-      - spring-cloud-network
+    image: freinprecht/easybiz:processengine
 networks:
     spring-cloud-network:
         driver: bridge

@@ -35,7 +35,7 @@ In case GUI-dev won't start via "ng serve --watch", it coudl be one of those err
 * Fehler beim Buildvorgang: Error error msb3428 could not load the visual c++ component vcbuild.exe. 
   -> PowerShell als Admin:  npm install -g --production windows-build-tools
 # Deploying of Microservices to docker 
-Dockerfiles are available in the build folder of the project. In order to guarantee the communication within the docker containers, all entries of localhost must be changed to the service names according to the docker-compose file. See the Cloud01-MOVE branch as an example. To create the jar of the DEV-Gui:
+Dockerfiles are available in the build folder of the project. In order to guarantee the communication within the docker containers, all entries of localhost must be changed to the service names according to the docker-compose file. Afterwards run docker-compose up in the root folder. See the Cloud01-MOVE branch as an example. To create the jar of the DEV-Gui:
 * Go to the GUI-Dev folder and run npm run build.
 * Go to GUI/src/main/resources/public/ and remove of all of its content.
 * Go to GUI-Dev/dist and move all of its content to GUI/src/main/resources/public/.
