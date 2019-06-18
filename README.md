@@ -1,5 +1,12 @@
 # Previous Projects
 The information of previos information can be found at [Former ReadMe](https://github.com/I2PM/Cloudbased-S-BPM-WfMS/blob/master/Former_README.md).
+# Needed Software
+- Java 1.8
+- Gradle 5.3.1
+- Node.js 10.15.3
+- Npm 6.9.0
+- Python 2.7
+- Docker
 # Start Project
 Before starting the project, node, java, gradle and docker must be installed. Afterwards, go to the Setup/mysql_docker folder and type docker-compose up in a command line. In case you want to start all services as a docker container, see the instruction below. 
 For normal setup, you have to consider that the GUI-dev could not be set as main GUI due to dependency problems. Therefore, for starting the application you have to outcomment the start of the GUI in /Setup/start_windows/start.bat. Then go to the GUI_dev folder, start a CMD and type "ng serve --watch". Afterwards, the GUI is available on Port 4200.
@@ -22,17 +29,17 @@ Basically, the platform consists of the following modules:
 >
 # Troubleshooting of GUI Start
 In case GUI-dev won't start via "ng serve --watch", it coudl be one of those errors.
-* Error mit ng:
+* Error ng:
    -> npm uninstall -g @angular/cli
    -> npm install -g @angular/cli@1.6.8
 
-* Error mit Mixins:
+* Error Mixins:
   -> npm install node-sass@4.8.1
 
 * Error "Module not found: Error: Can't resolve 'ng2-completer'":
   -> npm install ng2-completer
 
-* Fehler beim Buildvorgang: Error error msb3428 could not load the visual c++ component vcbuild.exe. 
+* Error error msb3428 could not load the visual c++ component vcbuild.exe. 
   -> PowerShell als Admin:  npm install -g --production windows-build-tools
 # Deploying of Microservices to docker 
 Dockerfiles are available in the build folder of the project. In order to guarantee the communication within the docker containers, all entries of localhost must be changed to the service names according to the docker-compose file. Afterwards run docker-compose up in the root folder. See the Cloud01-MOVE branch as an example. To create the jar of the DEV-Gui:
@@ -40,3 +47,5 @@ Dockerfiles are available in the build folder of the project. In order to guaran
 * Go to GUI/src/main/resources/public/ and remove of all of its content.
 * Go to GUI-Dev/dist and move all of its content to GUI/src/main/resources/public/.
 * Go to GUI and run gradlew build or gradlew run
+# Local MySQL Server if Docker does not work
+In case Docker is not working on your machine, you can install a local Mysql server instance with MySQL Server version 5.7
